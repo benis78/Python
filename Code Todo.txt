@@ -1,0 +1,21 @@
+Vault
+- Category basic compoent release assembly and parts when approve drawing
+- 
+
+Inventor:
+- Multi select Items in Origin/grounded
+- Filename split in pipe template + part template
+- Part spec color to drawing layer
+- Hatch for concrete to a specific Hatch in drawing
+X Export BOM add revision choice.
+
+Python:
+- Add revision to ExcelBOM
+X Compare filter deleted part with RED, changed part(Revision) with Yellow and new part with Green
+Python - List of drawings 
+- søg folder for gamle revisioner og flyt dem til old
+- tilføj escape som fortryd når man har valgt mappe og scriptet kører.
+
+Visual studio code
+- Opret mappestruktur
+- Implementer Github

@@ -1,0 +1,32 @@
+Tegningsliste
+
+Skal indeholde en excelliste over alle pdf eller dwg (layout) tegninger i projektmappen.
+Skal indeholde partnummer, description og latest Rev. og dato.
+Skal sorteres efter mappestruktur. Dvs. hvert area med Building and Foundations, Equipment, Piping og Structure
+
+Compare
+vælg excel dokument som den skal sammenligne med.
+Søg efter partnummer i gl. dokument 
+	Gør ingenting hvis partnummer eksistere og revision er ens
+	Ændre linjefarve til grøn hvis partnummer er ens og revision er større
+		hvis revision er mindre ændre farve til gul.
+	
+	Hvis partnummer eksistere i gl.dokument og ikke farvet rød så indsæt en ny linje i ny dokument og farv denne rød
+
+Indsæt til sidst en legend med forklaring
+Grøn = New document
+Gul = Modified/Revision Descresed
+Red = Deleted Document
+Skal gemmes som en ny excel fil og skrivebeskyttes.
+
+Stykliste
+Er lavet men mangler compare. Compare er ligesom overfor med Antal også. Hvis antal er ændret skal feltet farves gul
+Skal spørge om den skal kopiere filer hvis ikke alle tegninger er tilgængelig
+Skal rettes så den også søger på revision.
+
+Indsæt til sidst en legend med forklaring
+Grøn = New document
+Gul = Modified/QTY. Changed
+Red = Deleted Document
+
+Skal gemmes som en ny Excelfil med partnummer og revision og skrivebeskyttes.

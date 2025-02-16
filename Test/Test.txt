@@ -1,0 +1,33 @@
+import pandas as pd
+
+file_path='C:/Users/Jesper/Documents/Code/BOM.xlsx'
+data=pd.read_excel(file_path,sheet_name='BOM',header=0)
+
+
+p=data['Parrent']=data.Item.str.rpartition('.')[0]
+
+
+sub='1.1'
+# creating and passsing series to new column 
+m = data['Match'] = data["Parrent"].str.fullmatch(sub)
+
+#for m in p:
+#    data['Total QTY']=data['QTY']*2
+    
+
+
+data
+
+data.loc[data['Item']=='28.1', 'QTY']#.index[0]
+
+lastchar=data.Item.str.rfind(".")
+lastchar.astype(int)
+lastchar
+
+#stripdata = data['Item'].map(lambda x: x.lstrip('1'))
+stripdata=data['Item'].map(lambda x: x[:-1])
+stripdata
+
+last=data.Item.str.rfind(".").astype(int)
+strip=data.Item.str.slice(last,-2,1)
+strip
