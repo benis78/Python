@@ -1,9 +1,3 @@
-# import os, openpyxl, shutil, re, time
-# import pandas as pd
-# import tkinter as tk
-# from tkinter import filedialog, messagebox
-# import win32com.client as win32
-# from concurrent.futures import ThreadPoolExecutor
 
 import os
 import shutil
@@ -128,53 +122,6 @@ def scan_directory_concurrent(directory):
             future.result()  # Vi skal vente på alle tråde at afslutte
 
 
-
-
-
-
-
-
-# # Opret forbindelse til Excel via COM
-# excel = Dispatch('Excel.Application')
-# excel.Visible = False  # Kør Excel i baggrunden
-# workbook = excel.Workbooks.Open(str(eBOM))
-# sheet = workbook.Sheets('BOM')
-
-# # Mønstre som skal fjernes i kolonne B
-# patterns_to_remove = ['0000-700', '0000-701', '0000-702', '0000-704', '0000-705']
-# pattern = re.compile(r'^(' + '|'.join(patterns_to_remove) + ')')
-
-# # Få det samlede antal brugte rækker i arket ved at bruge Excel's egen metode
-# max_row = sheet.UsedRange.Rows.Count
-
-# # Find rækker, der skal slettes
-# rows_to_delete = []
-
-# for row in range(2, max_row + 1):  # Start fra anden række for at undgå headers
-#     cell_value_B = str(sheet.Cells(row, 2).Value)  # Kolonne B
-#     cell_value_F = str(sheet.Cells(row, 6).Value)  # Kolonne F
-#     cell_value_A = str(sheet.Cells(row, 1).Value)  # Kolonne A
-
-#     # Fjern rækker, hvis kolonne B matcher mønstre eller starter med bogstav
-#     if pattern.match(cell_value_B) or (cell_value_B and cell_value_B[0].isalpha()):
-#         rows_to_delete.append(row)
-    
-#     # Fjern rækker, hvor kolonne F = "Inseparable"
-#     if cell_value_F.strip().lower() == "inseparable":
-#         rows_to_delete.append(row)
-
-#     # Fjern rækker, hvor kolonne A indeholder et punktum
-#     if "." in cell_value_A:
-#         rows_to_delete.append(row)
-
-# # Slet rækker fra bunden op for at undgå skift i indeks
-# for row in reversed(rows_to_delete):
-#     sheet.Rows(row).Delete()
-
-
-import re
-from win32com.client import Dispatch
-
 # Opret forbindelse til Excel via COM
 excel = Dispatch('Excel.Application')
 excel.Visible = False  # Kør Excel i baggrunden
@@ -236,8 +183,8 @@ if len(efile_parts) >= 4:  # Sørg for, at der er mindst 4 dele
     # Indsæt tekst "Top Assembly" i G2
     sheet.Cells(2, 7).Value = "Top Assembly"
 
-    # Indsæt tallet 1 i K2
-    sheet.Cells(2, 11).Value = 1
+    # Indsæt tallet 1 i J2 - TJEK DENNE HVIS PROGRAMMET FEJLER -------------------------------------!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+    sheet.Cells(2, 10).Value = 1
 
 # Gem og luk Excel-filen via COM
 workbook.Save()
@@ -275,55 +222,12 @@ targetExtensions = ['.pdf']
 excludeExtensions= '_FOR REVIEW.pdf'
 
 fileDestinations = [[] for target in targetFileNames] # liste med samme længde som variablen targetFileNames, hvor hvert element til at starte med selv er en tom liste.
-# print (fileDestinations)
-# Værdi i variablen nu:
-# fileDestinations = [[], [], []]
 
-# for root, dirs, files in os.walk(source):           # Vi looper igennem vores directory
-#     if 'Old' in dirs:
-#         dirs.remove('Old')
-#     if 'old' in dirs:
-#         dirs.remove('old')
-#     if 'OLD' in dirs:
-#         dirs.remove('OLD')
-#     for name in files:                              # Vi looper igennem hver fil i den aktuelle mappe
-#         #Hver fil bliver så sammenlignet med hver værdi i targetFileNames med hver af de mulige extensions:
-#         for targetName in targetFileNames:
-#             for targetExtension in targetExtensions:
-#                 if name.startswith(targetName) and name.endswith(targetExtension): 
-#                     if not name.endswith(excludeExtensions):   
-#                     # Når vi finder et match, bliver stien til den aktuelle fil tilføjet på den passende position i variablen fileDestinations:
-#                         #fileDestinations[targetFileNames.index(targetName)]
-#                         #fileDestinations[targetFileNames.index(targetName)].append(os.path.join(root,name))
-#                         idx=-1
-#                         while True:
-#                             try:
-#                                 idx = targetFileNames.index(targetName, idx+1)
-#                                 fileDestinations[idx].append(os.path.join(root,name))
-#                             except ValueError:
-#                                 break
-                       
-#                         fileDestinations[ti].append(os.path.join(root,name))
-#                         print(fileDestinations, end= '\n')
-        
-# print(targetName, end= '\n')
-#                     print(name, end='\n') #Denne virker i for løkken og returere hele filnavnet men kun i løkken.
 
 
 if __name__ == "__main__":
     # Start scanning med concurrent.futures
     scan_directory_concurrent(source)
-
-#####################################
-
-# data=read_excel(file_path,sheet_name='BOM',header=0)
-
-# # Convert QTY To String
-# data['QTY'] = data['QTY'].astype(str)
-# # Convert string to int
-# #qty=[int(i) for i in data['QTY']]
-# qty = [int(ele) if ele.isdigit() else int(ele.rsplit(',', 1)[0]) for ele in data['QTY']] 
-
 
 
 
@@ -496,14 +400,6 @@ for col in range(1, sheet.max_column + 1):
 
 timestr = time.strftime("%Y%m%d-%H%M")
 
-
-#timestr = time.strftime("%Y%m%d-%H%M")
-
- # copy drawings to ZIP folder
-# if not dest_path=="":
-    #  shutil.make_archive(destPath+'-'+'zip',destPath)
-    # shutil.make_archive(destPath+'-'+'zip','zip')
-# os.rename('a.txt', 'b.kml')
 
     # save excel         
 wb.save(str(destPath)+'\\'+str(efile))

@@ -1,0 +1,153 @@
+import os
+import shutil
+import pandas as pd
+import openpyxl
+import time
+from openpyxl.utils import get_column_letter
+from openpyxl.styles import PatternFill, Font
+from tkinter import Tk, filedialog, messagebox
+from win32com.client import Dispatch
+from concurrent.futures import ThreadPoolExecutor
+
+def choose_file():
+    """Lader brugeren vælge en Excel-fil og returnerer dens sti."""
+    root = Tk()
+    root.withdraw()
+    file_path = filedialog.askopenfilename(title="Open Excel BOM file",
+                                           filetypes=[("Excel files", ".xlsx .xls")],
+                                           initialdir="C:\\Working Folder\\Designs\\5-Projects")
+    if not file_path:
+        os._exit(1)
+    return file_path
+
+def create_copy(file_path):
+    """Opretter en kopi af den originale Excel-fil."""
+    dest_path = os.path.join(os.path.dirname(file_path), "BOM_Copy.xlsx")
+    shutil.copy(file_path, dest_path)
+    return dest_path
+
+def load_categories(file_path):
+    """Indlæser kategorier fra en ekstern .txt-fil og erstatter * med projekt nummeret."""
+    categories = {}
+    categories_file = os.path.join(os.path.dirname(__file__), "categories.txt")
+    if not os.path.exists(categories_file):
+        messagebox.showerror("ERROR", f"Categories file not found: {categories_file}")
+        return categories  # Returnerer en tom liste, så programmet ikke fejler
+    
+    # Hent projekt nummeret fra Excel-filens navn
+    project_number = os.path.basename(file_path)[:4]  # De første 4 cifre
+    
+    with open(categories_file, "r") as file:
+        for line in file:
+            parts = line.strip().split("=")
+            if len(parts) == 2:
+                key = parts[0].strip().replace("*", project_number)  # Erstat * med projekt nummer
+                categories[key] = parts[1].strip()
+    return categories
+
+def categorize_data(df, file_path):
+    """Opdeler data i kategorier baseret på Part Number (kolonne 2) og returnerer en dict med kategorier."""
+    categories = load_categories(file_path)
+    categorized_data = {}
+    
+    for _, row in df.iterrows():
+        part_number = str(row.iloc[1])  # Kolonne 2 (Part Number)
+        for prefix, cat_name in categories.items():
+            if part_number.startswith(prefix):
+                if cat_name not in categorized_data:
+                    categorized_data[cat_name] = pd.DataFrame(columns=df.columns)
+                categorized_data[cat_name] = pd.concat([categorized_data[cat_name], row.to_frame().T], ignore_index=True)
+                break
+        else:
+            if "Other Items" not in categorized_data:
+                categorized_data["Other Items"] = pd.DataFrame(columns=df.columns)
+            categorized_data["Other Items"] = pd.concat([categorized_data["Other Items"], row.to_frame().T], ignore_index=True)
+    
+    return categorized_data
+
+def process_excel(file_path):
+    """Behandler Excel-filen, laver en kopi, og opdeler data i faner."""
+    copy_path = create_copy(file_path)
+    wb = openpyxl.load_workbook(copy_path)
+    sheet = wb.active
+    sheet.title = "BOM (Raw)"
+    
+    df = pd.read_excel(copy_path, sheet_name=0, dtype=str)
+    categorized_data = categorize_data(df, file_path)
+    
+    for sheet_name, data in categorized_data.items():
+        ws = wb.create_sheet(title=sheet_name)
+        for col_num, col_name in enumerate(data.columns, 1):
+            ws.cell(row=1, column=col_num, value=col_name)
+        for row_num, row in data.iterrows():
+            for col_num, value in enumerate(row, 1):
+                ws.cell(row=row_num + 2, column=col_num, value=value)
+    
+    wb.save(copy_path)
+    return copy_path, categorized_data
+
+def newRev(name, files):
+    """Finder den seneste revision ud fra filnavnet."""
+    latest_files = {}
+    for ext in [".pdf", ".dwg"]:
+        relevant_files = [f for f in files if f.endswith(ext)]
+        if relevant_files:
+            latest_files[ext] = max(relevant_files, key=lambda f: f[-5:-4] if f[-5:-4].isalpha() else 'A')
+    return latest_files
+
+def scan_directory_task(entry, pdf_source):
+    """Scanner undermapper for PDF- og DWG-filer."""
+    if entry.is_dir(follow_symlinks=False):
+        file_paths = []
+        for sub_entry in os.scandir(entry.path):
+            file_paths.extend(scan_directory_task(sub_entry, pdf_source))
+        return file_paths
+    elif entry.is_file(follow_symlinks=False) and (entry.name.endswith(".pdf") or entry.name.endswith(".dwg")):
+        return [entry.path]
+    return []
+
+def scan_directory_concurrent(pdf_source):
+    """Bruger multithreading til at scanne hele PDF-kataloget."""
+    file_paths = []
+    with ThreadPoolExecutor() as executor:
+        futures = [executor.submit(scan_directory_task, entry, pdf_source) for entry in os.scandir(pdf_source)]
+        for future in futures:
+            file_paths.extend(future.result())
+    return file_paths
+
+def copy_pdf_dwg_files(dest_path, categorized_data, pdf_source):
+    """Kopierer den nyeste revision af PDF- og DWG-filer til relevante mapper baseret på Part Number (kolonne 2)."""
+    files = scan_directory_concurrent(pdf_source)
+    
+    for category, data in categorized_data.items():
+        category_path = os.path.join(dest_path, category)
+        os.makedirs(category_path, exist_ok=True)
+        
+        for _, row in data.iterrows():
+            part_number = str(row.iloc[1])  # Kolonne 2 (Part Number)
+            matching_files = [f for f in files if os.path.basename(f).startswith(part_number)]
+            
+            latest_files = newRev(part_number, matching_files)
+            for file in latest_files.values():
+                dest_file = os.path.join(category_path, os.path.basename(file))
+                shutil.copy2(file, dest_file)
+
+def main():
+    start_time = time.time()
+    
+    file_path = choose_file()
+    processed_file, categorized_data = process_excel(file_path)
+    
+    base_name = os.path.basename(file_path).replace(" - BOM.xlsx", "")
+    dest_path = os.path.join(os.path.dirname(file_path), base_name)
+    os.makedirs(dest_path, exist_ok=True)
+    
+    # pdf_source = r'\\192.168.170.18\drawings'
+    pdf_source = r'C:\Working Folder\Designs\5-Projects\4003 - Nurmo Bioenergia\Area 05 - Storage Area\Equipment\BOM\Test\Files'
+    copy_pdf_dwg_files(dest_path, categorized_data, pdf_source)
+    
+    duration = time.time() - start_time
+    messagebox.showinfo("Success", f"BOM processing complete!\nFiles saved in {dest_path}\nTime taken: {duration:.2f} seconds")
+
+if __name__ == "__main__":
+    main()

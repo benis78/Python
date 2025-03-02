@@ -18,6 +18,7 @@ from pandas import read_excel  # Importer kun read_excel fra pandas
 from openpyxl.styles import PatternFill,Font
 from openpyxl.utils import get_column_letter
 
+
 root = Tk()
 root.withdraw()
 
@@ -171,8 +172,7 @@ def scan_directory_concurrent(directory):
 #     sheet.Rows(row).Delete()
 
 
-import re
-from win32com.client import Dispatch
+
 
 # Opret forbindelse til Excel via COM
 excel = Dispatch('Excel.Application')
@@ -235,8 +235,8 @@ if len(efile_parts) >= 4:  # Sørg for, at der er mindst 4 dele
     # Indsæt tekst "Top Assembly" i G2
     sheet.Cells(2, 7).Value = "Top Assembly"
 
-    # Indsæt tallet 1 i K2
-    sheet.Cells(2, 11).Value = 1
+    # Indsæt tallet 1 i J2
+    sheet.Cells(2, 10).Value = 1
 
 # Gem og luk Excel-filen via COM
 workbook.Save()
