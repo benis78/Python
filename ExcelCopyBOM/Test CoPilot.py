@@ -11,6 +11,8 @@ from tkinter import Tk, filedialog, messagebox, ttk, Toplevel
 from win32com.client import Dispatch
 from concurrent.futures import ThreadPoolExecutor
 import pythoncom
+import concurrent.futures
+from pathlib import Path
 
 # Opsæt logging til debug.txt
 debug_file = os.path.join(os.path.dirname(__file__), "debug.txt")
@@ -77,12 +79,12 @@ def show_success_message(message):
 
 def choose_file():
     """Lader brugeren vælge en Excel-fil og returnerer dens sti."""
-    #file_path = "C:\\Coding\\Python\\ExcelCopyBOM\\4003-615-A01-E - BOM.xlsx"
-    file_path = filedialog.askopenfilename(
-        title="Vælg Excel BOM fil",
-        initialdir=r'C:\Working Folder\Designs\5-Projects',
-        filetypes=[("Excel files", "*.xlsx"), ("All files", "*.*")]
-    )
+    file_path = "C:\\Coding\\Python\\ExcelCopyBOM\\4003-615-A01-E - BOM.xlsx"
+    #file_path = filedialog.askopenfilename(
+    #    title="Vælg Excel BOM fil",
+    #    initialdir=r'C:\Working Folder\Designs\5-Projects',
+    #    filetypes=[("Excel files", "*.xlsx"), ("All files", "*.*")]
+    #)
     return file_path
 
 def check_network_path(network_path):
@@ -281,116 +283,90 @@ def is_piping_item(part_number):
     return result
 
 def find_category(part_number, categories):
-    """Find kategori for et part number med caching."""
-    part_number = str(part_number)
-    
-    # Tjek cache først
-    if part_number in category_cache:
-        return category_cache[part_number]
-    
-    # Find den længste matchende prefix
-    matching_category = None
-    matching_prefix = None
-    
-    for pattern, category in categories.items():
-        # Special håndtering for A-tegninger
-        if pattern.endswith("-A"):
-            # Tjek om part_number ender med -A (og ikke -A01, -A02 osv.)
-            if part_number.endswith("-A"):
-                matching_prefix = pattern
-                matching_category = category
-                break
-        else:
-            # Normal prefix matching
+    """Find den bedste matchende kategori for et part number."""
+    try:
+        # Tjek først for BioMix
+        if any(pattern in part_number for pattern in ["-BM-", "-BM", "630"]):
+            return "BioMix"
+        
+        # Find den længste matchende prefix
+        matching_category = None
+        matching_prefix = None
+        
+        for pattern, category in categories.items():
             prefix = pattern.replace("*-*-", "").replace("*-", "")
             if part_number.startswith(prefix):
                 if matching_prefix is None or len(prefix) > len(matching_prefix):
                     matching_prefix = prefix
                     matching_category = category
-    
-    result = matching_category if matching_category else "Other Items"
-    category_cache[part_number] = result
-    return result
+        
+        return matching_category if matching_category else "Other Items"
+        
+    except Exception as e:
+        print(f"Fejl under kategorisøgning for {part_number}: {str(e)}")
+        return "Other Items"
 
 def categorize_data(df, file_path):
     """Optimeret kategorisering af data med piping først, derefter resten."""
-    categorized_data = {}
-    
     try:
         print("\n=== DEBUG: KATEGORISERING START ===")
         print(f"Antal rækker i dataframe: {len(df)}")
+        print(f"DataFrame kolonner: {', '.join(df.columns)}")
         
-        # Standardiser kolonne-navne til store bogstaver
-        df.columns = df.columns.str.upper()
+        # Opret case-insensitive mapping af kolonnenavne
+        column_mapping = {}
+        for col in df.columns:
+            if col.upper() == 'ITEM':
+                column_mapping[col] = 'ITEM'
+            elif col.upper() == 'PART NUMBER':
+                column_mapping[col] = 'PART NUMBER'
+        
+        # Omdøb kolonner til standardiserede navne
+        df = df.rename(columns=column_mapping)
+        print(f"Kolonner efter omdøbning: {', '.join(df.columns)}")
         
         # Verificer at nødvendige kolonner findes
         required_cols = ['ITEM', 'PART NUMBER']
         missing_cols = [col for col in required_cols if col not in df.columns]
         if missing_cols:
-            # Tjek om kolonnerne findes med forskellige store/små bogstaver
-            column_mapping = {}
-            for col in df.columns:
-                if col.upper() == 'ITEM':
-                    column_mapping[col] = 'ITEM'
-                elif col.upper() == 'PART NUMBER':
-                    column_mapping[col] = 'PART NUMBER'
-            
-            if column_mapping:
-                df = df.rename(columns=column_mapping)
-                # Tjek igen efter omdøbning
-                missing_cols = [col for col in required_cols if col not in df.columns]
-        
-        if missing_cols:
             raise ValueError(f"Manglende påkrævede kolonner: {', '.join(missing_cols)}")
-        
-        # Opret base_number kolonne for gruppering
-        df['BASE_NUMBER'] = df['ITEM'].astype(str).str.split('.').str[0]
         
         # Indlæs kategorier
         piping_categories = load_piping_categories()
+        print(f"Indlæste piping kategorier: {', '.join(piping_categories.values())}")
+        
         regular_categories = load_categories(file_path)
+        print(f"Indlæste almindelige kategorier: {', '.join(regular_categories.values())}")
         
-        processed_part_numbers = set()
+        # Opret base_number kolonne for gruppering
+        print("Opretter BASE_NUMBER kolonne...")
+        df['BASE_NUMBER'] = df['ITEM'].astype(str).str.split('.').str[0]
+        print(f"Unikke base numbers: {len(df['BASE_NUMBER'].unique())}")
         
-        # TRIN 1: Scan efter piping kategorier først
-        print("\n=== SCANNER EFTER PIPING KATEGORIER ===")
+        categorized_data = {}
+        processed_part_numbers = set()  # Hold styr på behandlede part numbers
+        
+        # TRIN 1: Kategoriser piping først
+        print("\n=== KATEGORISERER PIPING ===")
         for base_number, group in df.groupby('BASE_NUMBER'):
             try:
                 parent_mask = group['ITEM'].astype(str) == str(base_number)
                 parent_row = group[parent_mask].iloc[0] if parent_mask.any() else group.iloc[0]
                 part_number = str(parent_row['PART NUMBER'])
                 
-                # Tjek for BioMix piping (BMxx eller BM00)
-                if ('BM' in part_number and any(c.isdigit() for c in part_number)) or '630' in part_number:
-                    if 'Biomass piping' not in categorized_data:
-                        categorized_data['Biomass piping'] = pd.DataFrame(columns=df.columns)
-                    # Håndter tomme værdier før concatenation
-                    group = group.fillna('')  # Erstat NA med tomme strenge
-                    categorized_data['Biomass piping'] = pd.concat([categorized_data['Biomass piping'], group], ignore_index=True)
+                is_piping, piping_category = is_piping_item(part_number)
+                if is_piping and piping_category:
+                    if piping_category not in categorized_data:
+                        categorized_data[piping_category] = pd.DataFrame(columns=df.columns)
+                    categorized_data[piping_category] = pd.concat([categorized_data[piping_category], group], ignore_index=True)
                     processed_part_numbers.update(group['PART NUMBER'].astype(str).tolist())
-                    print(f"Piping: {part_number} -> Biomass piping")
-                    continue
-                
-                # Tjek andre piping kategorier
-                is_piping = False
-                for prefix, category in piping_categories.items():
-                    if prefix in part_number:
-                        is_piping = True
-                        if category not in categorized_data:
-                            categorized_data[category] = pd.DataFrame(columns=df.columns)
-                        # Håndter tomme værdier før concatenation
-                        group = group.fillna('')  # Erstat NA med tomme strenge
-                        categorized_data[category] = pd.concat([categorized_data[category], group], ignore_index=True)
-                        processed_part_numbers.update(group['PART NUMBER'].astype(str).tolist())
-                        print(f"Piping: {part_number} -> {category}")
-                        break
-            
+                    print(f"Piping: {part_number} -> {piping_category}")
             except Exception as e:
                 print(f"Fejl under behandling af piping base_number {base_number}: {str(e)}")
                 continue
         
-        # TRIN 2: Scan resten efter categories.txt
-        print("\n=== SCANNER EFTER ØVRIGE KATEGORIER ===")
+        # TRIN 2: Kategoriser resten (undtagen allerede kategoriserede rør)
+        print("\n=== KATEGORISERER ØVRIGE KOMPONENTER ===")
         remaining_mask = ~df['PART NUMBER'].astype(str).isin(processed_part_numbers)
         remaining_df = df[remaining_mask]
         
@@ -400,29 +376,12 @@ def categorize_data(df, file_path):
                 parent_row = group[parent_mask].iloc[0] if parent_mask.any() else group.iloc[0]
                 part_number = str(parent_row['PART NUMBER'])
                 
-                # Håndter Basic Components (0000-3)
-                if part_number.startswith('0000-3'):
-                    if 'Basic Components' not in categorized_data:
-                        categorized_data['Basic Components'] = pd.DataFrame(columns=df.columns)
-                    categorized_data['Basic Components'] = pd.concat([categorized_data['Basic Components'], group], ignore_index=True)
-                    print(f"Basic Component: {part_number}")
-                    continue
-                
                 # Find normal kategori
-                category = None
-                for prefix, cat_name in regular_categories.items():
-            if part_number.startswith(prefix):
-                        category = cat_name
-                break
-                
-                if not category:
-                    category = "Other Items"
-                
+                category = find_category(part_number, regular_categories)
                 if category not in categorized_data:
                     categorized_data[category] = pd.DataFrame(columns=df.columns)
                 categorized_data[category] = pd.concat([categorized_data[category], group], ignore_index=True)
                 print(f"Normal: {part_number} -> {category}")
-            
             except Exception as e:
                 print(f"Fejl under behandling af normal base_number {base_number}: {str(e)}")
                 continue
@@ -432,12 +391,12 @@ def categorize_data(df, file_path):
         for category, data in categorized_data.items():
             if len(data) > 0:
                 print(f"{category}: {len(data)} items")
-    
-    return categorized_data
-
+        
+        return categorized_data
+        
     except Exception as e:
         print(f"Fejl under kategorisering: {str(e)}")
-        print("DataFrame info:")
+        print(f"DataFrame info:")
         print(df.info())
         raise
 
@@ -475,48 +434,55 @@ def should_include_excel_row(item_number, sheet):
 def process_excel(file_path, progress_window):
     """Behandler Excel-filen og returnerer kategoriseret data."""
     progress_window.update_progress(10, "Læser data fra Excel...")
-    df = pd.read_excel(file_path, sheet_name=0, dtype=str)
     
-    progress_window.update_progress(20, "Beregner Total QTY...")
-    # Find QTY kolonnen
-    qty_col = None
-    for col_name in df.columns:
-        if col_name.strip().upper() == "QTY":
-            qty_col = col_name
-            break
+    try:
+        print("\n=== DEBUG: LÆSER EXCEL FIL ===")
+        print(f"Fil: {file_path}")
+        
+        # Læs først kolonne navne for at identificere de korrekte kolonner
+        df_headers = pd.read_excel(file_path, nrows=0)
+        print(f"Fundne kolonner: {', '.join(df_headers.columns)}")
+        
+        # Læs data med optimerede datatyper
+        print("Læser Excel data med optimerede datatyper...")
+        df = pd.read_excel(
+            file_path,
+            dtype={
+                'Item': str,
+                'Part Number': str,
+                'REV': 'category',
+                'BOM Structure': 'category',
+                'Description': str,
+                'QTY': float
+            }
+        )
+        print(f"Data indlæst: {len(df)} rækker")
+        
+        # Kategoriser data
+        print("Starter kategorisering...")
+        categorized_data = categorize_data(df, file_path)
+        
+        return categorized_data, df['TOTAL QTY'].tolist(), df
+        
+    except Exception as e:
+        print(f"Fejl under Excel behandling: {str(e)}")
+        print("DataFrame info:")
+        if 'df' in locals():
+            print(df.info())
+        raise
+
+def calculate_total_qty(row, df):
+    """Beregner Total QTY for en række ved at bruge vektoriserede operationer."""
+    item = str(row['ITEM'])
+    if '.' not in item:
+        return float(row['QTY'])
     
-    if qty_col is None:
-        messagebox.showerror("ERROR", "Kolonnen 'QTY' blev ikke fundet i BOM-arket.")
-        os._exit(1)
+    parent_item = '.'.join(item.split('.')[:-1])
+    parent_row = df[df['ITEM'] == parent_item]
     
-    df[qty_col] = pd.to_numeric(df[qty_col], errors='coerce').fillna(0).astype(float)
-    
-    # Beregn Total QTY
-    items = df.iloc[:, 0].tolist()
-    qty = df[qty_col].tolist()
-    totalQTY = []
-    
-    for idx, item in enumerate(items):
-        if '.' not in str(item):
-            totalQTY.append(qty[idx])
-        else:
-            parent_item = '.'.join(str(item).split('.')[:-1])
-            parent_idx = None
-            for i, prev_item in enumerate(items[:idx]):
-                if str(prev_item) == parent_item:
-                    parent_idx = i
-                    break
-            if parent_idx is not None:
-                totalQTY.append(qty[idx] * totalQTY[parent_idx])
-            else:
-                totalQTY.append(qty[idx])
-    
-    progress_window.update_progress(30, "Kategoriserer data...")
-    # Filtrer rækker baseret på BOM Structure før kategorisering
-    df_filtered = df[df.apply(lambda row: should_include_row(row, df), axis=1)]
-    categorized_data = categorize_data(df_filtered, file_path)
-    
-    return categorized_data, totalQTY, df
+    if not parent_row.empty:
+        return float(row['QTY']) * float(parent_row.iloc[0]['TOTAL QTY'])
+    return float(row['QTY'])
 
 def set_cell_color(cell, status):
     """Sætter farve på cellen baseret på status."""
@@ -533,11 +499,11 @@ def rgb_to_int(red, green, blue):
 
 def newRev(name, files):
     """Finder den seneste revision ud fra filnavnet."""
+    if not files:
+        return {}, {}
+    
     latest_files = {}
     latest_revs = {}
-    
-    if not files:
-        return latest_files, latest_revs
     
     for ext in [".pdf", ".dwg"]:
         relevant_files = [f for f in files if f.endswith(ext) and 'for review' not in os.path.basename(f).lower()]
@@ -574,14 +540,14 @@ def scan_directory_concurrent(pdf_source):
     print("Dette kan tage et øjeblik...")
     
     def scan_directory_task(entry):
-    if entry.is_dir(follow_symlinks=False):
-        file_paths = []
-        for sub_entry in os.scandir(entry.path):
+        if entry.is_dir(follow_symlinks=False):
+            file_paths = []
+            for sub_entry in os.scandir(entry.path):
                 file_paths.extend(scan_directory_task(sub_entry))
-        return file_paths
-    elif entry.is_file(follow_symlinks=False) and (entry.name.endswith(".pdf") or entry.name.endswith(".dwg")):
-        return [entry.path]
-    return []
+            return file_paths
+        elif entry.is_file(follow_symlinks=False) and (entry.name.endswith(".pdf") or entry.name.endswith(".dwg")):
+            return [entry.path]
+        return []
 
     file_paths = []
     with ThreadPoolExecutor() as executor:
@@ -622,10 +588,6 @@ def process_excel_file(excel_path, files, progress_window, categorized_data):
     """Håndterer al Excel-relateret behandling."""
     excel = None
     wb = None
-    sheet = None
-    headers = {}  # Initialiser headers dictionary
-    rows_to_delete = []  # Initialiser liste over rækker der skal slettes
-    
     try:
         excel = Dispatch("Excel.Application")
         excel.DisplayAlerts = False
@@ -636,6 +598,7 @@ def process_excel_file(excel_path, files, progress_window, categorized_data):
         sheet.Name = "BOM (Raw)"
         
         # Find nødvendige kolonner
+        headers = {}
         for i in range(1, sheet.UsedRange.Columns.Count + 1):
             header = str(sheet.Cells(1, i).Value).strip().upper()
             if header in ["ITEM", "PART NUMBER", "REV", "BOM STRUCTURE", "QTY", "DRAWINGS"]:
@@ -652,15 +615,15 @@ def process_excel_file(excel_path, files, progress_window, categorized_data):
             sheet.Cells(1, headers["TOTAL QTY"]).Value = "Total QTY"
         
         # Opret liste over rækker der skal slettes
+        rows_to_delete = []
         for row in range(2, sheet.UsedRange.Rows.Count + 1):
             item_number = str(sheet.Cells(row, 1).Value)
             if not should_include_excel_row(item_number, sheet):
                 rows_to_delete.append(row)
                 continue
             
-            # Opdater række information hvis headers er korrekt initialiseret
-            if headers:
-                update_row_information(sheet, row, headers, files)
+            # Opdater række information
+            update_row_information(sheet, row, headers, files)
         
         # Slet uønskede rækker (fra bunden)
         for row in sorted(rows_to_delete, reverse=True):
@@ -668,43 +631,69 @@ def process_excel_file(excel_path, files, progress_window, categorized_data):
         
         # Opret kategori faner
         print("\n=== OPRETTER KATEGORI FANER ===")
-    for category, data in categorized_data.items():
-            if not data.empty:
-                print(f"\nBehandler {category}...")
-                target_sheet = None
+        for sheet_name, data in categorized_data.items():
+            if len(data) == 0:  # Spring over tomme kategorier
+                print(f"Springer over tom kategori: {sheet_name}")
+                continue
                 
-                # Find eller opret fanen
-                try:
-                    target_sheet = wb.Sheets(category)
-                except:
-                    target_sheet = wb.Worksheets.Add(After=wb.Worksheets(wb.Worksheets.Count))
-                    target_sheet.Name = category
-                    sheet.Range("1:1").Copy(target_sheet.Range("1:1"))
-                
-                if target_sheet:
-                    # Kopier data
-                    for idx, (item_number, part_number, source_row) in enumerate(data, start=2):
-                        sheet.Range(f"{source_row}:{source_row}").Copy(target_sheet.Range(f"{idx}:{idx}"))
-                    
-                    # Gruppér rækker hvis det er en piping kategori
-                    if "Piping" in category:
-                        last_row = target_sheet.UsedRange.Rows.Count
-                        if last_row > 1:  # Kun hvis der er data
-                            print(f"Grupperer rækker 1-{last_row} i {category}")
-                            target_sheet.Range(f"1:{last_row}").Rows.Group()
-                            target_sheet.Outline.ShowLevels(RowLevels=8)
+            print(f"\nOpretter fane: {sheet_name} med {len(data)} rækker")
+            
+            # Find eller opret fanen
+            target_sheet = None
+            for s in wb.Sheets:
+                if s.Name == sheet_name:
+                    target_sheet = s
+                    print(f"Fane {sheet_name} findes allerede")
+                    break
+            
+            if target_sheet is None:
+                target_sheet = wb.Worksheets.Add(After=wb.Worksheets(wb.Worksheets.Count))
+                target_sheet.Name = sheet_name
+                print(f"Oprettet ny fane: {sheet_name}")
+                # Kopier header
+                sheet.Range("1:1").Copy(target_sheet.Range("1:1"))
+            
+            # Indsæt den indskudte linje hvis det er en piping kategori
+            if "Piping" in sheet_name or sheet_name == "BioMix":
+                # Indsæt den indskudte linje
+                target_sheet.Range("2:2").Insert(Shift=-4121)  # xlShiftDown
+                # Kopier første række fra data som den indskudte linje
+                if len(data) > 0:
+                    first_row = data.iloc[0]
+                    target_sheet.Cells(2, headers["ITEM"]).Value = first_row["ITEM"].split('.')[0]
+                    target_sheet.Cells(2, headers["PART NUMBER"]).Value = first_row["PART NUMBER"]
+                    if "Description" in data.columns:
+                        target_sheet.Cells(2, headers["Description"]).Value = f"{sheet_name} Assembly"
+                    if "BOM STRUCTURE" in headers:
+                        target_sheet.Cells(2, headers["BOM STRUCTURE"]).Value = "Inseparable"
+                    if "QTY" in headers:
+                        target_sheet.Cells(2, headers["QTY"]).Value = 1
+                    if "TOTAL QTY" in headers:
+                        target_sheet.Cells(2, headers["TOTAL QTY"]).Value = 1
+            
+            print("Kopierer rækker:")
+            start_row = 3 if ("Piping" in sheet_name or sheet_name == "BioMix") else 2
+            for idx, row in data.iterrows():
+                part_number = str(row["PART NUMBER"])
+                if part_number and part_number.strip():
+                    found_range = sheet.Range("B:B").Find(part_number)
+                    if found_range:
+                        row_num = found_range.Row
+                        print(f"  Kopierer {part_number} fra række {row_num} til {idx+start_row}")
+                        sheet.Range(f"{row_num}:{row_num}").Copy(
+                            target_sheet.Range(f"{idx+start_row}:{idx+start_row}")
+                        )
+            
+            # Formater og gruppér
+            format_excel_sheet(target_sheet)
+            if "Piping" in sheet_name or sheet_name == "BioMix":
+                group_by_parent_items(target_sheet)
         
         # Flyt BOM (Raw) forrest og gem
-        if sheet:
-            sheet.Move(Before=wb.Sheets(1))
-            wb.Save()
-        
+        sheet.Move(Before=wb.Sheets(1))
+        wb.Save()
         return sheet
-        
-    except Exception as e:
-        print(f"Fejl i process_excel_file: {str(e)}")
-        raise
-        
+    
     finally:
         if wb:
             try:
@@ -719,111 +708,112 @@ def process_excel_file(excel_path, files, progress_window, categorized_data):
 
 def update_row_information(sheet, row, headers, files):
     """Opdaterer information for en enkelt række i Excel."""
-    try:
-        # Tjek input parametre
-        if not sheet or not headers or not files:
-            return
-            
-        part_number = str(sheet.Cells(row, 2).Value)  # Kolonne B (Part Number)
-        if not part_number or not part_number.strip():
-            return
-        
-        # Initialiser variabler
-        clean_partnumber = part_number
-        extracted_rev = None
-        matching_files = []
-        drawing_status = "NA"  # Standard værdi hvis ingen filer findes
-        
-        # Håndter revision
-        clean_partnumber, extracted_rev = extract_revision_from_partnumber(part_number)
-        if extracted_rev and "REV" in headers:
-            sheet.Cells(row, 2).Value = clean_partnumber
-            sheet.Cells(row, headers["REV"]).Value = extracted_rev
-        
-        # Find matchende filer
-        matching_files = [f for f in files if os.path.basename(f).startswith(clean_partnumber if extracted_rev else part_number)]
-        
-        # Opdater revision hvis nødvendigt
-        if matching_files and "REV" in headers and not extracted_rev:
-            latest_files, latest_revs = newRev(part_number, matching_files)
-            if latest_revs:
-                rev = next(iter(latest_revs.values()))
-                if rev != '-':  # Kun opdater hvis der faktisk er fundet en revision
-                    sheet.Cells(row, headers["REV"]).Value = rev
-        
-        # Opdater drawing status
-        if "DRAWINGS" in headers:
-            drawing_status = get_drawing_status(part_number, matching_files)
-            cell = sheet.Cells(row, headers["DRAWINGS"])
-            if cell:
-                cell.Value = drawing_status
-                set_cell_color(cell, drawing_status)
-                
-    except Exception as e:
-        print(f"Fejl i update_row_information for række {row}: {str(e)}")
-        # Fortsæt med næste række i stedet for at stoppe hele processen
-
-def copy_files_to_destination(dest_path, files, top_assembly_number, categories_with_files):
-    """Kopierer alle relevante filer til deres respektive mapper."""
-    try:
-        # Kopier hovedtegning hvis den findes
-        top_assembly_files = [f for f in files if os.path.basename(f).startswith(top_assembly_number)]
-        if top_assembly_files:
-            latest_files, _ = newRev(top_assembly_number, top_assembly_files)
-            if latest_files:  # Kun fortsæt hvis latest_files ikke er tom
-                print(f"Kopierer hovedtegning: {top_assembly_number}")
-                print(f"Fundne filer: {latest_files}")
-                
-                # Bestem destination for hovedtegning
-                if not any(data[data.iloc[:, 1] == top_assembly_number].shape[0] > 0 for data in categories_with_files.values()):
-                    dest_folder = os.path.join(dest_path, "Other Items")
-                else:
-                    dest_folder = dest_path
-                
-                try:
-                    os.makedirs(dest_folder, exist_ok=True)
-                    for file in latest_files.values():
-                        dest_file = os.path.join(dest_folder, os.path.basename(file))
-                        try:
-                            print(f"Kopierer {file} til {dest_file}")
-                            shutil.copy2(file, dest_file)
-                        except PermissionError as pe:
-                            print(f"Adgang nægtet ved kopiering af {file}: {str(pe)}")
-                            messagebox.showwarning("Advarsel", f"Kunne ikke kopiere fil:\n{os.path.basename(file)}\n\nSikr at filen ikke er åben i andre programmer.")
-                        except Exception as e:
-                            print(f"Fejl ved kopiering af {file}: {str(e)}")
-                except Exception as e:
-                    print(f"Fejl ved oprettelse af mappe {dest_folder}: {str(e)}")
-        
-        # Kopier kategori-filer
-        for category, data in categories_with_files.items():
-        category_path = os.path.join(dest_path, category)
-            try:
-        os.makedirs(category_path, exist_ok=True)
-        
-        for _, row in data.iterrows():
-                    part_number = str(row.iloc[1]).strip()
-            matching_files = [f for f in files if os.path.basename(f).startswith(part_number)]
-            
-                    if matching_files:
-                        latest_files, _ = newRev(part_number, matching_files)
-                        if latest_files:  # Kun fortsæt hvis latest_files ikke er tom
-            for file in latest_files.values():
-                dest_file = os.path.join(category_path, os.path.basename(file))
-                                try:
-                shutil.copy2(file, dest_file)
-                                except PermissionError as pe:
-                                    print(f"Adgang nægtet ved kopiering af {file}: {str(pe)}")
-                                    messagebox.showwarning("Advarsel", f"Kunne ikke kopiere fil:\n{os.path.basename(file)}\n\nSikr at filen ikke er åben i andre programmer.")
-                                except Exception as e:
-                                    print(f"Fejl ved kopiering af {file}: {str(e)}")
-            except Exception as e:
-                print(f"Fejl ved oprettelse af mappe {category_path}: {str(e)}")
-                messagebox.showwarning("Advarsel", f"Kunne ikke oprette mappe:\n{category}\n\nKontroller dine rettigheder til mappen.")
+    part_number = str(sheet.Cells(row, 2).Value)  # Kolonne B (Part Number)
+    if not part_number.strip():
+        return
     
+    # Håndter revision
+    clean_partnumber, extracted_rev = extract_revision_from_partnumber(part_number)
+    if extracted_rev and "REV" in headers:
+        sheet.Cells(row, 2).Value = clean_partnumber
+        sheet.Cells(row, headers["REV"]).Value = extracted_rev
+    
+    # Find matchende filer
+    matching_files = [f for f in files if os.path.basename(f).startswith(clean_partnumber if extracted_rev else part_number)]
+    
+    # Opdater revision hvis nødvendigt
+    if matching_files and "REV" in headers and not extracted_rev:
+        latest_files, latest_revs = newRev(part_number, matching_files)
+        if latest_revs:
+            rev = next(iter(latest_revs.values()))
+            sheet.Cells(row, headers["REV"]).Value = rev
+    
+    # Opdater drawing status
+    if "DRAWINGS" in headers:
+        drawing_status = get_drawing_status(part_number, matching_files)
+        cell = sheet.Cells(row, headers["DRAWINGS"])
+        cell.Value = drawing_status
+        set_cell_color(cell, drawing_status)
+
+def scan_files_parallel(source_path):
+    """Scanner filer parallelt med concurrent.futures."""
+    files = []
+    with concurrent.futures.ThreadPoolExecutor() as executor:
+        futures = []
+        for entry in os.scandir(source_path):
+            if entry.is_dir():
+                futures.append(executor.submit(scan_directory_task, entry))
+            elif entry.is_file() and (entry.name.endswith('.pdf') or entry.name.endswith('.dwg')):
+                files.append(entry.path)
+        
+        for future in concurrent.futures.as_completed(futures):
+            try:
+                result = future.result()
+                files.extend(result)
+            except Exception as e:
+                print(f"Fejl under filscanning: {str(e)}")
+    
+    return files
+
+def copy_files_to_destination(dest_path, files, top_assembly, categories_with_files):
+    """Kopierer filer til destinationsmapper med parallel processing."""
+    try:
+        # Korriger destinationsstien til at være mappen og ikke Excel-filen
+        base_dest_path = os.path.dirname(dest_path)
+        print(f"\nKopierer filer til: {base_dest_path}")
+        print(f"Top assembly number: {top_assembly}")
+        
+        # Opret destinationsmapper
+        for category in categories_with_files.keys():
+            category_path = os.path.join(base_dest_path, category)
+            os.makedirs(category_path, exist_ok=True)
+            print(f"Oprettet mappe: {category_path}")
+        
+        # Gruppér filer efter deres kategori
+        files_by_category = {}
+        for category, data in categories_with_files.items():
+            files_by_category[category] = []
+            for _, row in data.iterrows():
+                part_number = str(row['PART NUMBER'])
+                if not part_number:
+                    continue
+                
+                matching_files = [f for f in files if part_number in os.path.basename(f)]
+                files_by_category[category].extend(matching_files)
+        
+        # Kopier filer parallelt
+        with concurrent.futures.ThreadPoolExecutor() as executor:
+            futures = []
+            for category, file_list in files_by_category.items():
+                category_path = os.path.join(base_dest_path, category)
+                for file_path in file_list:
+                    dest_file = os.path.join(category_path, os.path.basename(file_path))
+                    futures.append(
+                        executor.submit(safe_copy_file, file_path, dest_file)
+                    )
+            
+            # Vent på at alle kopieringer er færdige
+            for future in concurrent.futures.as_completed(futures):
+                try:
+                    future.result()
+                except Exception as e:
+                    print(f"Fejl under filkopiering: {str(e)}")
+        
+        print("Filkopiering afsluttet")
+        
     except Exception as e:
-        print(f"Generel fejl i copy_files_to_destination: {str(e)}")
-        messagebox.showerror("Fejl", "Der opstod en fejl under kopiering af filer.\nSe debug.txt for detaljer.")
+        print(f"Fejl i copy_files_to_destination: {str(e)}")
+        raise
+
+def safe_copy_file(src, dst):
+    """Sikker kopiering af en enkelt fil med fejlhåndtering."""
+    try:
+        import shutil
+        shutil.copy2(src, dst)
+        print(f"Kopieret: {os.path.basename(src)} -> {os.path.dirname(dst)}")
+    except Exception as e:
+        print(f"Kunne ikke kopiere {src}: {str(e)}")
+        raise
 
 def kill_excel(progress_window):
     """Lukker alle Excel processer med advarsel."""
@@ -880,13 +870,16 @@ def process_excel_in_order(file_path, progress_window, files):
     """Behandler Excel-filen i den specificerede rækkefølge."""
     excel = None
     wb = None
+    start_time = time.time()
+    dest_path = None
+    
     try:
         # Sikr at alle Excel processer er lukket
         if not kill_excel(progress_window):
             raise Exception("Processen blev annulleret af brugeren")
         
         # 1. Opret kopi af Excel filen
-        progress_window.update_progress(20, "Opretter kopi af Excel fil...")
+        progress_window.update_progress(5, "Opretter kopi af Excel fil...")
         base_name = os.path.basename(file_path)
         if " - BOM" in base_name:
             base_name = base_name.replace(" - BOM.xlsx", "")
@@ -917,16 +910,26 @@ def process_excel_in_order(file_path, progress_window, files):
         sheet = wb.Sheets(1)
         sheet.Name = "BOM (Raw)"  # Omdøb første ark
         
-        # 2. Identificer kolonne numre
-        progress_window.update_progress(30, "Identificerer kolonner...")
+        # 2. Indsæt linje i række 2
+        progress_window.update_progress(10, "Indsætter linje i række 2...")
+        sheet.Rows(2).Insert()
+        sheet.Cells(2, 1).Value = "0"
+        sheet.Cells(2, 2).Value = f"{base_name}-A01"
+        sheet.Cells(2, 6).Value = "Inseparable"
+        sheet.Cells(2, 7).Value = "Area Layout Drawing"
+        sheet.Cells(2, 10).Value = 1
+        sheet.Cells(2, 11).Value = 1
+        
+        # 3. Identificer kolonne numre
+        progress_window.update_progress(15, "Identificerer kolonner...")
         headers = {}
         for i in range(1, sheet.UsedRange.Columns.Count + 1):
             header = str(sheet.Cells(1, i).Value).strip().upper()
-            if header in ["ITEM", "PART NUMBER", "REV", "BOM STRUCTURE", "QTY", "DRAWINGS"]:
+            if header in ["ITEM", "PART NUMBER", "REV", "BOM STRUCTURE", "QTY", "DRAWINGS", "TOTAL QTY", "DESCRIPTION"]:
                 headers[header] = i
             last_column = i
         
-        if not all(key in headers for key in ["ITEM", "PART NUMBER", "BOM STRUCTURE", "QTY"]):
+        if not all(key in headers for key in ["ITEM", "PART NUMBER", "BOM STRUCTURE", "QTY", "DESCRIPTION"]):
             raise Exception("Kunne ikke finde alle nødvendige kolonner")
         
         # Tilføj manglende kolonner
@@ -942,57 +945,35 @@ def process_excel_in_order(file_path, progress_window, files):
             sheet.Cells(1, headers["DRAWINGS"]).Value = "DRAWINGS"
             last_column += 1
         
-        # 3. Håndter "Inseparable" rækker
-        progress_window.update_progress(40, "Håndterer Inseparable rækker...")
+        # 4. Håndter "Inseparable" rækker
+        progress_window.update_progress(20, "Håndterer Inseparable rækker...")
         rows_to_delete = []
         for row in range(2, sheet.UsedRange.Rows.Count + 1):
             item_number = str(sheet.Cells(row, headers["ITEM"]).Value)
             bom_structure = str(sheet.Cells(row, headers["BOM STRUCTURE"]).Value).strip().upper()
             
             if bom_structure == "INSEPARABLE":
-                # Find og marker children til sletning
-                for child_row in range(2, sheet.UsedRange.Rows.Count + 1):
-                    child_item = str(sheet.Cells(child_row, headers["ITEM"]).Value)
-                    if child_item.startswith(item_number + "."):
-                        rows_to_delete.append(child_row)
+                rows_to_delete.append(row)
         
         # Slet markerede rækker (fra bunden)
         for row in sorted(rows_to_delete, reverse=True):
             sheet.Rows(row).Delete()
         
-        # 4. Håndter revisioner og opdater drawing status
-        progress_window.update_progress(50, "Håndterer revisioner...")
-        # Brug de allerede scannede filer
+        # 5. Håndter revisioner og opdater drawing status
+        progress_window.update_progress(25, "Håndterer revisioner...")
         for row in range(2, sheet.UsedRange.Rows.Count + 1):
             part_number = str(sheet.Cells(row, headers["PART NUMBER"]).Value)
             if part_number.strip():
-                # Håndter revision
-                clean_partnumber, extracted_rev = extract_revision_from_partnumber(part_number)
-                if extracted_rev:
-                    sheet.Cells(row, headers["PART NUMBER"]).Value = clean_partnumber
-                    sheet.Cells(row, headers["REV"]).Value = extracted_rev
-                
-                # Find matchende filer og opdater revision hvis nødvendigt
-                matching_files = [f for f in files if os.path.basename(f).startswith(clean_partnumber if extracted_rev else part_number)]
-                if matching_files and not extracted_rev:
-                    latest_files, latest_revs = newRev(part_number, matching_files)
-                    if latest_revs:
-                        rev = next(iter(latest_revs.values()))
-                        if rev != '-':  # Kun opdater hvis der faktisk er fundet en revision
-                            sheet.Cells(row, headers["REV"]).Value = rev
-                
-                # Opdater drawing status
-                drawing_status = get_drawing_status(part_number, matching_files)
-                cell = sheet.Cells(row, headers["DRAWINGS"])
-                cell.Value = drawing_status
-                set_cell_color(cell, drawing_status)
+                update_row_information(sheet, row, headers, files)
         
-        # 5. Beregn Total QTY
-        progress_window.update_progress(60, "Beregner Total QTY...")
-        # Indsæt Total QTY kolonne
-        total_qty_col = headers["QTY"] + 1
-        sheet.Columns(total_qty_col).Insert()
-        sheet.Cells(1, total_qty_col).Value = "Total QTY"
+        # 6. Beregn Total QTY
+        progress_window.update_progress(30, "Beregner Total QTY...")
+        # Indsæt Total QTY kolonne hvis den ikke findes
+        if "TOTAL QTY" not in headers:
+            total_qty_col = headers["QTY"] + 1
+            sheet.Columns(total_qty_col).Insert()
+            sheet.Cells(1, total_qty_col).Value = "Total QTY"
+            headers["TOTAL QTY"] = total_qty_col
         
         items = []
         qtys = []
@@ -1008,7 +989,7 @@ def process_excel_in_order(file_path, progress_window, files):
                 parent_item = '.'.join(str(item).split('.')[:-1])
                 parent_idx = None
                 for i, prev_item in enumerate(items[:idx]):
-                    if str(prev_item) == parent_item:
+                    if prev_item == parent_item:
                         parent_idx = i
                         break
                 if parent_idx is not None:
@@ -1018,125 +999,175 @@ def process_excel_in_order(file_path, progress_window, files):
         
         # Indsæt Total QTY værdier
         for idx, total_qty in enumerate(total_qtys):
-            sheet.Cells(idx + 2, total_qty_col).Value = total_qty
+            sheet.Cells(idx + 2, headers["TOTAL QTY"]).Value = total_qty
         
-        # 6. Opret kategori faner
-        progress_window.update_progress(70, "Opretter kategori faner...")
-        # Opret en liste af part numbers fra den redigerede fil
-        part_numbers = []
+        # 7. Fjern Inseparable children linjer
+        progress_window.update_progress(35, "Fjerner Inseparable children linjer...")
+        rows_to_delete = []
         for row in range(2, sheet.UsedRange.Rows.Count + 1):
-            part_number = str(sheet.Cells(row, headers["PART NUMBER"]).Value).strip()
-            if part_number:
-                part_numbers.append(part_number)
-        
-        # Kategoriser baseret på de tilbageværende part numbers
-        categories = load_categories(file_path)
-        piping_categories = load_piping_categories()
-        categorized_parts = {}
-        
-        # Først find piping grupper
-        piping_groups = {}  # base_number -> piping_category
-        for part_number in part_numbers:
-            parts = part_number.split('-')
-            if len(parts) >= 3:
-                for part in parts:
-                    if part.startswith('BM') or part[:2] in piping_categories:
-                        prefix = 'BM' if part.startswith('BM') else part[:2]
-                        target_category = piping_categories[prefix]
-                        # Find base number fra item number
-                        for row in range(2, sheet.UsedRange.Rows.Count + 1):
-                            if str(sheet.Cells(row, headers["PART NUMBER"]).Value).strip() == part_number:
-                                item_number = str(sheet.Cells(row, headers["ITEM"]).Value)
-                                base_number = item_number.split('.')[0]
-                                piping_groups[base_number] = target_category
-                                break
-        
-        # Kategoriser items baseret på piping grupper og normale kategorier
-        categorized_rows = {}  # category -> [(item_number, part_number, row)]
-        for row in range(2, sheet.UsedRange.Rows.Count + 1):
-            part_number = str(sheet.Cells(row, headers["PART NUMBER"]).Value).strip()
             item_number = str(sheet.Cells(row, headers["ITEM"]).Value)
-            base_number = item_number.split('.')[0]
-            
-            # Tjek om denne item er del af en piping gruppe
-            if base_number in piping_groups:
-                target_category = piping_groups[base_number]
-                if target_category not in categorized_rows:
-                    categorized_rows[target_category] = []
-                categorized_rows[target_category].append((item_number, part_number, row))
-            
-            # Hvis ikke piping, kategoriser normalt
-            categorized = False
-            for prefix, cat_name in categories.items():
-                if part_number.startswith(prefix):
-                    if cat_name not in categorized_rows:
-                        categorized_rows[cat_name] = []
-                    categorized_rows[cat_name].append((item_number, part_number, row))
-                    categorized = True
-                    break
-            
-            if not categorized:
-                if "Other Items" not in categorized_rows:
-                    categorized_rows["Other Items"] = []
-                categorized_rows["Other Items"].append((item_number, part_number, row))
+            if item_number.startswith("0."):
+                rows_to_delete.append(row)
         
-        # Opret faner for hver kategori
-        for sheet_name, rows_to_copy in categorized_rows.items():
-            if not rows_to_copy:  # Spring over tomme kategorier
-                continue
-                
-            new_sheet = wb.Worksheets.Add(After=wb.Worksheets(wb.Worksheets.Count))
-            new_sheet.Name = sheet_name
+        for row in sorted(rows_to_delete, reverse=True):
+            sheet.Rows(row).Delete()
+        
+        # 8. Scanner for piping items
+        progress_window.update_progress(40, "Scanner for piping items...")
+        
+        # Load Excel data into pandas DataFrame
+        df = pd.read_excel(dest_path)
+        
+        # Ensure all columns are strings
+        for col in df.columns:
+            df[col] = df[col].astype(str)
+        
+        # Define categorize_part function
+        def categorize_part(row):
+            part_number = row['PART NUMBER']
             
-            # Kopier header
+            # Check for Piping Categories
+            if re.match(r'BM\d{2}', part_number):
+                return 'Biomass Piping'
+            elif part_number.startswith('630'):
+                return 'BioMix Piping'
+            
+            # Check for other categories
+            for category_code, category_name in categories.items():
+                if part_number.startswith(category_code):
+                    return category_name
+            
+            return 'Other Items'
+        
+        # Load categories from categories.txt
+        categories = {}
+        with open(os.path.join(os.path.dirname(__file__), 'categories.txt'), 'r', encoding='utf-8') as f:
+            for line in f:
+                if '=' in line and not line.startswith('#'):
+                    code, name = line.strip().split('=', 1)
+                    categories[code] = name
+        
+        # Apply categorization
+        df['Category'] = df.apply(categorize_part, axis=1)
+        
+        # Group data by category
+        categorized_data = df.groupby('Category')
+        
+        # 9. Scanner for andre part numbers (ikke nødvendigt her, da det er en del af kategoriseringen)
+        progress_window.update_progress(45, "Scanner for andre part numbers...")
+        
+        # 10. Formater Excel ark
+        progress_window.update_progress(50, "Formaterer Excel ark...")
+        format_excel_sheet(sheet)
+        group_by_parent_items(sheet)
+        
+        # 11. Opret kategori faner
+        progress_window.update_progress(55, "Opretter kategori faner...")
+        
+        # Create category sheets
+        for category, data in categorized_data:
+            if category == "nan":
+                print(f"Skipping category 'nan'")
+                continue
+            
+            print(f"Creating sheet for category: {category}")
+            
+            # Create new sheet
+            try:
+                new_sheet = wb.Worksheets.Add(After=wb.Worksheets(wb.Worksheets.Count))
+                new_sheet.Name = category
+            except Exception as e:
+                print(f"Error creating sheet {category}: {e}")
+                continue
+            
+            # Copy headers
             sheet.Range("1:1").Copy(new_sheet.Range("1:1"))
             
-            # Sorter rækker efter item nummer
-            rows_to_copy.sort(key=lambda x: [float(n) if n.replace('.','').isdigit() else n 
-                           for n in x[0].split('.')])
+            # Write data
+            start_row = 2
+            for _, row_data in data.iterrows():
+                try:
+                    for col, value in enumerate(row_data.values, start=1):
+                        new_sheet.Cells(start_row, col).Value = value
+                    start_row += 1
+                except Exception as e:
+                    print(f"Error writing data to sheet {category}: {e}")
+                    continue
             
-            # Kopier rækker i sorteret rækkefølge
-            row_idx = 2
-            for _, _, row_num in rows_to_copy:
-                sheet.Range(f"{row_num}:{row_num}").Copy(
-                    new_sheet.Range(f"{row_idx}:{row_idx}")
-                )
-                row_idx += 1
-            
-            # Formater det nye ark
+            # Format the new sheet
             format_excel_sheet(new_sheet)
+            group_by_parent_items(new_sheet)
+        
+        # 12. Opret mapper
+        progress_window.update_progress(60, "Opretter mapper...")
+        
+        # Create directories for each category
+        categories_with_files = {}
+        for category in df['Category'].unique():
+            if category == "nan":
+                continue
             
-            # Gruppér rækker hvis det er en piping kategori
-            if "Piping" in sheet_name:
-                group_by_parent_items(new_sheet)
+            category_path = os.path.join(dest_folder, category)
+            os.makedirs(category_path, exist_ok=True)
+            categories_with_files[category] = category_path
         
-        # Formater BOM (Raw) arket (uden gruppering)
-        format_excel_sheet(sheet)
+        # 13. Kopier filer efter kategorisering
+        progress_window.update_progress(65, "Kopierer filer efter kategorisering...")
         
-        # Flyt BOM (Raw) forrest
-        sheet.Move(Before=wb.Sheets(1))
+        # Copy files to destination folders
+        for row in range(2, sheet.UsedRange.Rows.Count + 1):
+            part_number = str(sheet.Cells(row, headers["PART NUMBER"]).Value)
+            drawings = str(sheet.Cells(row, headers["DRAWINGS"]).Value)
+            
+            # Find category for this row
+            category = df[df['PART NUMBER'] == part_number]['Category'].iloc[0]
+            
+            if category == "nan":
+                continue
+            
+            # Get destination folder
+            dest_folder_path = categories_with_files.get(category)
+            
+            if not dest_folder_path:
+                print(f"No destination folder found for category: {category}")
+                continue
+            
+            # Copy files
+            if drawings:
+                for drawing in drawings.split(';'):
+                    drawing = drawing.strip()
+                    
+                    # Find the file
+                    source_file = None
+                    for file in files:
+                        if drawing in file:
+                            source_file = file
+                            break
+                    
+                    if source_file:
+                        try:
+                            dest_file = os.path.join(dest_folder_path, os.path.basename(source_file))
+                            shutil.copy2(source_file, dest_file)
+                        except Exception as e:
+                            print(f"Error copying file {source_file} to {dest_file}: {e}")
         
-        # Tjek og korriger formatering af række 2 i alle faner
-        for sheet in wb.Sheets:
-            if sheet.UsedRange.Rows.Count > 1:
-                row2 = sheet.Range("2:2")
-                row2.RowHeight = 91  # Sikrer at højden er 91 pixels
-                row2.Font.Bold = False  # Sikrer at teksten ikke er fed
+        # Flyt A-tegninger fra Other Items til Area Drawings hvis nødvendigt
+        progress_window.update_progress(70, "Kontrollerer for fejlplacerede Area Drawings...")
+        move_area_drawings_from_other_items(dest_path, dest_path)
         
+        # Gem ændringer
         wb.Save()
-        return sheet, headers["DRAWINGS"], dest_path
+        
+        duration = time.time() - start_time
+        progress_window.close()
+        show_success_message(f"BOM processing complete!\nFiles saved in {dest_path}\nTime taken: {duration:.2f} seconds")
         
     except Exception as e:
-        # Luk Excel helt ned ved fejl
-        if excel:
-            try:
-                excel.Quit()
-            except:
-                pass
-        raise e
-    
+        if progress_window:
+            progress_window.close()
+        messagebox.showerror("Error", str(e))
+        raise
     finally:
-        # Sikr at Excel lukkes ordenligt
         if wb:
             try:
                 wb.Close(SaveChanges=False)
@@ -1144,11 +1175,11 @@ def process_excel_in_order(file_path, progress_window, files):
                 pass
         if excel:
             try:
-                excel.Application.Quit()
+                excel.Quit()
             except:
                 pass
-            finally:
-                excel = None
+    
+    return dest_path
 
 def format_excel_sheet(sheet):
     """Formaterer et Excel ark med de specificerede indstillinger."""
@@ -1200,6 +1231,42 @@ def group_by_parent_items(sheet):
     if last_row <= 1:
         return
     
+    # Sorter rækker først baseret på item number
+    data = []
+    for row in range(2, last_row + 1):
+        item_number = str(sheet.Cells(row, 1).Value)
+        if item_number:
+            # Split item number i dele og konverter til numeriske værdier hvor muligt
+            parts = []
+            for part in str(item_number).split('.'):
+                try:
+                    # Fjern eventuelle mellemrum og konverter til numerisk værdi
+                    cleaned_part = part.strip()
+                    if cleaned_part.isdigit():
+                        parts.append(int(cleaned_part))
+                    else:
+                        parts.append(cleaned_part)
+                except (ValueError, TypeError):
+                    parts.append(part)
+            data.append((parts, row, item_number))
+    
+    # Sorter data baseret på de konverterede item numbers
+    def sort_key(x):
+        return [str(p) if isinstance(p, str) else format(p, '05d') for p in x[0]]
+    
+    data.sort(key=sort_key)
+    
+    # Flyt rækker til deres nye positioner
+    if data:
+        temp_sheet = sheet.Parent.Worksheets.Add()
+        for i, (_, old_row, _) in enumerate(data, start=2):
+            sheet.Range(f"{old_row}:{old_row}").Copy(temp_sheet.Range(f"{i}:{i}"))
+        
+        for i, (_, _, _) in enumerate(data, start=2):
+            temp_sheet.Range(f"{i}:{i}").Copy(sheet.Range(f"{i}:{i}"))
+        
+        temp_sheet.Delete()
+    
     # Opbyg hierarkisk struktur
     hierarchy = {}  # item_number -> [start_row, end_row, level]
     current_items = {}  # level -> item_number
@@ -1246,8 +1313,8 @@ def group_by_parent_items(sheet):
                     # Opdater parent's end_row hvis nødvendigt
                     hierarchy[item_number][1] = max(hierarchy[item_number][1], group_end)
     
-    # Vis alle niveauer som standard
-    sheet.Outline.ShowLevels(RowLevels=max_level)
+    # Collapse alle grupper som standard
+    sheet.Outline.ShowLevels(RowLevels=1)
 
 def move_area_drawings_from_other_items(excel_copy_path, dest_path):
     """Flytter A-tegninger fra Other Items til Area Drawings."""
@@ -1301,7 +1368,6 @@ def move_area_drawings_from_other_items(excel_copy_path, dest_path):
         other_items_sheet = None
         area_drawings_sheet = None
         raw_sheet = None
-        drawing_status = None  # Initialiser drawing_status variablen
         
         for sheet in wb.Sheets:
             if sheet.Name == "Other Items":
@@ -1323,7 +1389,7 @@ def move_area_drawings_from_other_items(excel_copy_path, dest_path):
         # Find rækker der skal flyttes
         rows_to_move = []
         for row in range(2, other_items_sheet.UsedRange.Rows.Count + 1):
-            part_number = str(other_items_sheet.Cells(row, 2).Value)
+            part_number = str(other_items_sheet.Cells(row, 2).Value)  # Kolonne B (Part Number)
             if part_number.startswith(pattern):
                 rows_to_move.append(row)
         
@@ -1364,7 +1430,7 @@ def move_area_drawings_from_other_items(excel_copy_path, dest_path):
                 raw_sheet.Cells(2, col).Value = value
         
         # Opdater drawing status for den indskudte række i BOM (Raw)
-        if matching_files and drawing_status:  # Tjek at både matching_files og drawing_status er sat
+        if matching_files:
             drawings_col = None
             for i in range(1, raw_sheet.UsedRange.Columns.Count + 1):
                 if str(raw_sheet.Cells(1, i).Value).strip().upper() == "DRAWINGS":
@@ -1378,7 +1444,7 @@ def move_area_drawings_from_other_items(excel_copy_path, dest_path):
         # Opdater BOM (Raw) fanen
         raw_rows_to_move = []
         for row in range(3, raw_sheet.UsedRange.Rows.Count + 1):  # Start fra række 3
-            part_number = str(raw_sheet.Cells(row, 2).Value)
+            part_number = str(raw_sheet.Cells(row, 2).Value)  # Kolonne B (Part Number)
             if part_number.startswith(pattern):
                 raw_rows_to_move.append(row)
         
@@ -1418,96 +1484,108 @@ def move_area_drawings_from_other_items(excel_copy_path, dest_path):
 
 def main():
     """Hovedfunktion der håndterer programflow og fejlhåndtering."""
-    start_time = time.time()
+    # Gem original stdout
+    original_stdout = sys.stdout
+    debug_file = None
     
     try:
+        # Opsæt debug logging
+        debug_path = os.path.join(os.path.dirname(__file__), "debug.txt")
+        debug_file = open(debug_path, 'w', encoding='utf-8')
+        sys.stdout = debug_file
+        
+        print("=== Program Start ===")
+        print(f"Debug fil oprettet: {debug_path}")
+        start_time = time.time()
+        
         # Initialiser COM
         pythoncom.CoInitialize()
+        print("COM initialiseret")
         
         # Opret root vindue
         root = Tk()
         root.withdraw()
+        print("Tkinter root vindue oprettet")
         
         # Initialiser kategorier
         initialize_categories()
+        print("Kategorier initialiseret")
         
         # Vælg Excel fil
-    file_path = choose_file()
+        file_path = choose_file()
         if not file_path:
+            print("Ingen fil valgt - afslutter")
             return
+        print(f"Valgt fil: {file_path}")
         
         # Opret progress window
         progress_window = ProgressWindow()
+        print("Progress window oprettet")
         
         try:
             # Definer netværkssti
-            network_path = r'\\192.168.170.18\Drawings'
-            #network_path = r'C:\Coding\Python\ExcelCopyBOM\Files'
-            progress_window.update_progress(5, "Tjekker netværksforbindelse...")
+            network_path = r'C:\Coding\Python\ExcelCopyBOM\Files'
+            print(f"Netværkssti: {network_path}")
             
+            progress_window.update_progress(5, "Tjekker netværksforbindelse...")
             if not check_network_path(network_path):
+                print(f"Kunne ikke få adgang til netværkssti: {network_path}")
                 progress_window.close()
                 messagebox.showerror(
                     "Netværksfejl",
                     f"Kan ikke få adgang til:\n{network_path}\n\nProgrammet afsluttes."
                 )
                 return
-            
+            print("Netværksforbindelse OK")
+
             # Scan efter filer
             progress_window.update_progress(10, "Scanner efter PDF og DWG filer...")
             files = scan_directory_concurrent(network_path)
+            print(f"Fandt {len(files)} filer")
             
             if not files:
+                print("Ingen filer fundet")
                 progress_window.close()
                 messagebox.showwarning(
                     "Advarsel",
                     f"Ingen PDF eller DWG filer blev fundet i mappen:\n{network_path}"
                 )
                 return
-            
-            # Behandl Excel fil i den specificerede rækkefølge
-            sheet, drawings_col, excel_copy_path = process_excel_in_order(file_path, progress_window, files)
-            
-            # Brug stien fra den kopierede Excel fil
-            dest_path = os.path.dirname(excel_copy_path)
-            
-            # Kategoriser data og kopier filer
-            progress_window.update_progress(90, "Kopierer filer...")
-            categorized_data = categorize_data(pd.read_excel(excel_copy_path), excel_copy_path)
-            categories_with_files = {
-                cat: data for cat, data in categorized_data.items()
-                if has_drawings_for_category(data, files)
-            }
-            
-            copy_files_to_destination(dest_path, files, os.path.splitext(os.path.basename(excel_copy_path))[0], categories_with_files)
-            
-            # Flyt A-tegninger fra Other Items til Area Drawings hvis nødvendigt
-            progress_window.update_progress(95, "Kontrollerer for fejlplacerede Area Drawings...")
-            move_area_drawings_from_other_items(excel_copy_path, dest_path)
-            
-            # Luk progress window før success message
-            progress_window.close()
-    
-    duration = time.time() - start_time
-            show_success_message(f"BOM processing complete!\nFiles saved in {dest_path}\nTime taken: {duration:.2f} seconds")
+
+            # Behandl Excel fil
+            print("Starter Excel behandling")
+            dest_path = process_excel_in_order(file_path, progress_window, files)
+            print(f"Excel behandling afsluttet. Resultat gemt i: {dest_path}")
             
         except Exception as e:
+            print(f"Fejl under filbehandling: {str(e)}")
             if progress_window:
                 progress_window.close()
             messagebox.showerror("Error", str(e))
         finally:
-            if 'root' in locals():
-                root.destroy()
+            if 'progress_window' in locals():
+                progress_window.close()
     
     except Exception as e:
+        if debug_file:
+            print(f"Kritisk fejl: {str(e)}")
         messagebox.showerror("Error", str(e))
     finally:
+        # Luk vinduer og frigiv ressourcer
+        if 'root' in locals():
+            root.destroy()
         pythoncom.CoUninitialize()
+        
+        # Log afslutning og varighed
+        if debug_file:
+            duration = time.time() - start_time
+            print(f"\n=== Program Afsluttet ===")
+            print(f"Varighed: {duration:.2f} sekunder")
+        
+        # Gendan original stdout og luk debug fil
+        sys.stdout = original_stdout
+        if debug_file:
+            debug_file.close()
 
 if __name__ == "__main__":
-    try:
     main()
-    finally:
-        # Luk debug fil
-        sys.stdout.close()
-        sys.stdout = sys.__stdout__

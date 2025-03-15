@@ -1,0 +1,76 @@
+Rækkefølgen jeg gerne vil have du følger.
+1. åbn Excel kilde filen (Husk kildefilen må ikke ændres)
+2. Identificere beskrivelser i første række og returnere kolonne nummer for 
+Item, Part Number, Rev, BOM Structure, QTY, og den sidste kolonne der er skrevet i så du ved det til når du skal indsætte "Drawings" kolonnen.
+3. Indskyd en linje i 2. række med Item=0, Part number=De første 3 grupper mellem - af kilde excel filen, Rev=- det bliver ændret senere i koden, BOM Structure=Inseparable, QTY=1. 
+4. søg under "BOM Structure" kolonnen efter rækker der indeholder værdien "Inseparable". Hvis du finder en skal du fjerne alle children efter "Item" levels.
+5. Kør revNum funktionen få vi har styr på revisionerne, tjek også her om der er nogle af part number som indeholder et revisionsbogstav.
+6. kør Total QTY. funktionen så vi har styr på det korrekte antal.
+7. Tjek at der er adgang til netværk
+8. kør funktionen hvor du scanner netværksplaceringen efter de filer og opdatere den excel kopi med BOM (Raw) og alle de andre faner som den nu finder ved Categories.txt og indsæt Drawings kolonnen efter sidste kolonne husk vi har indsat Total QTY kolonnen. 
+Ved kategorier skal du lave en funktion (Piping) når støder på f.eks. *-*-BM=Biomass Piping altså BM også tage alle de levels der er under med over på fanen for Biomass piping. Alle disse under item skal så ikke kopieres over på deres egen kategori. f.eks. hvis der indgår en 0000-701 i BM så skal den på BM fanen og ikke på en Fittings fane. se forslag til Piping funktion herunder.
+9. kopiere alle filer til de respektive mapper.
+
+Forslag til Piping funktionen som er skrevet i visual basic men fungere i excel.
+Sub subGroupTest()
+    Dim sRng As Range, eRng As Range
+    Dim groupMap() As Variant
+    Dim subGrp As Integer, i As Integer, j As Integer
+    Dim startRow As Range, lastRow As Range
+    Dim startGrp As Range, lastGrp As Range
+
+    ReDim groupMap(1 To 2, 1 To 1)
+    subGrp = 0
+    i = 0
+    Set startRow = Range("A1")
+
+    ' Create a map of the groups with their cell addresses and an index of the lowest subgrouping
+    Do While (startRow.Offset(i).Value <> "")
+        groupMap(1, i + 1) = startRow.Offset(i).Address
+        groupMap(2, i + 1) = UBound(Split(startRow.Offset(i).Value, "."))
+        If subGrp < groupMap(2, i + 1) Then subGrp = groupMap(2, i + 1)
+        ReDim Preserve groupMap(1 To 2, 1 To (i + 2))
+
+        Set lastRow = Range(groupMap(1, i + 1))
+        i = i + 1
+    Loop
+
+    ' Destroy already existing groups, otherwise we get errors
+    On Error Resume Next
+    For k = 1 To 10
+        Rows(startRow.Row & ":" & lastRow.Row).EntireRow.Ungroup
+    Next k
+    On Error GoTo 0
+
+    ' Create the groups
+    ' We do them by levels in descending order, ie. all groups with an index of 3 are grouped individually before we move to index 2
+    Do While (subGrp > 0)
+        For j = LBound(groupMap, 2) To UBound(groupMap, 2)
+            If groupMap(2, j) >= CStr(subGrp) Then
+            ' If current value in the map matches the current group index
+
+                ' Update group range references
+                If startGrp Is Nothing Then
+                    Set startGrp = Range(groupMap(1, j))
+                End If
+                Set lastGrp = Range(groupMap(1, j))
+            Else
+                ' If/when we reach this loop, it means we've reached the end of a subgroup
+
+                ' Create the group we found in the previous loops
+                If Not startGrp Is Nothing And Not lastGrp Is Nothing Then Range(startGrp, lastGrp).EntireRow.Group
+
+                ' Then, reset the group ranges so they're ready for the next group we encounter
+                If Not startGrp Is Nothing Then Set startGrp = Nothing
+                If Not lastGrp Is Nothing Then Set lastGrp = Nothing
+            End If
+        Next j
+
+        ' Decrement the index
+        subGrp = subGrp - 1
+    Loop
+End Sub
+
+
+Du skal selvfølgelig genbruge kode hvor det giver mening ellers er det vigtige at rækkefølgen bliver fulgt. sig til hvis det konflikter det jeg har skrevet.
+
