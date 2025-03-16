@@ -1,0 +1,61 @@
+TRIN 1: GUI opstart
+- GUI vinduet skal poppe op øverst, men må gerne blive overlappet af andre vinduer.
+- Browse felt "Open Excel BOM List"
+- Browse felt "Previous Drawing Package BOM List"
+- Check box for inkludering af Equipment, Valve, Instrument
+- Check box for Find "REV" filer før dato. (mulighed for at vælge dato)
+- Check box for Include Data Sheet (denne mulighed er falsk hvis Check box for inkludering af Equipment, Valve, Instrument er falsk)
+- Start knap nederst.
+- Under kodens afvikling skal der være en processbar med beskrivelser af handlinger på engelsk
+- Efter kondes afvikling skal der komme en "OK" boks med log-data som brugeren kan vælge at gemme som txt fil i distinatiosmappen. Efter man har klikket på OK lukker boksen og programmet med at åbne stien til den nye kopieret mappe.
+
+TRIN 2: Data Indlæsning og Validering
+- Indlæs Excel BOM filen. Ud fra filnavnet kan udtrækkes de første 4 cifre som er "Part Number"-"Area Number" Eller "Basic Equipment"-"Arrangement Drawing" Eller "Basic Equipment Drawing"-"REV"  (se "Part Number Mønster")
+- Kildefil må ikke ændres
+- Opret Fane 1 "Bom (Raw)"
+- Identificere Kolonnenumre ud fra 1.række celleværdier (Item, Part Number, REV, BOM Structure, Description, QTY, D, t, L)
+- Indskyd en linje i række 2 med følgende værdier. "Item"= 0, "Part Number"=Udtræk fra filnavn, REV=Udtræk fra filnavn, "BOM Structure"=Inseparable, "Description"="Arrangement Drawing" Eller "Basic Equipment Drawing", "QTY"=1, "D"=1, "t"=1, "L"=1 
+- Find "Part Number" kolonnen. Hvis Check box i TRIN 1 er falsk, så skal alle rækker der starter med 0000-700, 0000-701, 0000-702 slettes. Hvis der er rækker som her kun består af bogstaver, så skal der poppe et tkinter vindue op med de rækker og brugeren skal promptes om man vil slette disse rækker.
+- Find "Item" kolonnen og indeksere alle rækker ud fra parent/child hierarkiet (Multi-Level Numbering System,Tree Structure)
+- Find "BOM Structure" kolonnen. Hvis en række er "Inseparable" eller ”Part Number” starter med 0000-3 skal alle child til den parent slettes. Hvis en række er "Phantom" skal denne række slettes.
+- Find "Part Number" og "REV" kolonnen og hvis der indgår et revisionsnummer i "Part Number" skal det flyttes til "REV" Kolonnen efter extract_revision_from_partnumber funktionen
+- Find "QTY" kolonnen og indsæt en ny kolonne efter "Total QTY" hvor man ganger "QTY" tal med"QTY" i parent
+- Find seneste "REV" med revNew eller hvis Find "REV" filer før dato er true så skal du finde seneste "REV" før den dato. Erstat alle "REV" værdier efter søgning
+- Indsæt ny kolonne efter sidst brugte kolonne og navngiv den "Drawing" i 1.række. Indsæt her værdi efter "has_pdf" og "has_dwg" funktionen.
+
+TRIN 3: Kategorisere "Part number"
+- Kopiere række 1 fra Fane 1 til række 1 i fane 2
+- Kategorisere "Part number" 
+- Opret Faner og mapper udfra Kategorier som er fundet. Kopiere række 1 fra Fane 1 til række 1 i alle faner.
+- Sortere Faner efter Alfabetisk rækkefølge
+- Hver "Part Number" må kun flyttes en gang til en anden fane. Her er priorteringen (Basic Component, Piping kategori, Area Drawings, Tank Drawings, 
+- Hvis det er en Piping kategori skal alle rækker grupperes parent/child hierarkiet. Collapse alle rækker.
+
+TRIN 4: Oprettelse Partlist
+- Fane 2 "Partlist"
+- Kopiere række 1 fra Fane 1 til række 1 undtagen "Item"
+- Find alle "Part Number" og "REV" der er ens og læg dem sammen i QTY
+- Indsæt dem i Fane 2 med kolonner fra Fane 1 undtaget Item
+- Sorter "Part Number" efter nummerisk rækkefølge
+
+TRIN 5: Kopiere filer
+- Kopiere filer til den korrekte kategori mappe
+- Hvis koden finder DWG og PDF med forskellige REV så føj det til Log-data. 
+
+TRIN 6: Compare
+- Hvis brugeren har valgt en "Previous Drawing Package BOM List" så skal der tilføjes en ny Fane (Compare OLD"REV"-NEW"REV") først ellers skal Compare trinet ikke køres.
+- Kør alle Trin 2 til og med 4
+- Sammenlig alle rækker i fanen "Partlist" under NEW="Open Excel BOM List" og OLD="Previous Drawing Package BOM List"
+- Kopiere række fra NEW hvis en række har et større "REV" bogstav og indsæt rækken i NEW Compare fanen
+- Kopiere række fra OLD hvis en række mangler i NEW og indsæt rækken i NEW Compare fanen
+- Kopiere række fra NEW hvis en række har en ændret celleværdi. i den celleværdi som er ændret skal celleværdien fra OLD indsættes i parantes efter den nye celleværdi. 
+- Hvis rækken er ny så giv rækken en lysegrøn baggrundsfarve og Fed tekst.
+- Hvis en værdi i rækken er ændret så giv rækken en lysegul baggrundsfarve og Fed tekst til den der er ændre celle
+- Hvis rækken er fjernet så indsæt indsæt den fjernet række med lyserød baggrundsfarve
+- Kopiere kun ændret og nye filer til den korrekte kategori mappe.
+
+
+
+
+
+

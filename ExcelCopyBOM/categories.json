@@ -1,0 +1,258 @@
+{
+    "categories": {
+        "0000": {
+            "name": "Basic Components",
+            "patterns": [
+                {
+                    "group2": "^3[0-9]{2}$",
+                    "group3": "^[0-9]{1,4}$",
+                    "category": "Basic Components"
+                },
+                {
+                    "group2": "^7[0-9]{2}$",
+                    "group3": "^[0-9]{1,4}$",
+                    "category": "Suppliers Parts"
+                }
+            ]
+        },
+        "project_numbers": {
+            "name": "Project Specific",
+            "range": {
+                "start": 2000,
+                "end": 9999
+            },
+            "patterns": [
+                {
+                    "group2": "^[A-Za-z0-9]{2,4}$",
+                    "category": "Area Drawings"
+                },
+                {
+                    "group2": "^3[0-9]{2}$",
+                    "category": "Basic Components"
+                },
+                {
+                    "group2": "^610$",
+                    "category": "Buildings"
+                },
+                {
+                    "group2": "^611$",
+                    "category": "Cyclon"
+                },
+                {
+                    "group2": "^612$",
+                    "category": "Receiving Tank"
+                },
+                {
+                    "group2": "^613$",
+                    "category": "Mixing Tank"
+                },
+                {
+                    "group2": "^614$",
+                    "category": "Pasteurisation Tank"
+                },
+                {
+                    "group2": "^615$",
+                    "category": "Primary Digester"
+                },
+                {
+                    "group2": "^616$",
+                    "category": "Gas Storage"
+                },
+                {
+                    "group2": "^617$",
+                    "category": "Decanter"
+                },
+                {
+                    "group2": "^618$",
+                    "category": "Post Digester"
+                },
+                {
+                    "group2": "^619$",
+                    "category": "Storage Tank"
+                },
+                {
+                    "group2": "^620$",
+                    "category": "Pump Container"
+                },
+                {
+                    "group2": "^621$",
+                    "category": "Heat Exchangers"
+                },
+                {
+                    "group2": "^622$",
+                    "category": "Heat Storage"
+                },
+                {
+                    "group2": "^623$",
+                    "category": "Desulphurisation"
+                },
+                {
+                    "group2": "^624$",
+                    "category": "Desulphurisation Container"
+                },
+                {
+                    "group2": "^625$",
+                    "category": "Flare"
+                },
+                {
+                    "group2": "^626$",
+                    "category": "Pre Filter"
+                },
+                {
+                    "group2": "^627$",
+                    "category": "Biofilter"
+                },
+                {
+                    "group2": "^628$",
+                    "category": "Biofilter Container"
+                },
+                {
+                    "group2": "^629$",
+                    "category": "Boiler Container"
+                },
+                {
+                    "group2": "^630$",
+                    "category": "GasMix"
+                },
+                {
+                    "group2": "^631$",
+                    "category": "Condensate Well"
+                },
+                {
+                    "group2": "^632$",
+                    "category": "Gasblowers Gas Container"
+                },
+                {
+                    "group2": "^633$",
+                    "category": "Loading Tank"
+                },
+                {
+                    "group2": "^634$",
+                    "category": "El Container"
+                },
+                {
+                    "group2": "^635$",
+                    "category": "BMR"
+                },
+                {
+                    "group2": "^636$",
+                    "category": "Ferric Chloride Tank"
+                },
+                {
+                    "group2": "^637$",
+                    "category": "Gas Cooler System"
+                },
+                {
+                    "group2": "^638$",
+                    "category": "CHP"
+                },
+                {
+                    "group2": "^639$",
+                    "category": "Chimney"
+                },
+                {
+                    "group2": "^640$",
+                    "category": "Separation Room"
+                },
+                {
+                    "group2": "^641$",
+                    "category": "Weighbridge"
+                },
+                {
+                    "group2": "^642$",
+                    "category": "Trafo"
+                },
+                {
+                    "group2": "^643$",
+                    "category": "Fat Tank"
+                },
+                {
+                    "group2": "^644$",
+                    "category": "Industry Tank"
+                },
+                {
+                    "group2": "^645$",
+                    "category": "Anti Foam Tank"
+                },
+                {
+                    "group2": "^646$",
+                    "category": "Bleaching Earth Tank"
+                },
+                {
+                    "group2": "^647$",
+                    "category": "Drainage Well"
+                },
+                {
+                    "group2": "^648$",
+                    "category": "Water Tank"
+                },
+                {
+                    "group2": "^649$",
+                    "category": "Liquid Tank"
+                },
+                {
+                    "group2": "^650$",
+                    "category": "Active Carbon Filter"
+                },
+                {
+                    "group2": "^651$",
+                    "category": "Dry Well"
+                },
+                {
+                    "group2": "^652$",
+                    "category": "Separation Tank"
+                },
+                {
+                    "group2": "^653$",
+                    "category": "Gas Upgrading"
+                },
+                {
+                    "group2": "^654$",
+                    "category": "Membrane"
+                },
+                {
+                    "group2": "^655$",
+                    "category": "Industry Container"
+                },
+                {
+                    "group2": "^656$",
+                    "category": "Valve Chamber"
+                }
+            ]
+        },
+        "area_drawings": {
+            "group3_patterns": {
+                "^A": "Arrangement Drawing",
+                "^E": "Equipment Drawing",
+                "^[PS]": "Sub Terrain Piping Plan",
+                "^F": "Foundation",
+                "^PS": "Project Specific Parts",
+                "^B": "Building"
+            },
+            "piping_patterns": {
+                "^BM": "Biomass Piping",
+                "^AF": "Anti Foam Piping",
+                "^AA": "Atmospheric Air Piping",
+                "^BG": "Biogas Piping",
+                "^CD": "Cable Ducts",
+                "^CS": "Condensate Piping",
+                "^EL": "Power Cable Piping",
+                "^CO": "Cooling Water Piping",
+                "^EZ": "Enzyme Piping",
+                "^HW": "Hot Water Piping",
+                "^HO": "Hydraulic Oil Piping",
+                "^IC": "Iron Chloride Piping",
+                "^OA": "Odour Piping",
+                "^NT": "Nutrient Piping",
+                "^OG": "Offgas Piping",
+                "^PW": "Potable Water Piping",
+                "^PA": "Pressurized Air Piping",
+                "^RW": "Rain Water Piping"
+            }
+        },
+        "default": {
+            "name": "Other Parts",
+            "category": "Other Parts"
+        }
+    }
+}

@@ -1,0 +1,113 @@
+Gruppe 1;Gruppe 2;Gruppe 3;Kategorier
+2000 - 9999;00;100 - 200;Layout Plans
+2000 - 9999;400;100 - 200;Layout Plans
+2000 - 9999;****;Aоо;Arrengement Drawing
+2000 - 9999;****;Eоо.о;Arrengement Drawing
+2000 - 9999;****;Eоо;Area Equipment Drawing
+2000 - 9999;****;Eоо.о;Area Equipment Drawing
+2000 - 9999;****;Fоо;Area Foundation Drawing
+2000 - 9999;****;Fоо.о;Area Foundation Drawing
+2000 - 9999;****;Pоо;Area Sub Terrain Piping Layout
+2000 - 9999;****;Pоо.о;Area Sub Terrain Piping Layout
+2000 - 9999;****;Sоо;Area Sub Terrain Piping Layout
+2000 - 9999;****;Sоо.о;Area Sub Terrain Piping Layout
+2000 - 9999;****;BMооо;Biomass Piping
+2000 - 9999;****;AFооо;Anti Foam Piping
+2000 - 9999;****;AAооо;Atmospheric Air Piping
+2000 - 9999;****;BGооо;Biogas Piping
+2000 - 9999;****;CDооо;Cable Ducts
+2000 - 9999;****;CSооо;Condensate Piping
+2000 - 9999;****;ELооо;Power Cable Piping
+2000 - 9999;****;COооо;Cooling Water Piping
+2000 - 9999;****;EZооо;Enzyme Piping
+2000 - 9999;****;HWооо;Hot Water Piping
+2000 - 9999;****;HOооо;Hydraulic Oil Piping
+2000 - 9999;****;ICооо;Iron Chloride Piping
+2000 - 9999;****;OAооо;Odour Piping
+2000 - 9999;****;NTооо;Nutrient Piping
+2000 - 9999;****;OGооо;Offgas Piping
+2000 - 9999;****;PWооо;Potable Water Piping
+2000 - 9999;****;PAооо;Pressurized Air Piping
+2000 - 9999;****;RWооо;Rain Water Piping
+2000 - 9999;****;SLооо;Sulphurous liquid Piping
+2000 - 9999;****;TDооо;Technical Drainage Piping
+2000 - 9999;****;TWооо;Technical Water Piping
+****;610;;Buildings (e.g. Receiving Hall, Digester pump room)
+****;611;;Cyclon
+****;612;;Receiving tank
+****;613;;Mixing tank
+****;614;;Pasteurisation tank
+****;615;;Primary Digester
+****;616;;Gas Storage
+****;617;;Decanter
+****;618;;Post digester
+****;619;;Storage Tank
+****;620;;Pump-container
+****;621;;Heat-Exchangers
+****;622;;Heat storage
+****;623;;Desulphurisation
+****;624;;Desulphurisation-container
+****;625;;Flare
+****;626;;Pre-filter
+****;627;;Biofilter
+****;628;;Biofilter-container
+****;629;;Boiler-container
+****;630;;GasMix
+****;631;;Condensate well
+****;632;;Gasblowers / Gascontainer
+****;633;;Loading tank
+****;634;;El-container
+****;635;;BMR
+****;636;;Ferric Chloride tank
+****;637;;Gas Cooler System
+****;638;;CHP
+****;639;;Chimney
+****;640;;Separation room
+****;641;;Weighbridge
+****;642;;Trafo
+****;643;;Fat tank
+****;644;;Industry tank
+****;645;;Anti-Foam Tank
+****;646;;Bleaching earth tank
+****;647;;Drainage well
+****;648;;Water Tank
+****;649;;Liquid tank
+****;650;;Active Carbon Filter
+****;651;;Dry well
+****;652;;Separation Tank
+****;653;;Gas Upgrading
+****;654;;Membrane
+****;655;;Industry Container
+****;656;;Valve Chamber
+0000;703;;Fittings
+0000;710;;PE Piping
+0000;715;;Press Fittings
+0000;720;;Logstor Piping
+0000;754;;Hilti
+0000;301;;Basic Components
+0000;304;;Basic Components
+0000;305;;Basic Components
+0000;306;;Basic Components
+0000;307;;Basic Components
+0000;310;;Basic Components
+0000;311;;Basic Components
+0000;312;;Basic Components
+0000;314;;Agitator
+0000;315;;Center Flange
+0000;316;;Heat-Exchangers
+0000;321;;Basic Components
+0000;322;;Basic Components
+0000;323;;Basic Components
+0000;324;;Basic Components
+0000;325;;Basic Components
+0000;326;;Basic Components
+0000;341;;Pipe Holders
+0000;342;;Pipe Holders
+0000;343;;Pipe Holders
+0000;344;;Basic Components
+0000;345;;Basic Components
+0000;353;;Hatches
+0000;354;;PE Components
+0000;355;;Basic Components
+0000;360;;Pump Pulsation Dampener
+0000;361;;Condensate Tank

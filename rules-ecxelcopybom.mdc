@@ -1,0 +1,68 @@
+# ExcelCopyBOM Regler
+
+## GUI Opstart
+- GUI vinduet skal være øverst men må overlappes
+- Skal indeholde:
+  - Browse felt "Open Excel BOM List"
+  - Browse felt "Previous Drawing Package BOM List"
+  - Check box for Equipment, Valve, Instrument
+  - Check box for Find "REV" filer før dato
+  - Check box for Include Data Sheet
+  - Start knap nederst
+  - Processbar med engelske beskrivelser
+  - OK boks med log-data efter færdig
+
+## Data Indlæsning og Validering
+- Indlæs Excel BOM filen
+- Udtræk første 4 cifre fra filnavnet (Part Number-Area Number eller Basic Equipment-Arrangement Drawing)
+- Opret Fane 1 "Bom (Raw)"
+- Identificer kolonner: Item, Part Number, REV, BOM Structure, Description, QTY, D, t, L
+- Indskyd linje i række 2 med:
+  - Item = 0
+  - Part Number = Udtræk fra filnavn
+  - REV = Udtræk fra filnavn
+  - BOM Structure = Inseparable
+  - Description = "Arrangement Drawing" eller "Basic Equipment Drawing"
+  - QTY = 1
+  - D = 1
+  - t = 1
+  - L = 1
+- Håndter sletning af rækker baseret på check box valg
+- Indekser rækker ud fra parent/child hierarkiet
+- Håndter "Inseparable" og "Phantom" rækker
+- Flyt revisionsnumre fra Part Number til REV kolonnen
+- Beregn Total QTY
+- Find seneste REV
+- Tilføj Drawing kolonne
+
+## Kategorisering
+- Kopier række 1 fra Fane 1 til række 1 i fane 2
+- Kategoriser "Part number"
+- Opret faner og mapper udfra fundne kategorier
+- Sorter faner alfabetisk
+- Hver "Part Number" må kun flyttes én gang
+- Prioritering: Basic Component, Piping kategori, Area Drawings, Tank Drawings
+- Gruppér parent/child hierarkiet for Piping kategorier
+
+## Partlist Oprettelse
+- Fane 2 "Partlist"
+- Kopier række 1 fra Fane 1 (undtagen "Item")
+- Find ens "Part Number" og "REV" og læg QTY sammen
+- Sorter "Part Number" nummerisk
+
+## Fil Kopiering
+- Kopier filer til korrekte kategori mapper
+- Log forskelle i REV mellem DWG og PDF
+
+## Compare (Hvis Previous Drawing Package BOM List er valgt)
+- Tilføj ny fane "Compare OLD"REV"-NEW"REV""
+- Kør Trin 2-4 på Previous Drawing Package
+- Sammenlign rækker mellem NEW og OLD
+- Kopier rækker med større REV bogstav
+- Kopier manglende rækker fra OLD
+- Kopier ændrede rækker med gamle værdier i parentes
+- Farvmarker:
+  - Nye rækker: Lysegrøn baggrund, fed tekst
+  - Ændrede værdier: Lysegul baggrund, fed tekst
+  - Fjernede rækker: Lyserød baggrund
+- Kopier kun ændrede og nye filer 

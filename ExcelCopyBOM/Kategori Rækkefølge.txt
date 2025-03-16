@@ -1,0 +1,139 @@
+"Part Number Mønster"
+Et Part Number kan bestå af mange grupper afskilt af en bindestreg -
+Første gruppe (1) består altid af 4 Alfanumeriske tegn. 
+"0000" =  Suppliers Parts eller Basic Components
+"2000" til "9999" = Projekt numre
+"****" = Sales (Hvis de 2 eller 4 første tegn er bogstaver f.eks. "DK83")
+Næste gruppe (2) består af følgende. 2 eller 4 alfanumerisk tegn så er det lig med "Area Drawings", hvis det indeholder 3 tal og det starter med 3 så er det "Basic Components" hvis det indeholder 3 tal og det starter med 6 så er det "Basic Equipment"
+Næste gruppe (3) består af op til 4 Alfanumeriske tegn: 
+	Hvis første gruppe (1) er "0000" og næste gruppe starter med 3 så er det "Basic Components"
+	Hvis første gruppe (1) er "0000" og næste gruppe starter med 7 så er det "Suppliers Parts"
+	Hvis de første grupper (1), (2) er "Basic Equipment" og denne gruppe starter med "et" bogstav så er det en "Basic Equipment	Drawing"
+	Hvis de første grupper (1), (2) er "Area Drawings" og denne gruppe starter med et "A"=Arrangement Drawing, "E"=Equipment Drawing, "P" eller "S"=Sub Terrain Piping Plan, "F" Foundation, "PS"= Project Specific Parts, "B"=Building.
+	Hvis de første grupper (1), (2) er "Area Drawings" og denne gruppe starter med et BM=Biomass Piping, AF=Anti Foam Piping, AA=Atmospheric Air Piping, BG=Biogas Piping, CD=Cable Ducts, CS=Condensate Piping, EL=Power Cable Piping, CO=Cooling Water Piping, EZ=Enzyme Piping, HW=Hot Water Piping, HO=Hydraulic Oil Piping, IC=Iron Chloride Piping, OA=Odour Piping, NT=Nutrient Piping, OG=Offgas Piping, PW=Potable Water Piping, PA=Pressurized Air Piping, RW=Rain Water Piping, SL=Sulphurous liquid Piping, TD=Technical Drainage Piping, TW=Technical Water Piping
+De næste grupper der kommer er all sekventielle løbenumre og der kan være flere grupper med løbenumre.
+Alle "Part Number" som ikke passer ind i ovenstående skal i "Other Parts"
+
+Jeg har skrever alle kategorierne op i Kategorier.csv
+
+Jeg har brugt disse symboler for tal, Alfanumeriske og Bogstav
+¤=Tal
+*=Alfanumerisk
+
+når der står 2000 - 9999 er det et tal i mellem 2000 og 9999. 100 - 200 betyder et tal i mellem 100 og 200
+¤¤¤¤ betyder 4 tal
+**** betyder tal, bogstaver eller symboler.
+
+Gruppe 1	Gruppe 2	Gruppe 3	Kategorier	
+2000 - 9999	00	100 - 200	Layout Plans	
+2000 - 9999	400	100 - 200	Layout Plans	
+2000 - 9999	****	A¤¤	Arrengement Drawing	
+2000 - 9999	****	E¤¤.¤	Arrengement Drawing	
+2000 - 9999	****	E¤¤	Area Equipment Drawing	
+2000 - 9999	****	E¤¤.¤	Area Equipment Drawing	
+2000 - 9999	****	F¤¤	Area Foundation Drawing	
+2000 - 9999	****	F¤¤.¤	Area Foundation Drawing	
+2000 - 9999	****	P¤¤	Area Sub Terrain Piping Layout	
+2000 - 9999	****	P¤¤.¤	Area Sub Terrain Piping Layout	
+2000 - 9999	****	S¤¤	Area Sub Terrain Piping Layout	
+2000 - 9999	****	S¤¤.¤	Area Sub Terrain Piping Layout	
+2000 - 9999	****	BM¤¤¤	Biomass Piping	
+2000 - 9999	****	AF¤¤¤	Anti Foam Piping	
+2000 - 9999	****	AA¤¤¤	Atmospheric Air Piping	
+2000 - 9999	****	BG¤¤¤	Biogas Piping	
+2000 - 9999	****	CD¤¤¤	Cable Ducts	
+2000 - 9999	****	CS¤¤¤	Condensate Piping	
+2000 - 9999	****	EL¤¤¤	Power Cable Piping	
+2000 - 9999	****	CO¤¤¤	Cooling Water Piping	
+2000 - 9999	****	EZ¤¤¤	Enzyme Piping	
+2000 - 9999	****	HW¤¤¤	Hot Water Piping	
+2000 - 9999	****	HO¤¤¤	Hydraulic Oil Piping	
+2000 - 9999	****	IC¤¤¤	Iron Chloride Piping	
+2000 - 9999	****	OA¤¤¤	Odour Piping	
+2000 - 9999	****	NT¤¤¤	Nutrient Piping	
+2000 - 9999	****	OG¤¤¤	Offgas Piping	
+2000 - 9999	****	PW¤¤¤	Potable Water Piping	
+2000 - 9999	****	PA¤¤¤	Pressurized Air Piping	
+2000 - 9999	****	RW¤¤¤	Rain Water Piping	
+2000 - 9999	****	SL¤¤¤	Sulphurous liquid Piping	
+2000 - 9999	****	TD¤¤¤	Technical Drainage Piping	
+2000 - 9999	****	TW¤¤¤	Technical Water Piping	
+****	610		Buildings (e.g. Receiving Hall, Digester pump room)	
+****	611		Cyclon	
+****	612		Receiving tank	
+****	613		Mixing tank	
+****	614		Pasteurisation tank	
+****	615		Primary Digester	
+****	616		Gas Storage	
+****	617		Decanter	
+****	618		Post digester	
+****	619		Storage Tank	
+****	620		Pump-container	
+****	621		Heat-Exchangers	
+****	622		Heat storage	
+****	623		Desulphurisation	
+****	624		Desulphurisation-container	
+****	625		Flare	
+****	626		Pre-filter	
+****	627		Biofilter	
+****	628		Biofilter-container	
+****	629		Boiler-container	
+****	630		GasMix	
+****	631		Condensate well	
+****	632		Gasblowers / Gascontainer	
+****	633		Loading tank	
+****	634		El-container	
+****	635		BMR	
+****	636		Ferric Chloride tank	
+****	637		Gas Cooler System	
+****	638		CHP	
+****	639		Chimney	
+****	640		Separation room	
+****	641		Weighbridge	
+****	642		Trafo	
+****	643		Fat tank	
+****	644		Industry tank	
+****	645		Anti-Foam Tank	
+****	646		Bleaching earth tank	
+****	647		Drainage well	
+****	648		Water Tank	
+****	649		Liquid tank	
+****	650		Active Carbon Filter	
+****	651		Dry well	
+****	652		Separation Tank	
+****	653		Gas Upgrading	
+****	654		Membrane	
+****	655		Industry Container	
+****	656		Valve Chamber	
+0000	703		Fittings	
+0000	710		PE Piping	
+0000	715		Press Fittings	
+0000	720		Logstor Piping	
+0000	754		Hilti	
+0000	301		Basic Components	
+0000	304		Basic Components	
+0000	305		Basic Components	
+0000	306		Basic Components	
+0000	307		Basic Components	
+0000	310		Basic Components	
+0000	311		Basic Components	
+0000	312		Basic Components	
+0000	314		Agitator	
+0000	315		Center Flange	
+0000	316		Heat-Exchangers	
+0000	321		Basic Components	
+0000	322		Basic Components	
+0000	323		Basic Components	
+0000	324		Basic Components	
+0000	325		Basic Components	
+0000	326		Basic Components	
+0000	341		Pipe Holders	
+0000	342		Pipe Holders	
+0000	343		Pipe Holders	
+0000	344		Basic Components	
+0000	345		Basic Components	
+0000	353		Hatches	
+0000	354		PE Components	
+0000	355		Basic Components	
+0000	360		Pump Pulsation Dampener	
+0000	361		Condensate Tank	
