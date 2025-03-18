@@ -1,16 +1,770 @@
-Forsøger at indlæse kategori konfiguration fra: c:\Coding\Python\ExcelCopyBOM\categories.json
-Fil indhold: {
-    "categories": {
-        "0000": {
-            "name": "Basic Components",
-            "patterns": [
-                {
-                    "group2": "^3[0-9]{2}$",
-                    "group3": "...
-JSON indlæst succesfuldt
-Kategorier fundet: ['0000', 'project_numbers', 'area_drawings', 'default']
-JSON struktur valideret succesfuldt
-
-=== KATEGORISERING START ===
-Fejl under kategorisering: (-2146827864, 'OLE error 0x800a01a8', None, None)
-Fejl under behandling: (-2146827864, 'OLE error 0x800a01a8', None, None)
+2025-03-17 10:07:33: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:07:33: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:07:33: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:07:33: Copy path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:07:33: Successfully verified access to source file
+2025-03-17 10:07:33: Copy already exists at: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:07:33: Attempting to delete existing copy (attempt 1/5)
+2025-03-17 10:07:33: Failed to delete existing copy (attempt 1/5)
+Error: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 10:07:34: Attempting to delete existing copy (attempt 2/5)
+2025-03-17 10:07:34: Failed to delete existing copy (attempt 2/5)
+Error: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 10:07:35: Attempting to delete existing copy (attempt 3/5)
+2025-03-17 10:07:35: Failed to delete existing copy (attempt 3/5)
+Error: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 10:07:36: Attempting to delete existing copy (attempt 4/5)
+2025-03-17 10:07:36: Failed to delete existing copy (attempt 4/5)
+Error: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 10:07:37: Attempting to delete existing copy (attempt 5/5)
+2025-03-17 10:07:37: Failed to delete existing copy (attempt 5/5)
+Error: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 10:07:37: ERROR: Max attempts reached trying to delete existing copy
+2025-03-17 10:09:05: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:09:05: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:09:05: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:09:05: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp_1742202545_4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:09:05: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:09:05: Successfully verified access to source file
+2025-03-17 10:09:05: Attempting to copy file to temporary location...
+2025-03-17 10:09:05: File copied successfully to temporary location
+2025-03-17 10:09:06: Attempting to open workbook...
+2025-03-17 10:09:06: Successfully opened workbook
+2025-03-17 10:09:06: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 10:09:06: Extracted revision: 
+2025-03-17 10:09:06: Determined description: Arrangement Drawing
+2025-03-17 10:09:06: Inserting new row...
+2025-03-17 10:09:06: Successfully inserted new row with values
+2025-03-17 10:09:06: Reading data for categorization...
+2025-03-17 10:09:06: Data categorized into 9 categories
+2025-03-17 10:09:06: Creating category sheets...
+2025-03-17 10:09:06: Successfully created all category sheets
+2025-03-17 10:09:06: Closing workbook before save...
+2025-03-17 10:09:07: Reopening workbook for final save...
+2025-03-17 10:09:07: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:09:07: ERROR during workbook processing: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 10:10:24: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:10:24: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:10:24: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:10:24: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp_1742202624_4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:10:24: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01--_rev1742202624.xlsx
+2025-03-17 10:10:25: Attempted to close any running Excel processes
+2025-03-17 10:10:27: Successfully verified access to source file
+2025-03-17 10:10:27: Attempting to copy file to temporary location...
+2025-03-17 10:10:27: File copied successfully to temporary location
+2025-03-17 10:10:28: Attempting to open workbook...
+2025-03-17 10:10:28: Successfully opened workbook
+2025-03-17 10:10:28: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 10:10:28: Extracted revision: 
+2025-03-17 10:10:28: Determined description: Arrangement Drawing
+2025-03-17 10:10:28: Inserting new row...
+2025-03-17 10:10:28: Successfully inserted new row with values
+2025-03-17 10:10:28: Reading data for categorization...
+2025-03-17 10:10:28: Data categorized into 9 categories
+2025-03-17 10:10:28: Creating category sheets...
+2025-03-17 10:10:28: Successfully created all category sheets
+2025-03-17 10:10:28: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01--_rev1742202624.xlsx
+2025-03-17 10:10:28: Attempting to delete temporary file...
+2025-03-17 10:10:28: Warning: Could not delete temporary file: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp_1742202624_4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 10:10:28: Process completed successfully
+2025-03-17 10:11:30: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:11:30: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:11:30: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:11:31: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp_1742202690_4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:11:31: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01--_rev1742202690.xlsx
+2025-03-17 10:11:31: Attempted to close any running Excel processes
+2025-03-17 10:11:33: Successfully verified access to source file
+2025-03-17 10:11:33: Attempting to copy file to temporary location...
+2025-03-17 10:11:33: File copied successfully to temporary location
+2025-03-17 10:11:34: Attempting to open workbook...
+2025-03-17 10:11:34: Successfully opened workbook
+2025-03-17 10:11:34: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 10:11:34: Extracted revision: 
+2025-03-17 10:11:34: Determined description: Arrangement Drawing
+2025-03-17 10:11:34: Inserting new row...
+2025-03-17 10:11:34: Successfully inserted new row with values
+2025-03-17 10:11:34: Reading data for categorization...
+2025-03-17 10:11:34: Data categorized into 9 categories
+2025-03-17 10:11:34: Creating category sheets...
+2025-03-17 10:11:34: Successfully created all category sheets
+2025-03-17 10:11:34: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01--_rev1742202690.xlsx
+2025-03-17 10:11:34: Attempting to delete temporary file...
+2025-03-17 10:11:34: Warning: Could not delete temporary file: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp_1742202690_4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 10:11:34: Process completed successfully
+2025-03-17 10:15:37: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:15:37: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:15:37: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:15:37: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 10:15:37: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01--.xlsx
+2025-03-17 10:15:38: Attempted to close any running Excel processes
+2025-03-17 10:15:40: Successfully verified access to source file
+2025-03-17 10:15:40: Attempting to copy file to temporary location...
+2025-03-17 10:15:40: File copied successfully to temporary location
+2025-03-17 10:15:40: Attempting to open workbook...
+2025-03-17 10:15:40: Successfully opened workbook
+2025-03-17 10:15:40: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 10:15:40: Extracted revision: 
+2025-03-17 10:15:40: Determined description: Arrangement Drawing
+2025-03-17 10:15:40: Inserting new row...
+2025-03-17 10:15:40: Successfully inserted new row with values
+2025-03-17 10:15:40: Reading data for categorization...
+2025-03-17 10:15:40: Data categorized into 9 categories
+2025-03-17 10:15:40: Creating category sheets...
+2025-03-17 10:15:40: Successfully created all category sheets
+2025-03-17 10:15:40: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01--.xlsx
+2025-03-17 10:15:40: Attempting to delete temporary file...
+2025-03-17 10:15:40: Warning: Could not delete temporary file: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 10:15:40: Process completed successfully
+2025-03-17 10:25:23: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:25:23: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:25:23: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 10:25:23: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:25:23: Attempted to close any running Excel processes
+2025-03-17 10:25:25: Successfully verified access to source file
+2025-03-17 10:25:25: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 10:25:25: Attempting to copy file to temporary location...
+2025-03-17 10:25:25: File copied successfully to temporary location
+2025-03-17 10:25:25: Attempting to open workbook...
+2025-03-17 10:25:25: Successfully opened workbook
+2025-03-17 10:25:25: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 10:25:25: Extracted revision: 
+2025-03-17 10:25:25: Determined description: Arrangement Drawing
+2025-03-17 10:25:25: Inserting new row...
+2025-03-17 10:25:25: Successfully inserted new row with values
+2025-03-17 10:25:25: Reading data for categorization...
+2025-03-17 10:25:26: Data categorized into 9 categories
+2025-03-17 10:25:26: Creating category sheets...
+2025-03-17 10:25:26: Successfully created all category sheets
+2025-03-17 10:25:26: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 10:25:26: Attempting to delete temporary file...
+2025-03-17 10:25:26: Warning: Could not delete temporary file: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 10:25:26: Process completed successfully
+2025-03-17 11:07:48: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:07:48: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:07:48: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 11:07:48: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:07:48: Attempted to close any running Excel processes
+2025-03-17 11:07:50: Successfully verified access to source file
+2025-03-17 11:07:50: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:07:50: Attempting to copy file to temporary location...
+2025-03-17 11:07:50: File copied successfully to temporary location
+2025-03-17 11:07:50: Attempting to open workbook...
+2025-03-17 11:07:51: Successfully opened workbook
+2025-03-17 11:07:51: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 11:07:51: Extracted revision: 
+2025-03-17 11:07:51: Determined description: Arrangement Drawing
+2025-03-17 11:07:51: Inserting new row...
+2025-03-17 11:07:51: Successfully inserted new row with values
+2025-03-17 11:07:51: Reading data for categorization...
+2025-03-17 11:07:51: Data categorized into 9 categories
+2025-03-17 11:07:51: Creating category sheets...
+2025-03-17 11:07:51: Successfully created all category sheets
+2025-03-17 11:07:51: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:07:51: Attempting to delete temporary file...
+2025-03-17 11:07:51: Warning: Could not delete temporary file: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 11:07:51: Process completed successfully
+2025-03-17 11:28:38: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:28:38: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:28:38: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:28:38: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 11:28:39: Attempted to close any running Excel processes
+2025-03-17 11:28:41: Successfully verified access to source file
+2025-03-17 11:28:41: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:28:41: Attempting to copy file to temporary location...
+2025-03-17 11:28:41: File copied successfully to temporary location
+2025-03-17 11:28:41: Attempting to open workbook...
+2025-03-17 11:28:41: Successfully opened workbook
+2025-03-17 11:28:41: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 11:28:41: Extracted revision: 
+2025-03-17 11:28:41: Determined description: Arrangement Drawing
+2025-03-17 11:28:41: Inserting new row...
+2025-03-17 11:28:41: Successfully inserted new row with values
+2025-03-17 11:28:41: Reading data for categorization...
+2025-03-17 11:28:41: Data categorized into 9 categories
+2025-03-17 11:28:41: Creating category sheets...
+2025-03-17 11:28:41: Successfully created all category sheets
+2025-03-17 11:28:41: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 11:28:41: Attempting to delete temporary file...
+2025-03-17 11:28:41: Warning: Could not delete temporary file: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 11:28:41: Process completed successfully
+2025-03-17 11:31:18: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:31:18: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:31:18: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:31:18: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 11:31:19: Attempted to close any running Excel processes
+2025-03-17 11:31:21: Successfully verified access to source file
+2025-03-17 11:31:21: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:31:21: Attempting to copy file to temporary location...
+2025-03-17 11:31:21: File copied successfully to temporary location
+2025-03-17 11:31:21: Attempting to open workbook...
+2025-03-17 11:31:21: Successfully opened workbook
+2025-03-17 11:31:21: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 11:31:21: Extracted revision: 
+2025-03-17 11:31:21: Determined description: Arrangement Drawing
+2025-03-17 11:31:21: Inserting new row...
+2025-03-17 11:31:21: Successfully inserted new row with values
+2025-03-17 11:31:21: Reading data for categorization...
+2025-03-17 11:31:21: Data categorized into 9 categories
+2025-03-17 11:31:21: Creating category sheets...
+2025-03-17 11:31:21: Successfully created all category sheets
+2025-03-17 11:31:21: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 11:31:21: Attempting to delete final temp file...
+2025-03-17 11:31:21: Successfully deleted final temp file
+2025-03-17 11:31:21: Process completed successfully
+2025-03-17 11:35:44: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:35:44: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:35:44: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:35:44: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 11:35:45: Attempted to close any running Excel processes
+2025-03-17 11:35:47: Successfully verified access to source file
+2025-03-17 11:35:47: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:35:47: Attempting to copy file to temporary location...
+2025-03-17 11:35:47: File copied successfully to temporary location
+2025-03-17 11:35:47: Attempting to open workbook...
+2025-03-17 11:35:47: Successfully opened workbook
+2025-03-17 11:35:47: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 11:35:47: Extracted revision: 
+2025-03-17 11:35:47: Determined description: Arrangement Drawing
+2025-03-17 11:35:47: Inserting new row...
+2025-03-17 11:35:47: Successfully inserted new row with values
+2025-03-17 11:35:47: Reading data for categorization...
+2025-03-17 11:35:47: Data categorized into 9 categories
+2025-03-17 11:35:47: Creating category sheets...
+2025-03-17 11:35:47: Successfully created all category sheets
+2025-03-17 11:35:47: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 11:35:47: Attempting to delete final temp file...
+2025-03-17 11:35:47: Successfully deleted final temp file
+2025-03-17 11:35:47: Process completed successfully
+2025-03-17 11:54:44: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:54:44: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:54:44: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 11:54:44: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:54:44: Successfully verified access to source file
+2025-03-17 11:54:44: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 11:54:44: Attempting to copy file to temporary location...
+2025-03-17 11:54:44: File copied successfully to temporary location
+2025-03-17 11:54:44: Attempting to open workbook...
+2025-03-17 11:54:44: Successfully opened workbook
+2025-03-17 11:54:44: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 11:54:44: Extracted revision: 
+2025-03-17 11:54:44: Determined description: Arrangement Drawing
+2025-03-17 11:54:44: Inserting new row...
+2025-03-17 11:54:44: Successfully inserted new row with values
+2025-03-17 11:54:44: Reading data for categorization...
+2025-03-17 11:54:44: Data categorized into 9 categories
+2025-03-17 11:54:44: Creating category sheets...
+2025-03-17 11:54:44: Successfully created all category sheets
+2025-03-17 11:54:44: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 11:54:44: Attempting to delete temporary file...
+2025-03-17 11:54:44: Warning: Could not delete temporary file: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 11:54:44: Process completed successfully
+2025-03-17 12:51:42: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 12:51:42: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 12:51:42: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 12:51:42: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 12:51:42: Successfully verified access to source file
+2025-03-17 12:51:42: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 12:51:42: Attempting to copy file to temporary location...
+2025-03-17 12:51:42: ERROR: Failed to copy file to temporary location: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 12:54:25: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 12:54:25: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 12:54:25: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 12:54:25: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 12:54:25: Successfully verified access to source file
+2025-03-17 12:54:25: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 12:54:25: Attempting to copy file to temporary location...
+2025-03-17 12:54:25: File copied successfully to temporary location
+2025-03-17 12:54:25: Attempting to open workbook...
+2025-03-17 12:54:25: Successfully opened workbook
+2025-03-17 12:54:25: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 12:54:25: Extracted revision: 
+2025-03-17 12:54:25: Determined description: Arrangement Drawing
+2025-03-17 12:54:25: Inserting new row...
+2025-03-17 12:54:25: Successfully inserted new row with values
+2025-03-17 12:54:25: Reading data for categorization...
+2025-03-17 12:54:25: Data categorized into 9 categories
+2025-03-17 12:54:25: Creating category sheets...
+2025-03-17 12:54:25: Successfully created all category sheets
+2025-03-17 12:54:25: Closing workbook before save...
+2025-03-17 12:54:25: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 12:54:25: Attempting to delete temporary file...
+2025-03-17 12:54:25: Warning: Could not delete temporary file: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 12:54:25: Process completed successfully
+2025-03-17 13:38:44: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 13:38:44: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 13:38:44: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 13:38:44: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 13:38:44: Successfully verified access to source file
+2025-03-17 13:38:44: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 13:38:44: Warning: Could not delete existing temporary file - it may be locked
+2025-03-17 13:45:53: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 13:45:53: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 13:45:53: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 13:45:53: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 13:45:53: Successfully verified access to source file
+2025-03-17 13:45:53: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 13:45:53: Attempting to copy file to temporary location...
+2025-03-17 13:45:53: ERROR: Failed to copy file to temporary location: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 15:42:49: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:42:49: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:42:49: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:42:49: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:42:49: Successfully verified access to source file
+2025-03-17 15:42:49: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:42:49: Attempting to copy file to temporary location...
+2025-03-17 15:42:49: ERROR: Failed to copy file to temporary location: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 15:43:19: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:43:19: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:43:19: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:43:19: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:43:19: Attempted to close any running Excel processes
+2025-03-17 15:43:21: Successfully verified access to source file
+2025-03-17 15:43:21: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:43:21: Attempting to copy file to temporary location...
+2025-03-17 15:43:21: File copied successfully to temporary location
+2025-03-17 15:43:21: Attempting to open workbook...
+2025-03-17 15:43:21: Successfully opened workbook
+2025-03-17 15:43:21: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 15:43:21: Extracted revision: 
+2025-03-17 15:43:21: Determined description: Arrangement Drawing
+2025-03-17 15:43:21: Inserting new row...
+2025-03-17 15:43:21: Successfully inserted new row with values
+2025-03-17 15:43:21: Reading data for categorization...
+2025-03-17 15:43:21: Data categorized into 9 categories
+2025-03-17 15:43:21: Creating category sheets...
+2025-03-17 15:43:22: Successfully created all category sheets
+2025-03-17 15:43:22: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:43:22: ERROR during workbook processing: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 15:43:46: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:43:46: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:43:46: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:43:46: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:43:46: Attempted to close any running Excel processes
+2025-03-17 15:43:48: Successfully verified access to source file
+2025-03-17 15:43:48: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:43:48: Attempting to copy file to temporary location...
+2025-03-17 15:43:48: File copied successfully to temporary location
+2025-03-17 15:43:48: Attempting to open workbook...
+2025-03-17 15:43:48: Successfully opened workbook
+2025-03-17 15:43:48: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 15:43:48: Extracted revision: 
+2025-03-17 15:43:48: Determined description: Arrangement Drawing
+2025-03-17 15:43:48: Inserting new row...
+2025-03-17 15:43:48: Successfully inserted new row with values
+2025-03-17 15:43:48: Reading data for categorization...
+2025-03-17 15:43:49: Data categorized into 9 categories
+2025-03-17 15:43:49: Creating category sheets...
+2025-03-17 15:43:49: Successfully created all category sheets
+2025-03-17 15:43:49: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:43:49: Attempting to delete final temp file...
+2025-03-17 15:43:49: Successfully deleted final temp file
+2025-03-17 15:43:49: Process completed successfully
+2025-03-17 15:44:24: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:44:24: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:44:24: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:44:24: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:44:25: Attempted to close any running Excel processes
+2025-03-17 15:44:27: Successfully verified access to source file
+2025-03-17 15:44:27: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:44:27: Attempting to copy file to temporary location...
+2025-03-17 15:44:27: ERROR: Failed to copy file to temporary location: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:44:58: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:44:58: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:44:58: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:44:58: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:44:59: Attempted to close any running Excel processes
+2025-03-17 15:45:01: Successfully verified access to source file
+2025-03-17 15:45:01: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:45:01: Attempting to copy file to temporary location...
+2025-03-17 15:45:01: ERROR: Failed to copy file to temporary location: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:47:54: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:47:54: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:47:54: Using path: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:47:54: Attempted to close any running Excel processes
+2025-03-17 15:47:56: Successfully verified access to source file
+2025-03-17 15:47:56: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:47:56: Attempting to copy file to destination...
+2025-03-17 15:47:56: ERROR: Failed to copy file to destination: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:49:47: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:49:47: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:49:47: Using path: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:49:47: Attempted to close any running Excel processes
+2025-03-17 15:49:49: Successfully verified access to source file
+2025-03-17 15:49:49: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:49:49: Attempting to copy file to destination...
+2025-03-17 15:49:49: ERROR: Failed to copy file to destination: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:53:58: Starter process_excel funktion for fil: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:53:58: Destinationsmappe: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:53:58: Mappe eksisterer: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:54:04: Brugeren valgte at slette eksisterende filer
+2025-03-17 15:54:04: ERROR in process_excel: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:54:04: Kunne ikke slette destinationsmappe ved fejl: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:54:54: Starter process_excel funktion for fil: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:54:54: Destinationsmappe: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:54:54: Mappe eksisterer: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:55:00: Brugeren valgte at slette eksisterende filer
+2025-03-17 15:55:00: ERROR in process_excel: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:55:00: Kunne ikke slette destinationsmappe ved fejl: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:55:25: Starter process_excel funktion for fil: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:55:25: Destinationsmappe: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:55:25: Mappe eksisterer: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:55:32: Brugeren valgte at slette eksisterende filer
+2025-03-17 15:55:32: ERROR in process_excel: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:55:32: Kunne ikke slette destinationsmappe ved fejl: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:57:41: Starter process_excel funktion for fil: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:57:41: Destinationsmappe: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:57:41: Mappe eksisterer: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:57:45: Brugeren valgte at slette eksisterende filer
+2025-03-17 15:57:46: Kunne ikke slette eksisterende mappe: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 15:58:10: Starter process_excel funktion for fil: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:58:10: Destinationsmappe: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:58:10: Oprettet destinationsmappe: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:58:10: Temp fil sti: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:58:10: Final fil sti: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:58:10: Kopierer Excel fil...
+2025-03-17 15:58:10: Excel fil kopieret
+2025-03-17 15:58:10: Starter Excel processing...
+2025-03-17 15:58:10: Åbner workbook...
+2025-03-17 15:58:10: Tilføjer part number info...
+2025-03-17 15:58:10: Tilføjer farver...
+2025-03-17 15:58:10: Gemmer fil...
+2025-03-17 15:58:11: Fil gemt
+2025-03-17 15:58:11: Workbook lukket
+2025-03-17 15:58:11: Kunne ikke slette temp fil: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 15:58:12: Kunne stadig ikke slette temp fil: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 15:58:12: Starter kopiering af PDF/DWG filer...
+2025-03-17 15:58:12: ERROR during workbook processing: copy_pdf_dwg_files() missing 1 required positional argument: 'pdf_source'
+2025-03-17 15:58:12: ERROR in process_excel: copy_pdf_dwg_files() missing 1 required positional argument: 'pdf_source'
+2025-03-17 15:58:12: Kunne ikke slette destinationsmappe ved fejl: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 15:59:28: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:59:28: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:59:28: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:59:28: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:59:28: Attempted to close any running Excel processes
+2025-03-17 15:59:30: Successfully verified access to source file
+2025-03-17 15:59:30: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:59:30: Attempting to copy file to temporary location...
+2025-03-17 15:59:30: File copied successfully to temporary location
+2025-03-17 15:59:30: Attempting to open workbook...
+2025-03-17 15:59:30: Successfully opened workbook
+2025-03-17 15:59:30: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 15:59:30: Extracted revision: 
+2025-03-17 15:59:30: Determined description: Arrangement Drawing
+2025-03-17 15:59:30: Inserting new row...
+2025-03-17 15:59:30: Successfully inserted new row with values
+2025-03-17 15:59:30: Reading data for categorization...
+2025-03-17 15:59:30: Data categorized into 9 categories
+2025-03-17 15:59:30: Creating category sheets...
+2025-03-17 15:59:30: Successfully created all category sheets
+2025-03-17 15:59:30: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 15:59:30: ERROR during workbook processing: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 16:00:26: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:00:26: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:00:26: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:00:26: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:00:27: Attempted to close any running Excel processes
+2025-03-17 16:00:29: Successfully verified access to source file
+2025-03-17 16:00:29: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:00:29: Attempting to copy file to temporary location...
+2025-03-17 16:00:29: File copied successfully to temporary location
+2025-03-17 16:00:29: Attempting to open workbook...
+2025-03-17 16:00:29: Successfully opened workbook
+2025-03-17 16:00:29: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 16:00:29: Extracted revision: 
+2025-03-17 16:00:29: Determined description: Arrangement Drawing
+2025-03-17 16:00:29: Inserting new row...
+2025-03-17 16:00:29: Successfully inserted new row with values
+2025-03-17 16:00:29: Reading data for categorization...
+2025-03-17 16:00:29: Data categorized into 9 categories
+2025-03-17 16:00:29: Creating category sheets...
+2025-03-17 16:00:29: Successfully created all category sheets
+2025-03-17 16:00:29: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:00:29: Attempting to delete final temp file...
+2025-03-17 16:00:29: Successfully deleted final temp file
+2025-03-17 16:00:29: Process completed successfully
+2025-03-17 16:03:49: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:03:49: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:03:49: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:03:49: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:03:49: Attempted to close any running Excel processes
+2025-03-17 16:03:51: Successfully verified access to source file
+2025-03-17 16:03:51: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:03:51: Attempting to copy file to temporary location...
+2025-03-17 16:03:51: ERROR: Failed to copy file to temporary location: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 16:04:07: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:04:07: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:04:07: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:04:07: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:04:08: Attempted to close any running Excel processes
+2025-03-17 16:04:10: Successfully verified access to source file
+2025-03-17 16:04:10: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:04:10: Attempting to copy file to temporary location...
+2025-03-17 16:04:10: File copied successfully to temporary location
+2025-03-17 16:04:10: Attempting to open workbook...
+2025-03-17 16:04:10: Successfully opened workbook
+2025-03-17 16:04:10: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 16:04:10: Extracted revision: 
+2025-03-17 16:04:10: Determined description: Arrangement Drawing based on category: Area Drawings
+2025-03-17 16:04:10: Inserting new row...
+2025-03-17 16:04:10: Successfully inserted new row with values
+2025-03-17 16:04:10: Reading data for categorization...
+2025-03-17 16:04:10: Data categorized into 9 categories
+2025-03-17 16:04:10: Creating category sheets...
+2025-03-17 16:04:10: Successfully created all category sheets
+2025-03-17 16:04:10: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:04:10: Attempting to delete final temp file...
+2025-03-17 16:04:10: Successfully deleted final temp file
+2025-03-17 16:04:10: Process completed successfully
+2025-03-17 16:05:22: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:05:22: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:05:22: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:05:22: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:05:22: Attempted to close any running Excel processes
+2025-03-17 16:05:24: Successfully verified access to source file
+2025-03-17 16:05:24: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:05:24: Attempting to copy file to temporary location...
+2025-03-17 16:05:24: File copied successfully to temporary location
+2025-03-17 16:05:24: Attempting to open workbook...
+2025-03-17 16:05:24: Successfully opened workbook
+2025-03-17 16:05:24: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 16:05:24: Extracted revision: 
+2025-03-17 16:05:24: Determined description: Arrangement Drawing based on category: Area Drawings
+2025-03-17 16:05:24: Inserting new row...
+2025-03-17 16:05:24: Successfully inserted new row with values
+2025-03-17 16:05:24: Reading data for categorization...
+2025-03-17 16:05:24: Data categorized into 9 categories
+2025-03-17 16:05:24: Creating category sheets...
+2025-03-17 16:05:25: Successfully created all category sheets
+2025-03-17 16:05:25: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:05:25: Attempting to delete final temp file...
+2025-03-17 16:05:25: Successfully deleted final temp file
+2025-03-17 16:05:25: Process completed successfully
+2025-03-17 16:11:25: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:11:25: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:11:25: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:11:25: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:11:25: Attempted to close any running Excel processes
+2025-03-17 16:11:27: Successfully verified access to source file
+2025-03-17 16:11:27: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:11:27: Attempting to copy file to temporary location...
+2025-03-17 16:11:27: ERROR: Failed to copy file to temporary location: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 16:11:42: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:11:42: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:11:42: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:11:42: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:11:42: Attempted to close any running Excel processes
+2025-03-17 16:11:44: Successfully verified access to source file
+2025-03-17 16:11:44: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:11:44: Attempting to copy file to temporary location...
+2025-03-17 16:11:44: File copied successfully to temporary location
+2025-03-17 16:11:44: Attempting to open workbook...
+2025-03-17 16:11:44: Successfully opened workbook
+2025-03-17 16:11:44: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 16:11:44: Extracted revision: 
+2025-03-17 16:11:44: Determined description: Arrangement Drawing based on category: Area Drawings
+2025-03-17 16:11:44: Inserting new row...
+2025-03-17 16:11:44: Successfully inserted new row with values
+2025-03-17 16:11:44: Reading data for categorization...
+2025-03-17 16:11:44: Data categorized into 9 categories
+2025-03-17 16:11:44: Creating category sheets...
+2025-03-17 16:11:44: Successfully created all category sheets
+2025-03-17 16:11:44: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:11:44: ERROR during workbook processing: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 16:12:00: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:12:00: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:12:00: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:12:00: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:12:00: Attempted to close any running Excel processes
+2025-03-17 16:12:02: Successfully verified access to source file
+2025-03-17 16:12:02: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:12:02: Attempting to copy file to temporary location...
+2025-03-17 16:12:02: File copied successfully to temporary location
+2025-03-17 16:12:02: Attempting to open workbook...
+2025-03-17 16:12:02: Successfully opened workbook
+2025-03-17 16:12:02: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 16:12:02: Extracted revision: 
+2025-03-17 16:12:02: Determined description: Arrangement Drawing based on category: Area Drawings
+2025-03-17 16:12:02: Inserting new row...
+2025-03-17 16:12:02: Successfully inserted new row with values
+2025-03-17 16:12:02: Reading data for categorization...
+2025-03-17 16:12:03: Data categorized into 9 categories
+2025-03-17 16:12:03: Creating category sheets...
+2025-03-17 16:12:03: Successfully created all category sheets
+2025-03-17 16:12:03: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:12:03: ERROR during workbook processing: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 16:13:28: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:13:28: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:13:28: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:13:28: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:13:28: Attempted to close any running Excel processes
+2025-03-17 16:13:30: Successfully verified access to source file
+2025-03-17 16:13:30: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:13:30: Attempting to copy file to temporary location...
+2025-03-17 16:13:30: ERROR: Failed to copy file to temporary location: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 16:13:43: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:13:43: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:13:43: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:13:43: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 16:13:44: Attempted to close any running Excel processes
+2025-03-17 16:13:46: Successfully verified access to source file
+2025-03-17 16:13:46: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:13:46: Attempting to copy file to temporary location...
+2025-03-17 16:13:46: ERROR: Failed to copy file to temporary location: [Errno 13] Permission denied: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\4003-02.1-A01-- - BOM.xlsx'
+2025-03-17 16:46:11: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:46:11: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:46:11: Successfully loaded Excel file with pandas
+2025-03-17 16:46:11: Successfully inserted new row
+2025-03-17 16:46:11: Data categorized into 9 categories
+2025-03-17 16:46:11: ERROR during Excel processing: Cannot save file into a non-existent directory: 'C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--'
+2025-03-17 16:48:02: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:48:02: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:48:02: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:48:02: Successfully loaded Excel file with pandas
+2025-03-17 16:48:02: Successfully inserted new row
+2025-03-17 16:48:02: Data categorized into 9 categories
+2025-03-17 16:48:02: Successfully renamed temporary file to final file
+2025-03-17 16:48:14: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:48:14: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:48:14: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:48:14: Successfully loaded Excel file with pandas
+2025-03-17 16:48:14: Successfully inserted new row
+2025-03-17 16:48:14: Data categorized into 9 categories
+2025-03-17 16:48:14: Successfully renamed temporary file to final file
+2025-03-17 16:49:50: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:49:50: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:49:50: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:49:50: Successfully loaded Excel file with pandas
+2025-03-17 16:49:50: Successfully inserted new row
+2025-03-17 16:49:50: Data categorized into 9 categories
+2025-03-17 16:49:51: Successfully renamed temporary file to final file
+2025-03-17 16:49:51: Using PDF source directory: C:\Coding\Python\ExcelCopyBOM\Files
+2025-03-17 16:51:05: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:51:05: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:51:05: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:51:05: Successfully loaded Excel file with pandas
+2025-03-17 16:51:05: Successfully inserted new row
+2025-03-17 16:51:05: Data categorized into 9 categories
+2025-03-17 16:51:06: Successfully renamed temporary file to final file
+2025-03-17 16:51:06: Using PDF source directory: C:\Coding\Python\ExcelCopyBOM\Files
+2025-03-17 16:53:04: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 16:53:04: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:53:04: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 16:53:04: Successfully loaded Excel file with pandas
+2025-03-17 16:53:04: Successfully inserted new row
+2025-03-17 16:53:04: Data categorized into 9 categories
+2025-03-17 16:53:04: Successfully renamed temporary file to final file
+2025-03-17 16:53:04: Using PDF source directory: C:\Coding\Python\ExcelCopyBOM\Files
+2025-03-17 17:06:00: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:06:00: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:06:00: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:06:00: Successfully loaded Excel file with pandas
+2025-03-17 17:06:00: Successfully inserted new row
+2025-03-17 17:06:00: Data categorized into 9 categories
+2025-03-17 17:06:00: Successfully renamed temporary file to final file
+2025-03-17 17:06:00: Using PDF source directory: C:\Coding\Python\ExcelCopyBOM\Files
+2025-03-17 17:09:28: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:09:28: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:09:28: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:09:31: Successfully loaded Excel file with pandas
+2025-03-17 17:09:31: Successfully inserted new row
+2025-03-17 17:09:31: Data categorized into 9 categories
+2025-03-17 17:09:31: ERROR during Excel processing: [Errno 13] Permission denied: 'C:/Coding/Python/ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 17:09:41: ERROR during Excel processing: [Errno 13] Permission denied: 'C:/Coding/Python/ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 17:11:36: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:11:36: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:11:36: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:11:36: Temporary file will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\temp.xlsx
+2025-03-17 17:11:36: Final file will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:11:36: Successfully copied source file to temporary location
+2025-03-17 17:11:39: Successfully initialized Excel application
+2025-03-17 17:11:39: Successfully opened workbook and renamed first sheet
+2025-03-17 17:11:39: Successfully loaded Excel file with pandas
+2025-03-17 17:11:39: Successfully validated required columns
+2025-03-17 17:11:39: Successfully inserted new row
+2025-03-17 17:11:39: Data categorized into 9 categories
+2025-03-17 17:11:39: ERROR during Excel processing: [Errno 13] Permission denied: 'C:/Coding/Python/ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 17:11:39: ERROR during Excel processing: [Errno 13] Permission denied: 'C:/Coding/Python/ExcelCopyBOM\\4003-02.1-A01--\\temp.xlsx'
+2025-03-17 17:13:20: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:13:20: Permission denied for file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:13:22: Forced close of Excel processes
+2025-03-17 17:13:22: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:13:22: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:13:22: Temporary file will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\temp_20250317_171322.xlsx
+2025-03-17 17:13:23: Final file will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:13:23: Successfully copied source file to temporary location
+2025-03-17 17:13:25: Successfully initialized Excel application
+2025-03-17 17:13:25: Permission denied for file: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\temp_20250317_171322.xlsx
+2025-03-17 17:13:27: Forced close of Excel processes
+2025-03-17 17:13:27: ERROR during Excel processing: Excel.Application.Workbooks
+2025-03-17 17:13:28: ERROR during Excel processing: Excel.Application.Workbooks
+2025-03-17 17:15:08: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:15:13: Successfully initialized Excel application
+2025-03-17 17:15:13: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:15:13: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:15:13: Temporary file will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\temp_20250317_171513.xlsx
+2025-03-17 17:15:13: Final file will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:15:13: Successfully copied source file to temporary location
+2025-03-17 17:15:14: Successfully opened workbook and renamed first sheet
+2025-03-17 17:15:14: Successfully loaded Excel file with pandas
+2025-03-17 17:15:14: Successfully validated required columns
+2025-03-17 17:15:14: Successfully inserted new row
+2025-03-17 17:15:14: Data categorized into 9 categories
+2025-03-17 17:15:14: ERROR during Excel processing: [Errno 13] Permission denied: 'C:/Coding/Python/ExcelCopyBOM\\4003-02.1-A01--\\temp_20250317_171513.xlsx'
+2025-03-17 17:15:16: ERROR during Excel processing: [Errno 13] Permission denied: 'C:/Coding/Python/ExcelCopyBOM\\4003-02.1-A01--\\temp_20250317_171513.xlsx'
+2025-03-17 17:16:53: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:16:53: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:16:53: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:16:53: Attempting to create temporary file: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\temp_20250317_171653_b162a7b1.xlsx
+2025-03-17 17:16:53: Set full permissions on destination directory
+2025-03-17 17:16:53: Set read/write permissions on temporary file
+2025-03-17 17:16:53: Successfully created temporary file: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\temp_20250317_171653_b162a7b1.xlsx
+2025-03-17 17:16:53: Final file will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:16:58: Successfully initialized Excel application
+2025-03-17 17:16:59: Successfully opened workbook and renamed first sheet
+2025-03-17 17:16:59: Successfully loaded Excel file with pandas
+2025-03-17 17:16:59: Successfully validated required columns
+2025-03-17 17:16:59: Successfully inserted new row
+2025-03-17 17:16:59: Data categorized into 9 categories
+2025-03-17 17:16:59: ERROR during Excel processing: [Errno 13] Permission denied: 'C:/Coding/Python/ExcelCopyBOM\\4003-02.1-A01--\\temp_20250317_171653_b162a7b1.xlsx'
+2025-03-17 17:17:01: Cleaned up temporary file
+2025-03-17 17:17:01: ERROR during Excel processing: [Errno 13] Permission denied: 'C:/Coding/Python/ExcelCopyBOM\\4003-02.1-A01--\\temp_20250317_171653_b162a7b1.xlsx'
+2025-03-17 17:34:43: Starting Excel processing with images for file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:34:54: Captured information for 1 sheets with images
+2025-03-17 17:34:54: Successfully processed data with openpyxl
+2025-03-17 17:34:55: Error restoring images: (-2147417848, 'Objektet er frakoblet dets klienter.', None, None)
+2025-03-17 17:34:55: Error in process_excel_with_images: (-2147417848, 'Objektet er frakoblet dets klienter.', None, None)
+2025-03-17 17:34:55: Error in process_excel: (-2147417848, 'Objektet er frakoblet dets klienter.', None, None)
+2025-03-17 17:35:08: Starting Excel processing with images for file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:35:22: Captured information for 1 sheets with images
+2025-03-17 17:35:22: Successfully processed data with openpyxl
+2025-03-17 17:35:23: Error restoring images: (-2147417848, 'Objektet er frakoblet dets klienter.', None, None)
+2025-03-17 17:35:23: Error in process_excel_with_images: (-2147417848, 'Objektet er frakoblet dets klienter.', None, None)
+2025-03-17 17:35:23: Error in process_excel: (-2147417848, 'Objektet er frakoblet dets klienter.', None, None)
+2025-03-17 17:37:06: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:37:06: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:37:06: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:37:06: Created temporary file: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\temp_20250317_173706.xlsx
+2025-03-17 17:37:11: Successfully initialized Excel application
+2025-03-17 17:37:12: Successfully opened workbook and renamed first sheet
+2025-03-17 17:37:12: Successfully loaded Excel file with pandas
+2025-03-17 17:37:12: Successfully moved temporary file to final location
+2025-03-17 17:37:14: Using PDF source directory: C:\Coding\Python\ExcelCopyBOM\Files
+2025-03-17 17:38:48: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:38:48: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:38:48: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:38:48: Created temporary file: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\temp_20250317_173848.xlsx
+2025-03-17 17:38:53: Successfully initialized Excel application
+2025-03-17 17:38:53: Successfully opened workbook and renamed first sheet
+2025-03-17 17:38:53: Successfully loaded Excel file with pandas
+2025-03-17 17:38:53: Successfully moved temporary file to final location
+2025-03-17 17:38:56: Using PDF source directory: C:\Coding\Python\ExcelCopyBOM\Files
+2025-03-17 17:40:34: Starting process_excel with file: C:/Coding/Python/ExcelCopyBOM/4003-02.1-A01-- - BOM.xlsx
+2025-03-17 17:40:34: Destination directory will be: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:40:34: Successfully created destination directory: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 17:40:34: Created temporary file: C:/Coding/Python/ExcelCopyBOM\4003-02.1-A01--\temp_20250317_174034.xlsx
+2025-03-17 17:40:39: Successfully initialized Excel application
+2025-03-17 17:40:40: Successfully opened workbook and renamed first sheet
+2025-03-17 17:40:40: Successfully loaded Excel file with pandas
+2025-03-17 17:40:40: Data categorized into 9 categories
+2025-03-17 17:40:41: Successfully moved temporary file to final location
+2025-03-17 17:40:43: Using PDF source directory: C:\Coding\Python\ExcelCopyBOM\Files

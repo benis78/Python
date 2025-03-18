@@ -14,15 +14,13 @@ Næste gruppe (3) består af op til 4 Alfanumeriske tegn:
 De næste grupper der kommer er all sekventielle løbenumre og der kan være flere grupper med løbenumre.
 Alle "Part Number" som ikke passer ind i ovenstående skal i "Other Parts"
 
-Jeg har skrever alle kategorierne op i Kategorier.csv
-
 Jeg har brugt disse symboler for tal, Alfanumeriske og Bogstav
 ¤=Tal
 *=Alfanumerisk
 
 når der står 2000 - 9999 er det et tal i mellem 2000 og 9999. 100 - 200 betyder et tal i mellem 100 og 200
 ¤¤¤¤ betyder 4 tal
-**** betyder tal, bogstaver eller symboler.
+**** betyder 4 tal, bogstaver eller symboler.
 
 Gruppe 1	Gruppe 2	Gruppe 3	Kategorier	
 2000 - 9999	00	100 - 200	Layout Plans	

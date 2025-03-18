@@ -6,7 +6,8 @@ NØGLEREGLER OG PROCESSER FOR EXCEL BOM HÅNDTERING
 - Brug pandas til al datahåndtering og analyse
 - Anvend kategoriske datatyper for effektiv hukommelsesudnyttelse
 - Implementér feature engineering for kategorisering
-- Brug groupby og pivot_table til aggregering
+- Implementér kategorisering baseret på part number
+- Implementér kategorisering baseret på categories.py
 
 2. PROCESRÆKKEFØLGE
 ----------------

@@ -16,6 +16,7 @@ from concurrent.futures import ThreadPoolExecutor
 import pythoncom
 import threading
 import glob
+from functools import lru_cache
 
 # Opsæt logging til debug.txt
 debug_file = os.path.join(os.path.dirname(__file__), "debug.txt")
@@ -31,6 +32,43 @@ category_config = None
 # Global variabler
 #NETWORK_PATH = r'\\192.168.170.18\drawings'
 NETWORK_PATH = r'C:\Coding\Python\ExcelCopyBOM\Files'
+
+class ExcelSession:
+    def __init__(self):
+        self.excel = None
+        self.workbooks = {}
+    
+    def __enter__(self):
+        self.excel = Dispatch("Excel.Application")
+        self.excel.DisplayAlerts = False
+        self.excel.Visible = False
+        return self
+    
+    def __exit__(self, exc_type, exc_val, exc_tb):
+        try:
+            for wb in self.workbooks.values():
+                try:
+                    wb.Close(SaveChanges=False)
+                except:
+                    pass
+            if self.excel:
+                try:
+                    self.excel.Quit()
+                except:
+                    pass
+        finally:
+            self.excel = None
+            self.workbooks.clear()
+    
+    def open_workbook(self, file_path):
+        if file_path not in self.workbooks:
+            self.workbooks[file_path] = self.excel.Workbooks.Open(file_path)
+        return self.workbooks[file_path]
+
+@lru_cache(maxsize=None)
+def scan_directory_cached(pdf_source):
+    """Cached version af scan_directory_concurrent."""
+    return scan_directory_concurrent(pdf_source)
 
 class ProgressWindow:
     def __init__(self, parent):
@@ -310,12 +348,17 @@ def show_success_message(message, parent=None):
 
 def choose_file():
     """Lader brugeren vælge en Excel-fil og returnerer dens sti."""
-    file_path = "C:\\Coding\\Python\\ExcelCopyBOM\\4003-615-A01-E - BOM.xlsx"
+    # file_path = "C:\\Coding\\Python\\ExcelCopyBOM\\4003-615-A01-E - BOM.xlsx"
     # file_path = filedialog.askopenfilename(
-    #     title="Vælg Excel BOM fil",
-    #     initialdir=r'C:\Working Folder\Designs\5-Projects',
-    #     filetypes=[("Excel files", "*.xlsx"), ("All files", "*.*")]
+    #      title="Vælg Excel BOM fil",
+    #      initialdir=r'C:\Working Folder\Designs\5-Projects',
+    #      filetypes=[("Excel files", "*.xlsx"), ("All files", "*.*")]
     # )
+    file_path = filedialog.askopenfilename(
+         title="Vælg Excel BOM fil",
+         initialdir=r'C:\Coding\Python\ExcelCopyBOM',
+         filetypes=[("Excel files", "*.xlsx"), ("All files", "*.*")]
+     )
     return file_path
 
 def check_network_path(network_path):
@@ -642,11 +685,33 @@ def should_include_excel_row(item_number, sheet):
 
 def process_excel(file_path, progress_window):
     """Behandler Excel-filen og returnerer kategoriseret data."""
+    excel = None
+    wb = None
     try:
-        # Initialiser Excel
-        excel = Dispatch("Excel.Application")
-        excel.Visible = False
-        excel.DisplayAlerts = False
+        # Initialiser COM for denne tråd
+        pythoncom.CoInitialize()
+        
+        # Tilføj forsinkelse for at give COM tid til at initialisere
+        time.sleep(1)
+        
+        # Initialiser Excel med fejlhåndtering
+        try:
+            excel = Dispatch("Excel.Application")
+            excel.Visible = False
+            excel.DisplayAlerts = False
+        except Exception as e:
+            print(f"Fejl ved opstart af Excel: {str(e)}")
+            # Prøv at genstarte Excel-automation
+            try:
+                subprocess.run(['taskkill', '/F', '/IM', 'excel.exe'], 
+                             stdout=subprocess.DEVNULL, 
+                             stderr=subprocess.DEVNULL)
+                time.sleep(2)
+                excel = Dispatch("Excel.Application")
+                excel.Visible = False
+                excel.DisplayAlerts = False
+            except Exception as e2:
+                raise Exception(f"Kunne ikke starte Excel efter genstart: {str(e2)}")
         
         # Åbn kildefilen
         wb = excel.Workbooks.Open(file_path)
@@ -679,9 +744,11 @@ def process_excel(file_path, progress_window):
         sheet.Cells(2, headers["BOM STRUCTURE"]).Value = "Inseparable"
         sheet.Cells(2, headers["DESCRIPTION"]).Value = description
         sheet.Cells(2, headers["QTY"]).Value = 1
-        sheet.Cells(2, headers["D"]).Value = 1
-        sheet.Cells(2, headers["T"]).Value = 1
-        sheet.Cells(2, headers["L"]).Value = 1
+        
+        # Sæt værdier for D, T, L hvis kolonnerne findes
+        for col in ["D", "T", "L"]:
+            if col in headers:
+                sheet.Cells(2, headers[col]).Value = 1
         
         # Håndter "Part Number" kolonnen
         progress_window.update("Håndterer Part Number kolonnen...")
@@ -748,8 +815,17 @@ def process_excel(file_path, progress_window):
         print(f"Fejl under Excel behandling: {str(e)}")
         raise
     finally:
-        if 'excel' in locals():
-            excel.Quit()
+        # Sikr at Excel lukkes korrekt
+        try:
+            if wb:
+                wb.Close(SaveChanges=False)
+            if excel:
+                excel.Quit()
+                time.sleep(1)  # Giv Excel tid til at lukke
+        except:
+            pass
+        # Frigør COM-ressourcer
+        pythoncom.CoUninitialize()
 
 def set_cell_color(cell, status):
     """Sætter farve på cellen baseret på status."""
@@ -1692,13 +1768,12 @@ def main(excel_path, prev_excel_path=None, include_equipment=True,
 def has_pdf(part_number):
     """Tjekker om der findes en PDF fil for et part number i netværksmappen."""
     try:
-        # Scan netværksmappen for filer
-        files = scan_directory_concurrent(NETWORK_PATH)
+        # Brug den cachede version af scan_directory
+        files = scan_directory_cached(NETWORK_PATH)
         
         # Find matchende PDF filer
-        matching_files = [f for f in files if os.path.basename(f).startswith(part_number) 
-                         and f.endswith('.pdf')]
-        return len(matching_files) > 0
+        return any(os.path.basename(f).startswith(part_number) and f.endswith('.pdf') 
+                  for f in files)
     except Exception as e:
         print(f"Fejl ved søgning efter PDF for {part_number}: {str(e)}")
         return False
@@ -1706,13 +1781,12 @@ def has_pdf(part_number):
 def has_dwg(part_number):
     """Tjekker om der findes en DWG fil for et part number i netværksmappen."""
     try:
-        # Scan netværksmappen for filer
-        files = scan_directory_concurrent(NETWORK_PATH)
+        # Brug den cachede version af scan_directory
+        files = scan_directory_cached(NETWORK_PATH)
         
         # Find matchende DWG filer
-        matching_files = [f for f in files if os.path.basename(f).startswith(part_number) 
-                         and f.endswith('.dwg')]
-        return len(matching_files) > 0
+        return any(os.path.basename(f).startswith(part_number) and f.endswith('.dwg') 
+                  for f in files)
     except Exception as e:
         print(f"Fejl ved søgning efter DWG for {part_number}: {str(e)}")
         return False

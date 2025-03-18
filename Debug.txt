@@ -1,0 +1,24 @@
+2025-03-17 15:38:55: Starting process_excel with file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:38:55: Destination directory will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:38:55: Using temporary file: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\temp_20250317_153855_15fd11e2.xlsx
+2025-03-17 15:38:55: Final path will be: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:38:55: Successfully verified access to source file
+2025-03-17 15:38:55: Successfully created/verified directory: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--
+2025-03-17 15:38:55: Attempting to copy file to temporary location...
+2025-03-17 15:38:55: File copied successfully to temporary location
+2025-03-17 15:38:55: Attempting to open workbook...
+2025-03-17 15:38:55: Successfully opened workbook
+2025-03-17 15:38:55: Found columns: {'Item': 1, 'Part Number': 2, 'REV': 3, 'Stock Number': 4, 'Thumbnail': 5, 'BOM Structure': 6, 'Description': 7, 'Material': 8, 'Title': 9, 'QTY': 10, 'D': 11, 't': 12, 'L': 13, 'Keywords': 14}
+2025-03-17 15:38:55: Extracted revision: 
+2025-03-17 15:38:55: Determined description: Arrangement Drawing
+2025-03-17 15:38:55: Inserting new row...
+2025-03-17 15:38:55: Successfully inserted new row with values
+2025-03-17 15:38:55: Reading data for categorization...
+2025-03-17 15:38:56: Data categorized into 9 categories
+2025-03-17 15:38:56: Creating category sheets...
+2025-03-17 15:38:56: Successfully created all category sheets
+2025-03-17 15:38:56: Saving workbook to final location: C:\Coding\Python\ExcelCopyBOM\4003-02.1-A01--\4003-02.1-A01-- - BOM.xlsx
+2025-03-17 15:38:56: Closing workbook and releasing resources...
+2025-03-17 15:38:57: Attempting to delete temporary file...
+2025-03-17 15:38:57: Warning: Could not delete temporary file: [WinError 5] Adgang nægtet: 'C:\\Coding\\Python\\ExcelCopyBOM\\4003-02.1-A01--\\temp_20250317_153855_15fd11e2.xlsx'
+2025-03-17 15:38:57: Process completed successfully

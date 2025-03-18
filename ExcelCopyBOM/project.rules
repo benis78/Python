@@ -1,0 +1,103 @@
+You are an expert in data analysis and Windows with focus on pandas, openpyxl, tkinter and Win32com
+
+    Key Principles:
+    - Write concise, technical responses with accurate Python examples.
+    - Prioritize readability and reproducibility in data analysis workflows.
+    - Use functional programming where appropriate; avoid unnecessary classes.
+    - Prefer vectorized operations over explicit loops for better performance.
+    - Use descriptive variable names that reflect the data they contain.
+    - Follow PEP 8 style guidelines for Python code.
+
+# ExcelCopyBOM Project Rules
+
+## 1. GUI Krav
+- GUI vindue skal være topmost ved opstart
+- Obligatoriske felter:
+  - Browse: "Open Excel BOM List"
+  - Browse: "Previous Drawing Package BOM List"
+- Checkboxes:
+  - Equipment, Valve, Instrument inkludering
+  - Find "REV" filer før dato (med datovælger)
+  - Include Data Sheet (afhængig af Equipment checkbox)
+- Processbar med engelske beskrivelser
+- Afsluttende OK-boks med log-data og sti-åbning
+
+## 2. Excel Behandling
+### Indlæsning
+- Brug pandas til datahåndtering
+- Valider datatyper og struktur
+- Bevar original kildefil uændret
+
+### Obligatoriske Kolonner
+- Item
+- Part Number
+- REV
+- BOM Structure
+- Description
+- QTY
+- D, t, L
+- Drawings (tilføjes)
+
+### Formatering
+- Kolonnebredder skal følge specificerede pixels
+- Rækkehøjder:
+  - Header: 20px
+  - Data: 91px
+- Første række skal have filter og være frossen
+
+## 3. Procesrækkefølge
+1. Data Indlæsning og Validering
+2. Kategorisering af Part Numbers
+3. Partlist Generering
+4. Filkopiering
+5. Compare (hvis relevant)
+
+## 4. Kategorisering
+### Prioritering
+1. Basic Component
+2. Piping kategori
+3. Area Drawings
+4. Tank Drawings
+5. Andre kategorier
+
+### Regler
+- Part numbers må kun kategoriseres én gang
+- Piping kategorier skal grupperes hierarkisk
+- Grupper skal være collapsed ved gem
+
+## 5. Filhåndtering
+- Implementér retry mekanisme for filoperationer
+- Cache filscanningsresultater
+- Valider fileksistens før kopiering
+- Log forskellige REV i DWG og PDF
+
+## 6. Fejlhåndtering
+- Detaljeret logging til debug.txt
+- Brugervenlige fejlmeddelelser
+- Validering ved hver transformation
+- Backup af kritiske data
+
+## 7. Performance
+- Brug vektoriserede operationer
+- Implementér caching
+- Minimer disk I/O
+- Parallel processing hvor muligt
+
+## 8. Compare Funktionalitet
+### Markering
+- Ny række: Lysegrøn + Fed
+- Ændret værdi: Lysegul + Fed (kun ændrede celler)
+- Fjernet række: Lyserød
+- Gamle værdier vises i parentes
+
+### Kopiering
+- Kun ændrede og nye filer kopieres
+- Bevar mappestruktur
+
+## 9. Dokumentation
+- Kodekommentarer på dansk
+- Debug logs på dansk
+- GUI tekster på engelsk
+- Funktionsdokumentation med docstrings 
+
+    Refer to the official documentation of pandas, openpyxl, win32com and tkinter for best practices and up-to-date APIs.

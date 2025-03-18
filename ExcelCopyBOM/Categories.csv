@@ -1,0 +1,114 @@
+﻿2000 - 9999;00;100 - 200;Layout Plans;Project
+2000 - 9999;400;100 - 200;Layout Plans;Project
+2000 - 9999;****;A¤¤;Area Drawings;Project
+2000 - 9999;****;E¤¤.¤;Area Drawings;Project
+2000 - 9999;****;E¤¤;Area Drawings;Project
+2000 - 9999;****;E¤¤.¤;Area Drawings;Project
+2000 - 9999;****;F¤¤;Area Drawings;Project
+2000 - 9999;****;F¤¤.¤;Area Drawings;Project
+2000 - 9999;****;P¤¤;Area Drawings;Project
+2000 - 9999;****;P¤¤.¤;Area Drawings;Project
+2000 - 9999;****;S¤¤;Area Drawings;Project
+2000 - 9999;****;S¤¤.¤;Area Drawings;Project
+2000 - 9999;****;B¤¤;Building_Foundations;Project
+2000 - 9999;****;PS¤¤;Project Specific Parts;Project
+2000 - 9999;****;BM¤¤¤;Biomass Piping;Project
+2000 - 9999;****;AF¤¤¤;Anti Foam Piping;Project
+2000 - 9999;****;AA¤¤¤;Atmospheric Air Piping;Project
+2000 - 9999;****;BG¤¤¤;Biogas Piping;Project
+2000 - 9999;****;CD¤¤¤;Cable Ducts;Project
+2000 - 9999;****;CS¤¤¤;Condensate Piping;Project
+2000 - 9999;****;EL¤¤¤;Power Cable Piping;Project
+2000 - 9999;****;CO¤¤¤;Cooling Water Piping;Project
+2000 - 9999;****;EZ¤¤¤;Enzyme Piping;Project
+2000 - 9999;****;HW¤¤¤;Hot Water Piping;Project
+2000 - 9999;****;HO¤¤¤;Hydraulic Oil Piping;Project
+2000 - 9999;****;IC¤¤¤;Iron Chloride Piping;Project
+2000 - 9999;****;OA¤¤¤;Odour Piping;Project
+2000 - 9999;****;NT¤¤¤;Nutrient Piping;Project
+2000 - 9999;****;OG¤¤¤;Offgas Piping;Project
+2000 - 9999;****;PW¤¤¤;Potable Water Piping;Project
+2000 - 9999;****;PA¤¤¤;Pressurized Air Piping;Project
+2000 - 9999;****;RW¤¤¤;Rain Water Piping;Project
+2000 - 9999;****;SL¤¤¤;Sulphurous liquid Piping;Project
+2000 - 9999;****;TD¤¤¤;Technical Drainage Piping;Project
+2000 - 9999;****;TW¤¤¤;Technical Water Piping;Project
+****;610;;Buildings (e.g. Receiving Hall, Digester pump room);Project
+****;611;;Cyclon;Project
+****;612;;Receiving tank;Project
+****;613;;Mixing tank;Project
+****;614;;Pasteurisation tank;Project
+****;615;;Primary Digester;Project
+****;616;;Gas Storage;Project
+****;617;;Decanter;Project
+****;618;;Post digester;Project
+****;619;;Storage Tank;Project
+****;620;;Pump-container;Project
+****;621;;Heat-Exchangers;Project
+****;622;;Heat storage;Project
+****;623;;Desulphurisation;Project
+****;624;;Desulphurisation-container;Project
+****;625;;Flare;Project
+****;626;;Pre-filter;Project
+****;627;;Biofilter;Project
+****;628;;Biofilter-container;Project
+****;629;;Boiler-container;Project
+****;630;;GasMix;Project
+****;631;;Condensate well;Project
+****;632;;Gasblowers / Gascontainer;Project
+****;633;;Loading tank;Project
+****;634;;El-container;Project
+****;635;;BMR;Project
+****;636;;Ferric Chloride tank;Project
+****;637;;Gas Cooler System;Project
+****;638;;CHP;Project
+****;639;;Chimney;Project
+****;640;;Separation room;Project
+****;641;;Weighbridge;Project
+****;642;;Trafo;Project
+****;643;;Fat tank;Project
+****;644;;Industry tank;Project
+****;645;;Anti-Foam Tank;Project
+****;646;;Bleaching earth tank;Project
+****;647;;Drainage well;Project
+****;648;;Water Tank;Project
+****;649;;Liquid tank;Project
+****;650;;Active Carbon Filter;Project
+****;651;;Dry well;Project
+****;652;;Separation Tank;Project
+****;653;;Gas Upgrading;Project
+****;654;;Membrane;Project
+****;655;;Industry Container;Project
+****;656;;Valve Chamber;Project
+0000;703;;Fittings;Suppliers Parts
+0000;710;;PE Piping;Suppliers Parts
+0000;715;;Press Fittings;Suppliers Parts
+0000;720;;Logstor Piping;Suppliers Parts
+0000;754;;Hilti;Suppliers Parts
+0000;301;;Tank Connection;Basic Components
+0000;304;;Building Components;Basic Components
+0000;305;;Container Components;Basic Components
+0000;306;;Electrical Components;Basic Components
+0000;307;;Stone Trap;Basic Components
+0000;310;;Sightglass;Basic Components
+0000;311;;Nozzles;Basic Components
+0000;312;;Pump Base;Basic Components
+0000;314;;Agitator;Basic Components
+0000;315;;Central Flange;Basic Components
+0000;316;;Heat-Exchangers;Basic Components
+0000;321;;Straight Connection;Basic Components
+0000;322;;Elbow Connection;Basic Components
+0000;323;;Reduce;Basic Components
+0000;324;;Tee Connection;Basic Components
+0000;325;;Y Connection;Basic Components
+0000;326;;Truck Connection;Basic Components
+0000;341;;Pipe Support;Basic Components
+0000;342;;Pipe Holders;Basic Components
+0000;343;;Support Brackets;Basic Components
+0000;344;;Consoles;Basic Components
+0000;345;;Post;Basic Components
+0000;353;;Hatches;Basic Components
+0000;354;;Manholes;Basic Components
+0000;355;;PE Componets;Basic Components
+0000;360;;Pump Pulsation Dampener;Basic Components
+0000;361;;Condensate Tank;Basic Components
