@@ -1,0 +1,96 @@
+0000-301-001;Basic Components;Tank Connection
+0000-700-002;Suppliers Parts;Equipment
+4003-04.1-B01;Area Drawings;Area Building Drawing
+4003-04.1-BM004-01;Piping;Biomass Piping
+4003-04.1-BM004-01-01;Piping;Biomass Piping
+4003-04.1-BM020-02;Piping;Biomass Piping
+4003-04.1-BMxx1-01-01;Piping;Biomass Piping
+4003-04.1-CD005-01;Piping;Condensate Piping
+4003-04.1-E01;Area Drawings;Area Equipment Drawing
+4003-04.1-F01;Area Drawings;Area Foundation Drawing
+4003-04.1-HW004-01;Piping;Hot Water Piping
+4003-04.1-PS03-01;Area Drawings;Project Specific Drawing
+4003-04.1-PS03-01-01;Area Drawings;Project Specific Drawing
+4003-615-01-AF001-01;Piping;Anti Foam Piping
+4003-615-AF001-01-01;Piping;Anti Foam Piping
+4003-615-A01;Tank Drawings;Primary Digester
+4003-615-PS01;Tank Drawings;Primary Digester
+4003-615-D01;Tank Drawings;Primary Digester
+4003-615-D01-01;Tank Drawings;Primary Digester
+4003-615-F01;Tank Drawings;Primary Digester
+4003-621-A04;Equipment Drawings;Primary Digester
+4003-621-F01;Equipment Drawings;Primary Digester
+4003-630-02-A02;Piping;GasMix
+BC-000170;Component Accessories;Standard Components
+Knife Gate Valve - WB14 - StafsjÃ¶;Other Parts;Other Parts
+Org.Pneumatic Angle Seat Valve - DN50 - V500;Other Parts;Other Parts
+
+
+
+Du er ekspert i python, logik og nummersystemer.
+Jeg har en excel fil med et tegningsnummer system.
+Et Part Number defineres som minimum 3 grupper der er afskilt af bindestreg (F.eks. 1234-12-A02-01-01)
+Første gruppe (Identifier 1) er enten 4 nul 0000 (Basic Components eller Suppliers Parts)eller større end 2000 (Project Number)
+Anden gruppe (Identifier 2) kan være ## (2 tal f.eks. 02) eller ##.# (02.1) for Area Number. Det kan også starte med tallet 6. Indentifier 2 kan også være ### (3 tal).
+Tredje gruppe (Identifier 3) kan være ### (3 tal). Det kan være et bogstav efterfulgt af tal. Det kan være 2 bogstaver efterfulgt af tal. 
+der kan være flere grupper og nogle gange kan Identifier 3 ligger i gruppe 4 (efter 3. bindestreg) eller 5 (efter 4. bindestreg) 
+Ud fra de første 3 grupper er det muligt at tildele et hvert nummer en Catagories og Types
+
+Bagefter vil jeg gerne have Types og Categories for disse numre? Types og Categories står som overskrift i første række kolonne 4 og 5
+4003-99-BM015-01
+0000-710-001
+4003-99-PS02-01
+0000-710-010
+4003-99-PS08-01
+4003-99-PA001-01
+0000-710-001
+4003-99-CD001-01
+4003-99-CD001-01-06
+0000-717-201
+4003-05-A01
+4003-05.2-A01
+4003-615-A01
+4003-615-BM005
+4003-613-E01
+4003-613-D01
+4003-613-A01
+4003-613-PS01
+4003-613-B01
+4003-615-F01
+4256-613-BF01-01
+
+Korrekte Types og Categories. til part numbers
+0000-301-001;Basic Components;Tank Connection 
+0000-700-002;Suppliers Parts;Equipment
+4003-04.1-B01;Area Drawings;Area Building Drawing
+4003-04.1-BM004-01;Piping;Biomass Piping
+4003-04.1-BM004-01-01;Piping;Biomass Piping
+4003-04.1-BM020-02;Piping;Biomass Piping
+4003-04.1-BMxx1-01-01;Piping;Biomass Piping
+4003-04.1-CD005-01;Piping;Condensate Piping
+4003-04.1-E01;Area Drawings;Area Equipment Drawing
+4003-04.1-F01;Area Drawings;Area Foundation Drawing
+4003-04.1-HW004-01;Piping;Hot Water Piping
+4003-04.1-PS03-01;Area Drawings;Project Specific Drawing
+4003-04.1-PS03-01-01;Area Drawings;Project Specific Drawing
+4003-615-01-AF001-01;Piping;Anti Foam Piping
+4003-615-AF001-01-01;Piping;Anti Foam Piping
+4003-615-A01;Tank Drawings;Primary Digester
+4003-615-PS01;Tank Drawings;Primary Digester
+4003-615-D01;Tank Drawings;Primary Digester
+4003-615-D01-01;Tank Drawings;Primary Digester
+4003-615-F01;Tank Drawings;Primary Digester
+4003-621-A04;Equipment Drawings;Primary Digester
+4003-621-F01;Equipment Drawings;Primary Digester
+4003-630-02-A02;Piping;GasMix
+BC-000170;Component Accessories;Standard Components
+Knife Gate Valve - WB14 - StafsjÃ¶;Other Parts;Other Parts
+Org.Pneumatic Angle Seat Valve - DN50 - V500;Other Parts;Other Parts
+
+Det vil sige at f.eks. første linje i listen er
+0000-301-001=Part Number.
+Basic Components=Categories
+Types=Tank Connections
+
+Så Part Number Basic Components Tank Connection er adskilt af semikolon ;
+Kan du ud fra DrawingNumberSystem.csv og listen komme op med en simpel python kode som giver mig Type og Kategori ud fra tegningsnummeret?

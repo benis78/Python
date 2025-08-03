@@ -1382,7 +1382,6 @@ def main():
             progress_window.close()
             
             duration = time.time() - start_time
-            show_success_message(f"BOM processing complete!\nFiles saved in {dest_path}\nTime taken: {duration:.2f} seconds")
             
         except Exception as e:
             if progress_window:

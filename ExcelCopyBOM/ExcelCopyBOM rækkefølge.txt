@@ -1,61 +1,193 @@
-TRIN 1: GUI opstart
+GUI opstart
 - GUI vinduet skal poppe op øverst, men må gerne blive overlappet af andre vinduer.
-- Browse felt "Open Excel BOM List"
-- Browse felt "Previous Drawing Package BOM List"
-- Check box for inkludering af Equipment, Valve, Instrument
-- Check box for Find "REV" filer før dato. (mulighed for at vælge dato)
-- Check box for Include Data Sheet (denne mulighed er falsk hvis Check box for inkludering af Equipment, Valve, Instrument er falsk)
+- Browse felt (Open Excel BOM List)
+- Browse felt (Previous BOM List)
+- Check-box for Update Index File
 - Start knap nederst.
 - Under kodens afvikling skal der være en processbar med beskrivelser af handlinger på engelsk
-- Efter kondes afvikling skal der komme en "OK" boks med log-data som brugeren kan vælge at gemme som txt fil i distinatiosmappen. Efter man har klikket på OK lukker boksen og programmet med at åbne stien til den nye kopieret mappe.
+- Efter kodens afvikling skal der komme en "Done" boks. Efter man har klikket på Done boksen lukker boksen og programmet og åbner stien til den nye kopieret mappe.
 
-TRIN 2: Data Indlæsning og Validering
-- Indlæs Excel BOM filen. Ud fra filnavnet kan udtrækkes de første 4 cifre som er "Part Number"-"Area Number" Eller "Basic Equipment"-"Arrangement Drawing" Eller "Basic Equipment Drawing"-"REV"  (se "Part Number Mønster")
+Håndterer indlæsning og validering af Excel data på første fane navngivet (BOM)
+- Indlæs Excel BOM filen. 
+- Fra filnavnet kan udtrækkes "Part Number" efter step3_categorize.py "REV" det sidste bogstav efter før " - " mellemrum bindestreg mellemrum.
 - Kildefil må ikke ændres
-- Opret Fane 1 "Bom (Raw)"
 - Identificere Kolonnenumre ud fra 1.række celleværdier (Item, Part Number, REV, BOM Structure, Description, QTY, D, t, L)
-- Indskyd en linje i række 2 med følgende værdier. "Item"= 0, "Part Number"=Udtræk fra filnavn, REV=Udtræk fra filnavn, "BOM Structure"=Inseparable, "Description"="Arrangement Drawing" Eller "Basic Equipment Drawing", "QTY"=1, "D"=1, "t"=1, "L"=1 
-- Find "Part Number" kolonnen. Hvis Check box i TRIN 1 er falsk, så skal alle rækker der starter med 0000-700, 0000-701, 0000-702 slettes. Hvis der er rækker som her kun består af bogstaver, så skal der poppe et tkinter vindue op med de rækker og brugeren skal promptes om man vil slette disse rækker.
-- Find "Item" kolonnen og indeksere alle rækker ud fra parent/child hierarkiet (Multi-Level Numbering System,Tree Structure)
-- Find "BOM Structure" kolonnen. Hvis en række er "Inseparable" eller ”Part Number” starter med 0000-3 skal alle child til den parent slettes. Hvis en række er "Phantom" skal denne række slettes.
-- Find "Part Number" og "REV" kolonnen og hvis der indgår et revisionsnummer i "Part Number" skal det flyttes til "REV" Kolonnen efter extract_revision_from_partnumber funktionen
+- Indskyd en linje i række 2 med følgende værdier. "Item"= 0, "Part Number"=Udtræk fra filnavn, REV=Udtræk fra filnavn, "BOM Structure"=None, "Description"="Arrangement Drawing" Eller "Basic Equipment Drawing", "QTY"=1, "D"=1, "t"=1, "L"=1 
+- I "Part Number" kolonnen skal alle rækker der starter med 0000-700, 0000-701, 0000-702 slettes.
+- Hvis der i "Part Number" indgår et revisionsbogstav så skal det flyttes til og "REV" kolonnen efter extract_revision_from_partnumber funktionen
+- I "Item" kolonnen grupperes alle rækker ud fra parent/child hierarkiet (Multi-Level Numbering System,Tree Structure) Collapse alle rækker bagefter
+- Find "BOM Structure" kolonnen. Hvis en række er "Inseparable" eller "Part Number" starter med 0000-3 skal alle child til den parent slettes. Hvis en række er "Phantom" skal denne række slettes.
+- Billede håndtering: Kopiere billeder fra "Thumbnail" kolonnen i nogle rækker er der ikke et billede, her kan der stå (NULL) eller feltet kan være tom. Billederne skal kopieres til Temp folder og slettes igen bagefter når koden er færdig. Billedet skal linkes til Part Number så det kan indsættes igen i samme kolonne ud for samme Part Number. Formatering altså kolonnebrede og rækkehøjde stå længere nede under Formateringsafsnittet.
 - Find "QTY" kolonnen og indsæt en ny kolonne efter "Total QTY" hvor man ganger "QTY" tal med"QTY" i parent
-- Find seneste "REV" med revNew eller hvis Find "REV" filer før dato er true så skal du finde seneste "REV" før den dato. Erstat alle "REV" værdier efter søgning
-- Indsæt ny kolonne efter sidst brugte kolonne og navngiv den "Drawing" i 1.række. Indsæt her værdi efter "has_pdf" og "has_dwg" funktionen.
+- Kopier tegninger til kategori-mapper baseret på Type/Category (Ved kategorien Piping skal Type-værdien bruges som mappenavn i stedet for Category-værdien Brug \\192.168.170.18\Drawings\file_index.db søge efter filer. I GUI skal der være en check-box for at opdatere file_index.db. hvis true så køre\\192.168.170.18\Drawings\file_indexer.exe. Denne funktion må godt køre særskilt da den ikke har noget med Excel håndteringen og gøre. Dog er den nød til at vente på Compare funktionen hvis der er valgt en fil under (Previous BOM List) og så kun kopiere de filer som står beskrevet under Compare afsnittet herunder.
+- Find seneste tegninger på tegningsdrevet og returner "REV" for hver part number og opdater "REV" kolonnen tilsvarende
+- Indsæt ny kolonne efter sidst brugte kolonne og navngiv den "Drawing" i 1.række. Indsæt her værdi: DWG_PDF hvis dwg og pdf er fundet og rev er ens, DWG!PDF hvis dwg og pdf er fundet og rev ikke er ens, PDF hvis kun pdf er fundet, DWG hvis kun dwg er fundet, hvis ikke der 
 
-TRIN 3: Kategorisere "Part number"
-- Kopiere række 1 fra Fane 1 til række 1 i fane 2
-- Kategorisere "Part number" 
-- Opret Faner og mapper udfra Kategorier som er fundet. Kopiere række 1 fra Fane 1 til række 1 i alle faner.
-- Sortere Faner efter Alfabetisk rækkefølge
-- Hver "Part Number" må kun flyttes en gang til en anden fane. Her er priorteringen (Basic Component, Piping kategori, Area Drawings, Tank Drawings, 
-- Hvis det er en Piping kategori skal alle rækker grupperes parent/child hierarkiet. Collapse alle rækker.
+Fane 2 navngivet (Partlist)
+- Kopiere række 1 med værdier fra alle celler fra Fanen (BOM) til række 1 Fane (Partlist) undtagen "Item" kolonnen
+- Find alle rækker hvor "Part Number" og "REV" er identisk og tag tallet fra "Total QTY" fra fanen (BOM) og for hver forekomst læg dem sammen i QTY kolonnen på Fanen (Partlist). Hvis der kun er en forekomst skal den også kopieres med. Sagt på en anden måde så skal alle rækker fra Fane (BOM) kopieres til Fane (Partlist) men selvom der er flere rækker med samme part number og rev skal de kun fremkomme 1 gang på Fanen (Partlist) så vi tager bare alle rækker hvor part number og rev er ens og lægger sammen på Fanen (Partlist)   
 
-TRIN 4: Oprettelse Partlist
-- Fane 2 "Partlist"
-- Kopiere række 1 fra Fane 1 til række 1 undtagen "Item"
-- Find alle "Part Number" og "REV" der er ens og læg dem sammen i QTY
-- Indsæt dem i Fane 2 med kolonner fra Fane 1 undtaget Item
-- Sorter "Part Number" efter nummerisk rækkefølge
+Resterende Faner
+- Så kommer de resterende faner navngivet efter deres kategori.
+- Kopiere række 1 med værdier fra alle celler fra Fanen (BOM) til række 1 for pågældende fane.
+- Ved kategorien Piping skal Type-værdien bruges som Fanenavn i stedet for Category-værdien. Eller sagt på en anden måde så skal alle children til en række hvis parents kategori er piping kopieres med over på den fane og navngives efter Type værdien i stedet for Category værdien.
+- Sortere Faner med BOM først og så Partlist, de resterende faner skal sorteres efter Alfabetisk rækkefølge
 
-TRIN 5: Kopiere filer
-- Kopiere filer til den korrekte kategori mappe
-- Hvis koden finder DWG og PDF med forskellige REV så føj det til Log-data. 
-
-TRIN 6: Compare
-- Hvis brugeren har valgt en "Previous Drawing Package BOM List" så skal der tilføjes en ny Fane (Compare OLD"REV"-NEW"REV") først ellers skal Compare trinet ikke køres.
-- Kør alle Trin 2 til og med 4
-- Sammenlig alle rækker i fanen "Partlist" under NEW="Open Excel BOM List" og OLD="Previous Drawing Package BOM List"
-- Kopiere række fra NEW hvis en række har et større "REV" bogstav og indsæt rækken i NEW Compare fanen
-- Kopiere række fra OLD hvis en række mangler i NEW og indsæt rækken i NEW Compare fanen
-- Kopiere række fra NEW hvis en række har en ændret celleværdi. i den celleværdi som er ændret skal celleværdien fra OLD indsættes i parantes efter den nye celleværdi. 
+Compare Fane og filkopiering
+- Hvis brugeren har valgt en "Previous BOM List" så skal der tilføjes en ny Fane navngives (Compare OLD"REV"-NEW"REV") altså "Compare OLD" her skal så indsættes Revisionstegnet for filen valgt i (Previous BOM List)-NEW og så Revisionstegnet fra den fil valgt i (Open Excel BOM List). Hvis der ikke er valg nogen fil i (Previous BOM List) skal Compare modulet ikke køres.
+- Kopiere række 1 med værdier fra alle celler fra Fanen (BOM) til række 1 Fane (Partlist) undtagen "Item" kolonnen
+- Kør første del af koden som normalt på nær det at kopiere filer og oprette kategori mapper.
+- Sammenlig alle rækker i fanen "Partlist" under NEW="Open Excel BOM List" og OLD="Previous BOM List". Hvis det er mere effektiv kan du også tage "Part Number" og "REV" fra "NEW" excel fanen (Partlist) og søge "OLD" excel fane (Partlist) og sammenlign om der er ændringer.
+- Kopiere række fra "NEW" (Partlist) hvis en række har et større "REV" bogstav og indsæt rækken i næste ledige række på "NEW" (Compare) fanen
+- Kopiere række fra "OLD" (Partlist) hvis en række mangler i NEW og indsæt rækken i næste ledige række på "NEW" (Compare) fanen
+- Kopiere række fra "NEW" (Partlist) hvis en række har en ændret celleværdi. I den celleværdi som er ændret skal celleværdien fra "OLD" indsættes i parentes efter den nye celleværdi. f.eks. 8m (10m) 
 - Hvis rækken er ny så giv rækken en lysegrøn baggrundsfarve og Fed tekst.
-- Hvis en værdi i rækken er ændret så giv rækken en lysegul baggrundsfarve og Fed tekst til den der er ændre celle
+- Hvis en værdi i rækken er ændret så giv rækken en lysegul baggrundsfarve og Fed tekst til den ændrede celle
 - Hvis rækken er fjernet så indsæt indsæt den fjernet række med lyserød baggrundsfarve
-- Kopiere kun ændret og nye filer til den korrekte kategori mappe.
+- Kopiere kun ændret og nye filer til den kategori-mapper.
+- Sortere Faner med BOM først og så Partlist og så Compare, de resterende faner skal sorteres efter Alfabetisk rækkefølge
+
+Formatering
+- Formatering er ens for alle faner på nær (Compare). På (Compare) fanen skal formatering følge første række som beskrevet herunder, resten skal følge beskrivelsen under "Compare Fane og filkopiering" herover.
+- Rækkehøjden for række 1 er 26pixel, for alle andre rækker er den 91pixel
+- Teksten er fed for række 1
+- Alle kolonner med tekst i række 1 skal have Excel funktion "Filtrer"
+- Første række skal have Excel funktionen "Frys øverste række"
+- Kolonne brede skal have følgende breder
+# Kolonne bredder (i pixels)
+# Note: Excel bruger en anden enhed for kolonnebredder, så vi konverterer fra pixels
+# Cirka konvertering: pixels / 7.5 = Excel bredde enheder
+COLUMN_WIDTHS = {
+    'A': 52 / 7.5,  # Item
+    'B': 152 / 7.5,  # Part Number
+    'C': 47 / 7.5,  # Rev
+    'D': 111 / 7.5,  # Description 1
+    'E': 93 / 7.5,  # Thumbnail
+    'F': 115 / 7.5,  # BOM Structure
+    'G': 423 / 7.5,  # Description
+    'H': 135 / 7.5,  # Material
+    'I': 173 / 7.5,  # Title
+    'J': 48 / 7.5,  # QTY
+    'K': 82 / 7.5,  # Total QTY
+    'L': 39 / 7.5,  # Diameter
+    'M': 39 / 7.5,  # Thickness
+    'N': 39 / 7.5,  # Length
+    'O': 200 / 7.5,  # Keywords
+    'P': 180 / 7.5,  # Type
+    'Q': 125 / 7.5,  # Category
+    'R': 94 / 7.5,  # Drawings
+}
 
 
 
 
 
+# ExcelCopyBOM Implementation Checklist
 
+## GUI Implementation
+- [x] GUI window positioning (topmost, can be overlapped)
+- [x] Browse field for "Open Excel BOM List"
+- [x] Browse field for "Previous BOM List"
+- [x] Checkbox for "Update Index File"
+- [x] Start button at bottom
+- [x] Progress bar with English descriptions
+- [x] "Done" dialog with auto-open of output folder
+
+## Main Processing (BOM Sheet)
+- [x] Load Excel BOM file with pandas
+- [x] Extract Part Number and REV from filename (REV is last letter before " - ")
+- [x] Preserve source file unchanged
+- [x] Identify column numbers from header row (Item, Part Number, REV, BOM Structure, Description, QTY, D, t, L)
+- [x] Insert arrangement row in row 2:
+  - [x] Item = 0
+  - [x] Part Number = from filename
+  - [x] REV = from filename
+  - [x] BOM Structure = None
+  - [x] Description = "Arrangement Drawing"
+  - [x] QTY = 1
+  - [x] D = 1
+  - [x] t = 1
+  - [x] L = 1
+- [x] Delete supplier parts (0000-700, 0000-701, 0000-702)
+- [x] Move revision letters to REV column using extract_revision_from_partnumber function
+- [x] Group rows by parent/child hierarchy (Multi-Level Numbering System)
+- [x] Collapse all rows after grouping
+- [x] Handle BOM Structure rules:
+  - [x] Delete children if parent is "Inseparable" or starts with "0000-3"
+  - [x] Delete row if "Phantom"
+- [x] Calculate Total QTY (multiply QTY with parent QTY)
+- [x] Copy drawings to category folders
+- [x] Update REV column from latest drawings
+- [x] Add Drawing status column (DWG~PDF, DWG!PDF, PDF, DWG, or empty)
+
+## Image Handling
+- [x] Extract images from "Thumbnail" column
+- [x] Handle NULL or empty thumbnail cells
+- [x] Save images to temp folder with unique names
+- [x] Link images to Part Numbers
+- [x] Reinsert images in same column and row (Image height 2.38cm width 2.38cm. Orginal image size: 4,76cm x 4,76cm scale 50%)
+- [x] Clean up temp files after processing
+- [x] Maintain image formatting (column width and row height)
+
+## Partlist Sheet
+- [x] Copy header row from BOM sheet (except Item column)
+- [x] Aggregate identical Part Number/REV rows
+- [x] Sum Total QTY for identical items
+- [x] Copy all rows (unique Part Number/REV combinations)
+
+## Category Sheets
+- [x] Create sheets based on categories
+- [x] Special handling for Piping category (use Type value instead)
+- [x] Copy header row to each sheet
+- [x] Copy children rows for Piping based on Type value
+- [x] Sort sheets (BOM, Partlist, alphabetical)
+
+## Compare Functionality
+- [x] Create Compare sheet with naming format: "Compare OLDREV-NEWREV"
+- [x] Copy header row from BOM (except Item column)
+- [x] Compare Partlist sheets (NEW vs OLD)
+- [x] Handle revision changes:
+  - [x] Copy NEW rows with higher REV
+  - [x] Copy OLD rows missing in NEW
+  - [x] Show changed cell values with old value in parentheses
+- [x] Apply color coding:
+  - [x] Light green + bold for new rows
+  - [x] Light yellow + bold cell for changed values
+  - [x] Light red for removed rows
+- [x] Copy only changed/new files to category folders
+- [x] Sort sheets (BOM, Partlist, Compare, alphabetical)
+
+## Formatting
+- [x] Apply row heights:
+  - [x] 26px for header row
+  - [x] 91px for data rows
+- [x] Bold header row
+- [x] Add filters to header row
+- [x] Freeze top row
+- [x] Apply column widths:
+  - [x] Item (A): 52px
+  - [x] Part Number (B): 152px
+  - [x] Rev (C): 47px
+  - [x] Description 1 (D): 111px
+  - [x] Thumbnail (E): 93px
+  - [x] BOM Structure (F): 115px
+  - [x] Description (G): 423px
+  - [x] Material (H): 135px
+  - [x] Title (I): 173px
+  - [x] QTY (J): 48px
+  - [x] Total QTY (K): 82px
+  - [x] Diameter (L): 39px
+  - [x] Thickness (M): 39px
+  - [x] Length (N): 39px
+  - [x] Keywords (O): 200px
+  - [x] Type (P): 180px
+  - [x] Category (Q): 125px
+  - [x] Drawings (R): 94px
+- [x] Special formatting for Compare sheet
+
+## Database Integration
+- [x] Connect to network database
+- [x] Implement file search functionality
+- [x] Handle database update option (file_indexer.exe)
+- [x] Optimize search queries with caching
+- [x] Implement drawing status detection 

@@ -1,0 +1,18 @@
+# GUI pakker
+tkcalendar>=1.6.1
+
+# Excel håndtering
+pywin32>=305
+openpyxl>=3.1.2
+
+# Fil håndtering og system
+pathlib>=1.0.1
+
+# Dato håndtering
+python-dateutil>=2.8.2
+
+# Logging og fejlhåndtering
+colorlog>=6.7.0
+
+# Concurrent processing
+futures>=3.0.5 

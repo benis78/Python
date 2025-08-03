@@ -1,0 +1,134 @@
+Identifier 1;Identifier 2;Identifier 3;Types;Categories
+Project Number;Area Number;100;General Layout (Situationsplan);Layout Drawings
+Project Number;Area Number;110;Foundation Layout;Layout Drawings
+Project Number;Area Number;120;Pavement Plan (Belægningsplan);Layout Drawings
+Project Number;Area Number;130;Contingency layout/Emergency Plan (Beredskabsplan);Layout Drawings
+Project Number;Area Number;140;Construction Site (Byggepladstegning);Layout Drawings
+Project Number;Area Number;150;ATEX Layout;Layout Drawings
+Project Number;Area Number;160;Setting-Out Plan (Afsætningsplan) ;Layout Drawings
+Project Number;Area Number;400;Piping Layout (Ledningsplan);Layout Drawings
+Project Number;Area Number;A;Area Arrangement Drawing;Area Drawings
+Project Number;Area Number;E;Area Equipment Drawings;Area Drawings
+Project Number;Area Number;F;Area Foundation Drawings;Area Drawings
+Project Number;Area Number;P;Area Sub Terrain Piping Layout;Area Drawings
+Project Number;Area Number;S;Area Sub Terrain Piping Layout;Area Drawings
+Project Number;Area Number;B;Area Building Drawings;Area Drawings
+Project Number;Area Number or 6;PS;Project Specific Parts;Area Drawings
+Project Number;Area Number or 6;BM;Biomass Piping;Piping
+Project Number;Area Number or 6;AF;Anti Foam Piping;Piping
+Project Number;Area Number or 6;AA;Atmospheric Air Piping;Piping
+Project Number;Area Number or 6;BG;Biogas Piping;Piping
+Project Number;Area Number or 6;CD;Cable Ducts;Piping
+Project Number;Area Number or 6;CS;Condensate Piping;Piping
+Project Number;Area Number or 6;EL;Power Cable Piping;Piping
+Project Number;Area Number or 6;CO;Cooling Water Piping;Piping
+Project Number;Area Number or 6;EZ;Enzyme Piping;Piping
+Project Number;Area Number or 6;HW;Hot Water Piping;Piping
+Project Number;Area Number or 6;HO;Hydraulic Oil Piping;Piping
+Project Number;Area Number or 6;IC;Iron Chloride Piping;Piping
+Project Number;Area Number or 6;OA;Odour Piping;Piping
+Project Number;Area Number or 6;NT;Nutrient Piping;Piping
+Project Number;Area Number or 6;OG;Offgas Piping;Piping
+Project Number;Area Number or 6;PW;Potable Water Piping;Piping
+Project Number;Area Number or 6;PA;Pressurized Air Piping;Piping
+Project Number;Area Number or 6;RW;Rain Water Piping;Piping
+Project Number;Area Number or 6;SL;Sulphurous liquid Piping;Piping
+Project Number;Area Number or 6;TD;Technical Drainage Piping;Piping
+Project Number;Area Number or 6;TW;Technical Water Piping;Piping
+Project Number;610;A,E,F,P,S,B,D,BF,PS;Buildings;Equipment Drawings
+Project Number;611;A,E,F,P,S,B,D,BF,PS;Cyclon;Equipment Drawings
+Project Number;612;A,E,F,P,S,B,D,BF,PS;Receiving tank;Tank Drawings
+Project Number;613;A,E,F,P,S,B,D,BF,PS;Mixing tank;Tank Drawings
+Project Number;614;A,E,F,P,S,B,D,BF,PS;Pasteurisation tank;Tank Drawings
+Project Number;615;A,E,F,P,S,B,D,BF,PS;Primary Digester;Tank Drawings
+Project Number;616;A,E,F,P,S,B,D,BF,PS;Gas Storage;Tank Drawings
+Project Number;617;A,E,F,P,S,B,D,BF,PS;Decanter;Equipment Drawings
+Project Number;618;A,E,F,P,S,B,D,BF,PS;Post digester;Tank Drawings
+Project Number;619;A,E,F,P,S,B,D,BF,PS;Storage Tank;Tank Drawings
+Project Number;620;A,E,F,P,S,B,D,BF,PS;Pump-container;Equipment Drawings
+Project Number;621;A,E,F,P,S,B,D,BF,PS;Heat-Exchangers;Equipment Drawings
+Project Number;622;A,E,F,P,S,B,D,BF,PS;Heat storage;Tank Drawings
+Project Number;623;A,E,F,P,S,B,D,BF,PS;Desulphurisation;Tank Drawings
+Project Number;624;A,E,F,P,S,B,D,BF,PS;Desulphurisation-container;Equipment Drawings
+Project Number;625;A,E,F,P,S,B,D,BF,PS;Flare;Equipment Drawings
+Project Number;626;A,E,F,P,S,B,D,BF,PS;Pre-filter;Tank Drawings
+Project Number;627;A,E,F,P,S,B,D,BF,PS;Biofilter;Tank Drawings
+Project Number;628;A,E,F,P,S,B,D,BF,PS;Biofilter-container;Equipment Drawings
+Project Number;629;A,E,F,P,S,B,D,BF,PS;Boiler-container;Equipment Drawings
+Project Number;630;A,E,F,P,S,B,D,BF,PS;GasMix;Piping
+Project Number;631;A,E,F,P,S,B,D,BF,PS;Condensate well;Well Drawings
+Project Number;632;A,E,F,P,S,B,D,BF,PS;Gasblowers / Gascontainer;Equipment Drawings
+Project Number;633;A,E,F,P,S,B,D,BF,PS;Loading tank;Tank Drawings
+Project Number;634;A,E,F,P,S,B,D,BF,PS;El-container;Equipment Drawings
+Project Number;635;A,E,F,P,S,B,D,BF,PS;BMR;Equipment Drawings
+Project Number;636;A,E,F,P,S,B,D,BF,PS;Ferric Chloride tank;Tank Drawings
+Project Number;637;A,E,F,P,S,B,D,BF,PS;Gas Cooler System;Equipment Drawings
+Project Number;638;A,E,F,P,S,B,D,BF,PS;CHP;Equipment Drawings
+Project Number;639;A,E,F,P,S,B,D,BF,PS;Chimney;Equipment Drawings
+Project Number;640;A,E,F,P,S,B,D,BF,PS;Separation room;Equipment Drawings
+Project Number;641;A,E,F,P,S,B,D,BF,PS;Weighbridge;Equipment Drawings
+Project Number;642;A,E,F,P,S,B,D,BF,PS;Trafo;Equipment Drawings
+Project Number;643;A,E,F,P,S,B,D,BF,PS;Fat tank;Tank Drawings
+Project Number;644;A,E,F,P,S,B,D,BF,PS;Industry tank;Tank Drawings
+Project Number;645;A,E,F,P,S,B,D,BF,PS;Anti-Foam Tank;Tank Drawings
+Project Number;646;A,E,F,P,S,B,D,BF,PS;Bleaching earth tank;Tank Drawings
+Project Number;647;A,E,F,P,S,B,D,BF,PS;Drainage well;Well Drawings
+Project Number;648;A,E,F,P,S,B,D,BF,PS;Water Tank;Tank Drawings
+Project Number;649;A,E,F,P,S,B,D,BF,PS;Liquid tank;Tank Drawings
+Project Number;650;A,E,F,P,S,B,D,BF,PS;Active Carbon Filter;Equipment Drawings
+Project Number;651;A,E,F,P,S,B,D,BF,PS;Dry well;Well Drawings
+Project Number;652;A,E,F,P,S,B,D,BF,PS;Separation Tank;Tank Drawings
+Project Number;653;A,E,F,P,S,B,D,BF,PS;Gas Upgrading;Equipment Drawings
+Project Number;654;A,E,F,P,S,B,D,BF,PS;Membrane;Tank Drawings
+Project Number;655;A,E,F,P,S,B,D,BF,PS;Industry Container;Equipment Drawings
+Project Number;656;A,E,F,P,S,B,D,BF,PS;Valve Chamber;Equipment Drawings
+0000;700;;Equipment;Suppliers Parts
+0000;701;;Valve;Suppliers Parts
+0000;702;;Instrument;Suppliers Parts
+0000;703;;Fittings;Suppliers Parts
+0000;704;;Filter;Suppliers Parts
+0000;705;;HVAC;Suppliers Parts
+0000;710;;PE-STAR;Suppliers Parts
+0000;711;;PE-Plasson Serie 18;Suppliers Parts
+0000;712;;PE-Plasson Welding Fittings;Suppliers Parts
+0000;713;;PVC-GF;Suppliers Parts
+0000;714;;Wille;Suppliers Parts
+0000;715;;SS-Sanpress;Suppliers Parts
+0000;716;;SS-HECO;Suppliers Parts
+0000;717;;Wavin - Pipes;Suppliers Parts
+0000;720;;Logstor;Suppliers Parts
+0000;721;;Blücher;Suppliers Parts
+0000;722;;Uponor;Suppliers Parts
+0000;724;;GPA;Suppliers Parts
+0000;750;;Mechanical Components;Suppliers Parts
+0000;751;;Building-Construction;Suppliers Parts
+0000;752;;Materials;Suppliers Parts
+0000;753;;3D Blocks;Suppliers Parts
+0000;754;;Hilti;Suppliers Parts
+0000;301;;Tank Connection;Basic Components
+0000;304;;Building Components;Basic Components
+0000;305;;Container Components;Basic Components
+0000;306;;Electrical Components;Basic Components
+0000;307;;Stone Trap;Basic Components
+0000;310;;Sightglass;Basic Components
+0000;311;;Nozzles;Basic Components
+0000;312;;Pump Base;Basic Components
+0000;314;;Agitator;Basic Components
+0000;315;;Central Flange;Basic Components
+0000;316;;Heat-Exchangers;Basic Components
+0000;321;;Straight Connection;Basic Components
+0000;322;;Elbow Connection;Basic Components
+0000;323;;Reduce;Basic Components
+0000;324;;Tee Connection;Basic Components
+0000;325;;Y Connection;Basic Components
+0000;326;;Truck Connection;Basic Components
+0000;341;;Pipe Support;Basic Components
+0000;342;;Pipe Holders;Basic Components
+0000;343;;Support Brackets;Basic Components
+0000;344;;Consoles;Basic Components
+0000;345;;Post;Basic Components
+0000;353;;Hatches;Basic Components
+0000;354;;Manholes;Basic Components
+0000;355;;PE Componets;Basic Components
+0000;360;;Pump Pulsation Dampener;Basic Components
+0000;361;;Condensate Tank;Basic Components

@@ -1,0 +1,233 @@
+categories:
+  # Layout tegninger
+  layout_drawings:
+    identifiers:
+      identifier1: Project Number
+      identifier2: Area Number
+      identifier3: [100, 110, 120, 130, 140, 150, 160, 400]
+    types:
+      "100": General Layout (Situationsplan)
+      "110": Foundation Layout
+      "120": Pavement Plan (Belægningsplan)
+      "130": Contingency layout/Emergency Plan (Beredskabsplan)
+      "140": Construction Site (Byggepladstegning)
+      "150": ATEX Layout
+      "160": Setting-Out Plan (Afsætningsplan)
+      "400": Piping Layout (Ledningsplan)
+    category: Layout Drawings
+
+  # Area tegninger
+  area_drawings:
+    identifiers:
+      identifier1: Project Number
+      identifier2: Area Number
+      identifier3: [A, B, E, F, P, S, BF, PS]
+    types:
+      A: Area Arrangement Drawing
+      B: Area Building Drawing
+      E: Area Equipment Drawing
+      F: Area Foundation Drawing
+      P: Area Sub Terrain Piping Layout
+      S: Area Sub Terrain Piping Layout
+      BF: Area Building Drawing
+      PS: Project Specific Parts
+    category: Area Drawings
+
+  # Piping kategorier
+  piping:
+    identifiers:
+      identifier1: Project Number
+      identifier2: Area Number or 6
+      identifier3: [BM, AF, AA, BG, CD, CS, EL, CO, EZ, HW, HO, IC, OA, NT, OG, PW, PA, RW, SL, TD, TW]
+    types:
+      BM: Biomass Piping
+      AF: Anti Foam Piping
+      AA: Atmospheric Air Piping
+      BG: Biogas Piping
+      CD: Cable Ducts
+      CS: Condensate Piping
+      EL: Power Cable Piping
+      CO: Cooling Water Piping
+      EZ: Enzyme Piping
+      HW: Hot Water Piping
+      HO: Hydraulic Oil Piping
+      IC: Iron Chloride Piping
+      OA: Odour Piping
+      NT: Nutrient Piping
+      OG: Offgas Piping
+      PW: Potable Water Piping
+      PA: Pressurized Air Piping
+      RW: Rain Water Piping
+      SL: Sulphurous liquid Piping
+      TD: Technical Drainage Piping
+      TW: Technical Water Piping
+    category: Piping
+
+  # Equipment og Tank tegninger (6xx serien)
+  equipment:
+    identifiers:
+      identifier1: Project Number
+      identifier2: [610, 611, 612, 613, 614, 615, 616, 617, 618, 619, 620, 621, 622, 623, 624, 625, 626, 627, 628, 629, 630, 631, 632, 633, 634, 635, 636, 637, 638, 639, 640, 641, 642, 643, 644, 645, 646, 647, 648, 649, 650, 651, 652, 653, 654, 655, 656]
+      identifier3: [A, E, F, P, S, B, D, BF, PS]
+    types:
+      "610": Buildings
+      "611": Cyclon
+      "612": Receiving tank
+      "613": Mixing tank
+      "614": Pasteurisation tank
+      "615": Primary Digester
+      "616": Gas Storage
+      "617": Decanter
+      "618": Post digester
+      "619": Storage Tank
+      "620": Pump-container
+      "621": Heat-Exchangers
+      "622": Heat storage
+      "623": Desulphurisation
+      "624": Desulphurisation-container
+      "625": Flare
+      "626": Pre-filter
+      "627": Biofilter
+      "628": Biofilter-container
+      "629": Boiler-container
+      "630": GasMix
+      "631": Condensate well
+      "632": Gasblowers / Gascontainer
+      "633": Loading tank
+      "634": El-container
+      "635": BMR
+      "636": Ferric Chloride tank
+      "637": Gas Cooler System
+      "638": CHP
+      "639": Chimney
+      "640": Separation room
+      "641": Weighbridge
+      "642": Trafo
+      "643": Fat tank
+      "644": Industry tank
+      "645": Anti-Foam Tank
+      "646": Bleaching earth tank
+      "647": Drainage well
+      "648": Water Tank
+      "649": Liquid tank
+      "650": Active Carbon Filter
+      "651": Dry well
+      "652": Separation Tank
+      "653": Gas Upgrading
+      "654": Membrane
+      "655": Industry Container
+      "656": Valve Chamber
+    categories:
+      "610": Equipment Drawings
+      "611": Equipment Drawings
+      "612": Tank Drawings
+      "613": Tank Drawings
+      "614": Tank Drawings
+      "615": Tank Drawings
+      "616": Tank Drawings
+      "617": Equipment Drawings
+      "618": Tank Drawings
+      "619": Tank Drawings
+      "620": Equipment Drawings
+      "621": Equipment Drawings
+      "622": Tank Drawings
+      "623": Tank Drawings
+      "624": Equipment Drawings
+      "625": Equipment Drawings
+      "626": Tank Drawings
+      "627": Tank Drawings
+      "628": Equipment Drawings
+      "629": Equipment Drawings
+      "630": Tank Drawings
+      "631": Well Drawings
+      "632": Equipment Drawings
+      "633": Tank Drawings
+      "634": Equipment Drawings
+      "635": Equipment Drawings
+      "636": Tank Drawings
+      "637": Equipment Drawings
+      "638": Equipment Drawings
+      "639": Equipment Drawings
+      "640": Equipment Drawings
+      "641": Equipment Drawings
+      "642": Equipment Drawings
+      "643": Tank Drawings
+      "644": Tank Drawings
+      "645": Tank Drawings
+      "646": Tank Drawings
+      "647": Well Drawings
+      "648": Tank Drawings
+      "649": Tank Drawings
+      "650": Equipment Drawings
+      "651": Well Drawings
+      "652": Tank Drawings
+      "653": Equipment Drawings
+      "654": Tank Drawings
+      "655": Equipment Drawings
+      "656": Equipment Drawings
+
+  # Suppliers Parts (0000-7xx)
+  suppliers_parts:
+    identifiers:
+      identifier1: "0000"
+      identifier2: [700, 701, 702, 703, 704, 705, 710, 711, 712, 713, 714, 715, 716, 717, 720, 721, 722, 724, 750, 751, 752, 753, 754]
+    types:
+      "700": Equipment
+      "701": Valve
+      "702": Instrument
+      "703": Fittings
+      "704": Filter
+      "705": HVAC
+      "710": PE-STAR
+      "711": PE-Plasson Serie 18
+      "712": PE-Plasson Welding Fittings
+      "713": PVC-GF
+      "714": Wille
+      "715": SS-Sanpress
+      "716": SS-HECO
+      "717": Wavin - Pipes
+      "720": Logstor
+      "721": Blücher
+      "722": Uponor
+      "724": GPA
+      "750": Mechanical Components
+      "751": Building-Construction
+      "752": Materials
+      "753": 3D Blocks
+      "754": Hilti
+    category: Suppliers Parts
+
+  # Basic Components (0000-3xx)
+  basic_components:
+    identifiers:
+      identifier1: "0000"
+      identifier2: [301, 304, 305, 306, 307, 310, 311, 312, 314, 315, 316, 321, 322, 323, 324, 325, 326, 341, 342, 343, 344, 345, 353, 354, 355, 360, 361]
+    types:
+      "301": Tank Connection
+      "304": Building Components
+      "305": Container Components
+      "306": Electrical Components
+      "307": Stone Trap
+      "310": Sightglass
+      "311": Nozzles
+      "312": Pump Base
+      "314": Agitator
+      "315": Central Flange
+      "316": Heat-Exchangers
+      "321": Straight Connection
+      "322": Elbow Connection
+      "323": Reduce
+      "324": Tee Connection
+      "325": Y Connection
+      "326": Truck Connection
+      "341": Pipe Support
+      "342": Pipe Holders
+      "343": Support Brackets
+      "344": Consoles
+      "345": Post
+      "353": Hatches
+      "354": Manholes
+      "355": PE Componets
+      "360": Pump Pulsation Dampener
+      "361": Condensate Tank
+    category: Basic Components 

@@ -1,0 +1,11 @@
+README.md
+setup.py
+ExcelCopyBOM.egg-info/PKG-INFO
+ExcelCopyBOM.egg-info/SOURCES.txt
+ExcelCopyBOM.egg-info/dependency_links.txt
+ExcelCopyBOM.egg-info/requires.txt
+ExcelCopyBOM.egg-info/top_level.txt
+tests/__init__.py
+tests/test_data_processor.py
+tests/test_file_processor.py
+tests/test_outline_handler.py
